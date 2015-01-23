@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WildFishingNote</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_top_action_bar">TopActionBarActivity</string>
+    <string name="search_icon_label">检索</string>
+    <string name="title_activity_add_main">AddMainActivity</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>
