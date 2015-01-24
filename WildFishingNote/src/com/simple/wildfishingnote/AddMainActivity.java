@@ -9,12 +9,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 
+import com.simple.wildfishingnote.common.Common;
 import com.simple.wildfishingnote.tabs.Tab1Fragment;
 import com.simple.wildfishingnote.tabs.Tab2Fragment;
 import com.simple.wildfishingnote.tabs.Tab3Fragment;
@@ -44,20 +42,9 @@ public class AddMainActivity extends ActionBarActivity {
         final ActionBar bar = getActionBar();
         addTabAndSetTabListener(bar);
         
-        bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_CUSTOM);
-        
-//      View view = View.inflate(getApplicationContext(), R.layout.activity_top_action_bar,
-//              null);
-//      bar.setCustomView(view);
-        
-        ViewGroup view = (ViewGroup)LayoutInflater.from(this)
-                .inflate(R.layout.activity_top_action_bar, null);
-//      bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
-//                  ActionBar.DISPLAY_SHOW_CUSTOM);
-        bar.setCustomView(view,
-                    new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
-                            ActionBar.LayoutParams.WRAP_CONTENT,
-                            Gravity.CENTER_VERTICAL | Gravity.RIGHT));
+        bar.setDisplayShowHomeEnabled(false);
+        bar.setDisplayShowTitleEnabled(false);
+
         
         // 初始化手势横向滑动监听器
         initViewPagerPageChangeListener(bar);
@@ -76,11 +63,11 @@ public class AddMainActivity extends ActionBarActivity {
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
         ActionBar.TabListener tabListener = getTabListener();
-        bar.addTab(bar.newTab().setText("tab1").setTabListener(tabListener));
-        bar.addTab(bar.newTab().setText("tab2").setTabListener(tabListener));
-        bar.addTab(bar.newTab().setText("tab3").setTabListener(tabListener));
-        bar.addTab(bar.newTab().setText("tab4").setTabListener(tabListener));
-        bar.addTab(bar.newTab().setText("tab5").setTabListener(tabListener));
+        bar.addTab(bar.newTab().setText(R.string.time).setTabListener(tabListener));
+        bar.addTab(bar.newTab().setText(R.string.place).setTabListener(tabListener));
+        bar.addTab(bar.newTab().setText(R.string.point).setTabListener(tabListener));
+        bar.addTab(bar.newTab().setText(R.string.results).setTabListener(tabListener));
+        bar.addTab(bar.newTab().setText(R.string.weather).setTabListener(tabListener));
     }
     
     /**
@@ -177,10 +164,10 @@ public class AddMainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_article) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    	if (Common.optionsItemSelectedHandler(item, this)) {
+    		return true;
+    	}
+    	
+    	return super.onOptionsItemSelected(item);
     }
 }

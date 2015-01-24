@@ -6,6 +6,16 @@
     <string name="title_activity_top_action_bar">TopActionBarActivity</string>
     <string name="search_icon_label">检索</string>
     <string name="title_activity_add_main">AddMainActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="statistics">统计</string>
+    <string name="title_activity_statistics">StatisticsActivity</string>
+    <string name="title_activity_guide">GuideActivity</string>
+    <string name="guide">出钓指导</string>
+    <string name="time">时间</string>
+    <string name="place">钓位</string>
+    <string name="point">钓点</string>
+    <string name="results">渔获</string>
+    <string name="weather">天气</string>
+    <string name="title_activity_history">HistoryActivity</string>
+    <string name="history">听说/补记</string>
 
 </resources>
