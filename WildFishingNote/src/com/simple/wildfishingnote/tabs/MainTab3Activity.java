@@ -1,24 +1,24 @@
-package com.simple.wildfishingnote;
+package com.simple.wildfishingnote.tabs;
 
-import com.simple.wildfishingnote.common.Common;
-
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class GuideActivity extends ActionBarActivity {
+import com.simple.wildfishingnote.R;
+
+public class MainTab3Activity extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_guide);
+		setContentView(R.layout.activity_main_tab3);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.main_tab3, menu);
 		return true;
 	}
 
@@ -27,10 +27,10 @@ public class GuideActivity extends ActionBarActivity {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		if (Common.optionsItemSelectedHandler(item, this)) {
-    		return true;
-    	}
-    	
-    	return super.onOptionsItemSelected(item);
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

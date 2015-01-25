@@ -10,6 +10,7 @@
     <string name="title_activity_statistics">StatisticsActivity</string>
     <string name="title_activity_guide">GuideActivity</string>
     <string name="guide">出钓指导</string>
+    <string name="article">文章</string>
     <string name="time">时间</string>
     <string name="place">钓位</string>
     <string name="point">钓点</string>
@@ -17,5 +18,11 @@
     <string name="weather">天气</string>
     <string name="title_activity_history">HistoryActivity</string>
     <string name="history">听说/补记</string>
+    <string name="title_activity_main_tab1">MainTab1Activity</string>
+    <string name="main_tab1">主tab1</string>
+    <string name="title_activity_main_tab2">MainTab2Activity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main_tab3">MainTab3Activity</string>
+    <string name="title_activity_main_tab4">MainTab4Activity</string>
 
 </resources>

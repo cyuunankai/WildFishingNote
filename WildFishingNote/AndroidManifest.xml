@@ -24,6 +24,31 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MainTab1Activity"
+            android:label="@string/title_activity_main_tab1" 
+			android:uiOptions="splitActionBarWhenNarrow" >
+        </activity>
+        <activity
+            android:name=".MainTab2Activity"
+            android:label="@string/title_activity_main_tab2" 
+            android:uiOptions="splitActionBarWhenNarrow" >
+        </activity>
+        <activity
+            android:name=".MainTab3Activity"
+            android:label="@string/title_activity_main_tab3" 
+            android:uiOptions="splitActionBarWhenNarrow" >
+        </activity>
+        <activity
+            android:name=".MainTab4Activity"
+            android:label="@string/title_activity_main_tab4"
+            android:uiOptions="splitActionBarWhenNarrow" >
+        </activity>
+        <activity
+            android:name=".AddMainActivity"
+            android:label="@string/title_activity_add_main"
+            android:uiOptions="splitActionBarWhenNarrow" >
+        </activity>
+        <activity
             android:name=".Tab1Activity"
             android:label="title_activity_tab1" >
         </activity>
@@ -43,25 +68,7 @@
             android:name=".Tab5Activity"
             android:label="title_activity_tab5" >
         </activity>
-        <activity
-            android:name=".AddMainActivity"
-            android:label="@string/title_activity_add_main"
-            android:uiOptions="splitActionBarWhenNarrow" >
-        </activity>
-        <activity
-            android:name=".StatisticsActivity"
-            android:label="@string/title_activity_statistics"
-            android:uiOptions="splitActionBarWhenNarrow" >
-        </activity>
-        <activity
-            android:name=".GuideActivity"
-            android:label="@string/title_activity_guide"
-            android:uiOptions="splitActionBarWhenNarrow" >
-        </activity>
-        <activity
-            android:name=".HistoryActivity"
-            android:label="@string/title_activity_history" >
-        </activity>
+        
     </application>
 
 </manifest>

@@ -20,12 +20,15 @@ import com.simple.wildfishingnote.animation.hover.HoverSwitch;
 import com.simple.wildfishingnote.bean.animation.hover.ImageIntentBean;
 import com.simple.wildfishingnote.bean.animation.hover.ImageSrcIntent;
 import com.simple.wildfishingnote.common.Common;
+import com.simple.wildfishingnote.tabs.MainTab1Fragment;
 
 public class MainActivity extends ActionBarActivity {
 
 	private final static int IMAGE = R.drawable.ic_launcher;
     private final static int ROOT_IMAGE = R.drawable.ic_launcher;
     HoverSwitch hoverSwitch = null;
+    
+//    private int selectedMenuItemId = 0;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,37 @@ public class MainActivity extends ActionBarActivity {
         initCustomActionBar();
         
         initHoverSwith();
+        
+        initMainTab1Fm(savedInstanceState);
+
     }
+
+
+	private void initMainTab1Fm(Bundle savedInstanceState) {
+		// Check that the activity is using the layout version with
+        // the fragment_container FrameLayout
+        if (findViewById(R.id.fragment_container) != null) {
+
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            // Create an instance of ExampleFragment
+            MainTab1Fragment firstFragment = new MainTab1Fragment();
+            
+            // In case this activity was started with special instructions from an Intent,
+            // pass the Intent's extras to the fragment as arguments
+            firstFragment.setArguments(getIntent().getExtras());
+            
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, firstFragment).commit();
+        }
+	}
+    
 
 	private void initCustomActionBar() {
 		final ActionBar bar = getActionBar();
@@ -80,13 +113,13 @@ public class MainActivity extends ActionBarActivity {
 		imageSrcIntent = new ImageSrcIntent();
 		imageSrcIntent.setItemButtonSrc(IMAGE);
 		imageSrcIntent.setItemTextSrc(IMAGE);
-		imageSrcIntent.setIntentClass(HistoryActivity.class);
+		imageSrcIntent.setIntentClass(AddMainActivity.class);
 		imageSrcIntentList.add(imageSrcIntent);
 		
 		imageSrcIntent = new ImageSrcIntent();
 		imageSrcIntent.setItemButtonSrc(IMAGE);
 		imageSrcIntent.setItemTextSrc(IMAGE);
-		imageSrcIntent.setIntentClass(HistoryActivity.class);
+		imageSrcIntent.setIntentClass(AddMainActivity.class);
 		imageSrcIntentList.add(imageSrcIntent);
 		
 		return imageSrcIntentList;
@@ -113,7 +146,13 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public void onResume(){
 		super.onResume();
-		hoverSwitch.execRootImageClick(true);
+//		if (selectedMenuItemId == 0 || selectedMenuItemId == R.id.action_main) {
+			hoverSwitch.execRootImageClick(true);
+//			hoverSwitch.showRoot();
+//		} else {
+//			hoverSwitch.hideRootAndItems();
+//		}
+		
 	}
     
     @Override
@@ -128,10 +167,12 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-    	if (Common.optionsItemSelectedHandler(item, this)) {
-    		return true;
-    	}
-    	
+//    	selectedMenuItemId = item.getItemId();
+		if (Common.optionsItemSelectedHandler(item, this,
+				getSupportFragmentManager(), hoverSwitch)) {
+			return true;
+		}
+
     	return super.onOptionsItemSelected(item);
     }
 

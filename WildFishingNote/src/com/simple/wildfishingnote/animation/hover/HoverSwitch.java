@@ -22,6 +22,7 @@ public class HoverSwitch {
 	private ImageView rootImage = null;
 	private ObjectAnimator rootImageExpandRotationAnimator = null;
 	private ObjectAnimator rootImageShrinkRotationAnimator = null;
+	private ObjectAnimator rootImageShrinkRotationAnimatorZeroSecondDuration = null;
 
 	private List<ImageIntentBean> itemBtnImageList = new ArrayList<ImageIntentBean>();
 	private List<ImageIntentBean> itemTextImageList = new ArrayList<ImageIntentBean>();
@@ -98,6 +99,7 @@ public class HoverSwitch {
 		// root image animator
 		setRootImageExpandRotationAnimation(rootImage);
 		setRootImageShrinkRotationAnimation(rootImage);
+		setRootImageShrinkRotationAnimationZeroSecondDuration(rootImage);
 
 		// item button animator
 		float distanceY = -TRANSLATION_DISTANCE;
@@ -166,6 +168,25 @@ public class HoverSwitch {
 			
 			// item image expand animate
 			for (ObjectAnimator animator : itemExpandAnimatorList) {
+				animator.start();
+			}
+		}
+	}
+	
+	/**
+	 * exec root image click
+	 */
+	public void execRootImageClickZeroSecondDuration(boolean isItemShowParam){
+		if (isItemShowParam) {
+			// item is shown
+			isItemShow = false;
+			hideItems();
+			
+			// root image shrink rotation animate
+			rootImageShrinkRotationAnimatorZeroSecondDuration.start();
+			
+			// item image shrink animate
+			for (ObjectAnimator animator : itemShrinkAnimatorList) {
 				animator.start();
 			}
 		}
@@ -240,6 +261,16 @@ public class HoverSwitch {
 		rootImageShrinkRotationAnimator.setDuration(ROOT_EXPAND_ROTATION_DURATION);
 		rootImageShrinkRotationAnimator.setInterpolator(new OvershootInterpolator());
 	}
+	
+	/**
+	 * set root image shrink rotation animation
+	 */
+	private void setRootImageShrinkRotationAnimationZeroSecondDuration(ImageView rootImageView) {
+		PropertyValuesHolder holderR = PropertyValuesHolder.ofFloat("rotation", ROTATION, 0f);
+		rootImageShrinkRotationAnimatorZeroSecondDuration = ObjectAnimator.ofPropertyValuesHolder(rootImageView, holderR);
+		rootImageShrinkRotationAnimatorZeroSecondDuration.setDuration(0);
+		rootImageShrinkRotationAnimatorZeroSecondDuration.setInterpolator(new OvershootInterpolator());
+	}
 
 	/**
 	 * get item button shrink animation
@@ -289,6 +320,21 @@ public class HoverSwitch {
 			ImageView imageView = imageIntentBean.getImageView();
 			imageView.setVisibility(View.VISIBLE);
 		}
+	}
+	
+	/**
+	 * hide root image and items
+	 */
+	public void hideRootAndItems() {
+		rootImage.setVisibility(View.INVISIBLE);
+		hideItems();
+	}
+	
+	/**
+	 * show root image and items
+	 */
+	public void showRoot() {
+		rootImage.setVisibility(View.VISIBLE);
 	}
 	
 	public List<ImageIntentBean> getItemBtnImageList() {
