@@ -107,7 +107,7 @@ public class MainActivity extends ActionBarActivity {
 		ImageSrcIntent imageSrcIntent = new ImageSrcIntent();
 		imageSrcIntent.setItemButtonSrc(IMAGE);
 		imageSrcIntent.setItemTextSrc(IMAGE);
-		imageSrcIntent.setIntentClass(AddMainActivity.class);
+		imageSrcIntent.setIntentClass(CalendarDailogActivity.class);
 		imageSrcIntentList.add(imageSrcIntent);
 		
 		imageSrcIntent = new ImageSrcIntent();

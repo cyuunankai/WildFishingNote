@@ -24,5 +24,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_main_tab3">MainTab3Activity</string>
     <string name="title_activity_main_tab4">MainTab4Activity</string>
+    <string name="title_activity_calendar_dailog">CalendarDailogActivity</string>
 
 </resources>

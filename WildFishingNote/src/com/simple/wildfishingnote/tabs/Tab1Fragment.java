@@ -1,5 +1,6 @@
 package com.simple.wildfishingnote.tabs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.simple.wildfishingnote.AddMainActivity;
+import com.simple.wildfishingnote.CalendarDailogActivity;
 import com.simple.wildfishingnote.R;
 
 public class Tab1Fragment extends Fragment {
@@ -21,8 +24,12 @@ public class Tab1Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 		
+		Intent intent = ((AddMainActivity)getActivity()).getIntent();
+		String historyDate = intent.getStringExtra(CalendarDailogActivity.HISTORY_DATE);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_tab1, container, false);
+        TextView tv = (TextView)view.findViewById(R.id.textView2);
+        tv.setText(historyDate);
         
         initListView(view);
         

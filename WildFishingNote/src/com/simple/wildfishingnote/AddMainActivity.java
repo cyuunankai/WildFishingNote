@@ -2,6 +2,7 @@ package com.simple.wildfishingnote;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,9 @@ public class AddMainActivity extends ActionBarActivity {
         // 肖像模式
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_add_main);
+        
+        Intent intent = getIntent();
+        String historyDate = intent.getStringExtra(CalendarDailogActivity.HISTORY_DATE);
         
         mMyFragmentStatePagerAdapter = new MyFragmentStatePagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
