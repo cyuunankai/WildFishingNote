@@ -25,5 +25,6 @@
     <string name="title_activity_main_tab3">MainTab3Activity</string>
     <string name="title_activity_main_tab4">MainTab4Activity</string>
     <string name="title_activity_calendar_dailog">CalendarDailogActivity</string>
+    <string name="tab1_note_title">总结</string>
 
 </resources>
