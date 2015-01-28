@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="Success"
-                bootstrapbutton:bb_icon_right="fa-android"
+                bootstrapbutton:bb_icon_right="fa-clock-o"
                 bootstrapbutton:bb_roundedCorners="true"
                 bootstrapbutton:bb_type="success" />
 
@@ -39,11 +39,15 @@
             
 
 			</LinearLayout>
-			<EditText
-				android:id="@+id/edittext"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:hint="edittext" />
+			         <com.beardedhen.androidbootstrap.BootstrapEditText
+            android:id="@+id/txtOne"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="10dp"
+            android:hint="rounded" 
+            bootstrapbutton:be_roundedCorners="true"
+            android:gravity="left|top"
+       		android:inputType="textMultiLine" />
 			
 	</LinearLayout>
 

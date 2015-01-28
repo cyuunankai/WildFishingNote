@@ -1384,7 +1384,6 @@ containing a value of this type.
         public static final int disableHome=0x7f090008;
         public static final int dropdown=0x7f09000f;
         public static final int edit_query=0x7f090030;
-        public static final int edittext=0x7f090041;
         public static final int end=0x7f090013;
         public static final int expand_activities_button=0x7f090026;
         public static final int expanded_menu=0x7f09002c;
@@ -1438,6 +1437,7 @@ containing a value of this type.
         public static final int textView1=0x7f090042;
         public static final int title=0x7f09002b;
         public static final int top_action_bar=0x7f090020;
+        public static final int txtOne=0x7f090041;
         public static final int txtText=0x7f09004a;
         public static final int up=0x7f090021;
         public static final int useLogo=0x7f090003;
