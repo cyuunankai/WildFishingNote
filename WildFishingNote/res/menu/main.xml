@@ -5,18 +5,18 @@
     <item
         android:id="@+id/action_main"
         android:icon="@drawable/ic_search"
-        app:showAsAction="always"/>
+        android:showAsAction="always"/>
     <item
         android:id="@+id/action_statistics"
         android:icon="@drawable/ic_search"
-        app:showAsAction="always"/>
+        android:showAsAction="always"/>
     <item
         android:id="@+id/action_guide"
         android:icon="@drawable/ic_search"
-        app:showAsAction="always"/>
+        android:showAsAction="always"/>
     <item
         android:id="@+id/action_add_today"
         android:icon="@drawable/ic_search"
-        app:showAsAction="always"/>
+        android:showAsAction="always"/>
 
 </menu>
