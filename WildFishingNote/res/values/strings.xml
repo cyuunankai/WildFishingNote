@@ -25,6 +25,11 @@
     <string name="title_activity_main_tab3">MainTab3Activity</string>
     <string name="title_activity_main_tab4">MainTab4Activity</string>
     <string name="title_activity_calendar_dailog">CalendarDailogActivity</string>
-    <string name="tab1_note_title">总结</string>
+    <string name="summary">总结</string>
+    <string name="summary_hint">写下心得体会，心情等</string>
+    <string name="start_time">开始时间</string>
+    <string name="end_time">结束时间</string>
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
 
 </resources>

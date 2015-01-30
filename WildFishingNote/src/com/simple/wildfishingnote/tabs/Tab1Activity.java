@@ -12,4 +12,5 @@ public class Tab1Activity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tab1);
 	}
+	
 }

@@ -12,7 +12,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.BootstrapEditText;
+import com.simple.wildfishingnote.bean.Campaign;
+import com.simple.wildfishingnote.database.CampaignDataSource;
 import com.simple.wildfishingnote.tabs.Tab1Fragment;
 import com.simple.wildfishingnote.tabs.Tab2Fragment;
 import com.simple.wildfishingnote.tabs.Tab3Fragment;
@@ -22,7 +27,10 @@ import com.simple.wildfishingnote.tabs.Tab5Fragment;
 public class AddMainActivity extends ActionBarActivity {
 
     private MyFragmentStatePagerAdapter mMyFragmentStatePagerAdapter;
-    ViewPager mViewPager;
+    private ViewPager mViewPager;
+    private ActionBar bar;
+    private CampaignDataSource dataSource;
+    private long campaignId;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +38,11 @@ public class AddMainActivity extends ActionBarActivity {
         // 肖像模式
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_add_main);
+        
+        campaignId = 0;
+        
+        dataSource = new CampaignDataSource(this);
+        dataSource.open();
         
         Intent intent = getIntent();
         String historyDate = intent.getStringExtra(CalendarDailogActivity.HISTORY_DATE);
@@ -42,7 +55,7 @@ public class AddMainActivity extends ActionBarActivity {
 
         // 添加tab
         // 设定tab选中监听器
-        final ActionBar bar = getActionBar();
+        bar = getActionBar();
         addTabAndSetTabListener(bar);
         
         bar.setDisplayShowHomeEnabled(false);
@@ -56,6 +69,28 @@ public class AddMainActivity extends ActionBarActivity {
             // 初始化选中第一个tab
             bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
         }
+    }
+    
+    public void onSaveBtnClickListener(View v) {
+        BootstrapButton startDateBtn = (BootstrapButton) findViewById(R.id.startDate);
+        BootstrapButton startTimeBtn = (BootstrapButton) findViewById(R.id.startTime);
+        BootstrapButton endDateBtn = (BootstrapButton) findViewById(R.id.endDate);
+        BootstrapButton endTimeBtn = (BootstrapButton) findViewById(R.id.endTime);
+        BootstrapEditText summaryEditText = (BootstrapEditText)findViewById(R.id.tab1_summary);
+        
+        String startDate = startDateBtn.getText().toString();
+        String startTime = startTimeBtn.getText().toString();
+        String endDate = endDateBtn.getText().toString();
+        String endTime = endTimeBtn.getText().toString();
+        
+        Campaign campaign = new Campaign();
+        campaign.setStartTime(startDate + " " + startTime);
+        campaign.setEndTime(endDate + " " + endTime);
+        campaign.setSummary(summaryEditText.getText().toString());
+        
+        campaign = dataSource.addCampaign(campaign);
+        campaignId = campaign.getId();
+        
     }
     
     /**
@@ -153,6 +188,18 @@ public class AddMainActivity extends ActionBarActivity {
             return 5;
         }
 
+    }
+    
+    @Override
+    protected void onResume() {
+      dataSource.open();
+      super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+      dataSource.close();
+      super.onPause();
     }
     
     @Override

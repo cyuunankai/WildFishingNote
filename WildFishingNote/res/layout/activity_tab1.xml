@@ -13,41 +13,89 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical" >
-
+		
+		    <TextView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/start_time" />
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="horizontal" >
 				
-			<com.beardedhen.androidbootstrap.BootstrapButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Success"
-                bootstrapbutton:bb_icon_right="fa-clock-o"
-                bootstrapbutton:bb_roundedCorners="true"
-                bootstrapbutton:bb_type="success" />
-
-            <com.beardedhen.androidbootstrap.BootstrapButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Warning"
-                bootstrapbutton:bb_icon_left="fa-flask"
-                bootstrapbutton:bb_roundedCorners="true"
-                bootstrapbutton:bb_type="warning" />
+				<com.beardedhen.androidbootstrap.BootstrapButton
+				    android:id="@+id/startDate"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.5"
+	                android:layout_margin="8dp"
+	                android:text="@string/start_time"
+	                bootstrapbutton:bb_icon_left="fa-calendar"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
+	
+	            <com.beardedhen.androidbootstrap.BootstrapButton
+	                android:id="@+id/startTime"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.5"
+	                android:layout_margin="8dp"
+	                android:text="@string/start_time"
+	                bootstrapbutton:bb_icon_left="fa-clock-o"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
             
 
 			</LinearLayout>
-			         <com.beardedhen.androidbootstrap.BootstrapEditText
-            android:id="@+id/txtOne"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_margin="10dp"
-            android:hint="rounded" 
-            bootstrapbutton:be_roundedCorners="true"
-            android:gravity="left|top"
-       		android:inputType="textMultiLine" />
+			
+			<TextView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/end_time" />
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal" >
+				
+				<com.beardedhen.androidbootstrap.BootstrapButton
+				    android:id="@+id/endDate"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.5"
+	                android:layout_margin="8dp"
+	                android:text="@string/end_time"
+	                bootstrapbutton:bb_icon_left="fa-calendar"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
+	
+	            <com.beardedhen.androidbootstrap.BootstrapButton
+	                android:id="@+id/endTime"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.5"
+	                android:layout_margin="8dp"
+	                android:text="@string/end_time"
+	                bootstrapbutton:bb_icon_left="fa-clock-o"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
+            
+
+			</LinearLayout>
+			
+			<TextView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/summary" />
+
+			<com.beardedhen.androidbootstrap.BootstrapEditText
+	            android:id="@+id/tab1_summary"
+	            android:layout_width="match_parent"
+	            android:layout_height="200dp"
+	            android:layout_margin="8dp"
+	            android:hint="@string/summary_hint" 
+	            bootstrapbutton:be_roundedCorners="true"
+	            android:gravity="left|top"
+	       		android:inputType="textMultiLine" />
 			
 	</LinearLayout>
 

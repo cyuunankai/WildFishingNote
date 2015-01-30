@@ -1,70 +1,118 @@
 package com.simple.wildfishingnote.tabs;
 
+import java.util.Calendar;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.simple.wildfishingnote.AddMainActivity;
 import com.simple.wildfishingnote.CalendarDailogActivity;
 import com.simple.wildfishingnote.R;
+import com.simple.wildfishingnote.datetimepicker.DatePickerFragment;
+import com.simple.wildfishingnote.datetimepicker.TimePickerFragment;
+import com.simple.wildfishingnote.utils.StringUtils;
 
-public class Tab1Fragment extends Fragment {
+public class Tab1Fragment extends Fragment implements OnClickListener {
 
-	@Override
+    private View tab1View;
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-		
-		Intent intent = ((AddMainActivity)getActivity()).getIntent();
-		String historyDate = intent.getStringExtra(CalendarDailogActivity.HISTORY_DATE);
+            Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.activity_tab1, container, false);
-//        TextView tv = (TextView)view.findViewById(R.id.textView2);
-//        tv.setText(historyDate);
+        tab1View = inflater.inflate(R.layout.activity_tab1, container, false);
+        setStartDateBtn();
+        setStartTimeBtn();
+        setEndDateBtn();
+        setEndTimeBtn();
         
-//        initListView(view);
-        
-        return view;
+        Intent intent = ((AddMainActivity)getActivity()).getIntent();
+        if (intent == null) {
+            return tab1View;
+        }
+        String historyDate = intent.getStringExtra(CalendarDailogActivity.HISTORY_DATE);
+
+        // TextView tv = (TextView)view.findViewById(R.id.textView2);
+        // tv.setText(historyDate);
+
+        return tab1View;
     }
-	
-//	private void initListView(View view) {
-//		ListView lv = (ListView) view.findViewById(R.id.listView1);
-//
-//        String[] data = { "第1讲", "第2讲", "第3讲", "第4讲", "第5讲", "第6讲", "第7讲", "第8讲","第8讲","第10讲" };
-//
-//        lv.setAdapter(new ArrayAdapter(view.getContext(),
-//                android.R.layout.simple_list_item_1, data));
-//
-//        lv.setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view,
-//                    int position, long id) {
-//                Toast.makeText(view.getContext(),
-//                        "您点击的是：" + ((TextView) view).getText(),
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        lv.setOnItemLongClickListener(new OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view,
-//                    int position, long id){
-//                Toast.makeText(view.getContext(),
-//                        "您长按的是："+((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-//                return false;
-//            }
-//        });
-//	}
-	
-	
+
+    private void setStartDateBtn() {
+        BootstrapButton dateBtn = (BootstrapButton)tab1View.findViewById(R.id.startDate);
+        dateBtn.setOnClickListener(this);
+
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        dateBtn.setText(year + "-" + StringUtils.leftPadTwo(month + 1) + "-" + StringUtils.leftPadTwo(day));
+    }
+
+    private void setStartTimeBtn() {
+        BootstrapButton timeBtn = (BootstrapButton)tab1View.findViewById(R.id.startTime);
+        timeBtn.setOnClickListener(this);
+
+        final Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
+        timeBtn.setText(StringUtils.leftPadTwo(hour) + ":" + StringUtils.leftPadTwo(minute));
+    }
+    
+    private void setEndDateBtn() {
+        BootstrapButton dateBtn = (BootstrapButton)tab1View.findViewById(R.id.endDate);
+        dateBtn.setOnClickListener(this);
+
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        dateBtn.setText(year + "-" + StringUtils.leftPadTwo(month + 1) + "-" + StringUtils.leftPadTwo(day));
+    }
+
+    private void setEndTimeBtn() {
+        BootstrapButton timeBtn = (BootstrapButton)tab1View.findViewById(R.id.endTime);
+        timeBtn.setOnClickListener(this);
+
+        final Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
+        timeBtn.setText(StringUtils.leftPadTwo(hour) + ":" + StringUtils.leftPadTwo(minute));
+    }
+
+    @Override
+    public void onClick(View v) {
+        BootstrapButton b = (BootstrapButton)v;
+        switch (v.getId()) {
+            case R.id.startDate:
+                DialogFragment startDateFragment = new DatePickerFragment(b);
+                startDateFragment.show(getActivity().getSupportFragmentManager(), "startDatePicker");
+                break;
+            case R.id.startTime:
+                DialogFragment startTimeFragment = new TimePickerFragment(b);
+                startTimeFragment.show(getActivity().getSupportFragmentManager(), "startTimePicker");
+                break;
+            case R.id.endDate:
+                DialogFragment endDateFragment = new DatePickerFragment(b);
+                endDateFragment.show(getActivity().getSupportFragmentManager(), "endDatePicker");
+                break;
+            case R.id.endTime:
+                DialogFragment endTimeFragment = new TimePickerFragment(b);
+                endTimeFragment.show(getActivity().getSupportFragmentManager(), "endTimePicker");
+                break;
+        }
+    }
 
 }

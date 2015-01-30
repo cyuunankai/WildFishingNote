@@ -1,4 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/rootLayout"
 android:layout_width="match_parent"
 android:layout_height="match_parent" >
@@ -12,24 +14,35 @@ android:layout_height="match_parent" >
 
 </android.support.v4.view.ViewPager>
 
-<RelativeLayout
+<LinearLayout
     android:id="@+id/buttonsLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:orientation="horizontal" >
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:text="Left" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="Right" />
-</RelativeLayout>
+<com.beardedhen.androidbootstrap.BootstrapButton
+				    android:id="@+id/cancel"
+	                android:layout_width="10dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.5"
+	                android:layout_margin="8dp"
+	                android:text="@string/cancel"
+	                bootstrapbutton:bb_icon_left="fa-undo"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
+	
+	            <com.beardedhen.androidbootstrap.BootstrapButton
+	                android:id="@+id/save"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.5"
+	                android:layout_margin="8dp"
+	                android:text="@string/save"
+	                android:onClick="onSaveBtnClickListener"
+	                bootstrapbutton:bb_icon_left="fa-floppy-o"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
+</LinearLayout>
 
 </RelativeLayout>
