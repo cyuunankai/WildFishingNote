@@ -29,8 +29,12 @@ public class AddMainActivity extends ActionBarActivity {
     private MyFragmentStatePagerAdapter mMyFragmentStatePagerAdapter;
     private ViewPager mViewPager;
     private ActionBar bar;
-    private CampaignDataSource dataSource;
+    private CampaignDataSource dataSourceCampaign;
     private long campaignId;
+    
+    public CampaignDataSource getCampaignDataSource(){
+    	return dataSourceCampaign;
+    }
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +45,8 @@ public class AddMainActivity extends ActionBarActivity {
         
         campaignId = 0;
         
-        dataSource = new CampaignDataSource(this);
-        dataSource.open();
+        dataSourceCampaign = new CampaignDataSource(this);
+        dataSourceCampaign.open();
         
         Intent intent = getIntent();
         String historyDate = intent.getStringExtra(CalendarDailogActivity.HISTORY_DATE);
@@ -88,7 +92,7 @@ public class AddMainActivity extends ActionBarActivity {
         campaign.setEndTime(endDate + " " + endTime);
         campaign.setSummary(summaryEditText.getText().toString());
         
-        campaign = dataSource.addCampaign(campaign);
+        campaign = dataSourceCampaign.addCampaign(campaign);
         campaignId = campaign.getId();
         
     }
@@ -101,11 +105,11 @@ public class AddMainActivity extends ActionBarActivity {
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
         ActionBar.TabListener tabListener = getTabListener();
-        bar.addTab(bar.newTab().setText(R.string.time).setTabListener(tabListener));
         bar.addTab(bar.newTab().setText(R.string.place).setTabListener(tabListener));
         bar.addTab(bar.newTab().setText(R.string.point).setTabListener(tabListener));
         bar.addTab(bar.newTab().setText(R.string.results).setTabListener(tabListener));
         bar.addTab(bar.newTab().setText(R.string.weather).setTabListener(tabListener));
+        bar.addTab(bar.newTab().setText(R.string.time).setTabListener(tabListener));
     }
     
     /**
@@ -192,13 +196,13 @@ public class AddMainActivity extends ActionBarActivity {
     
     @Override
     protected void onResume() {
-      dataSource.open();
+      dataSourceCampaign.open();
       super.onResume();
     }
 
     @Override
     protected void onPause() {
-      dataSource.close();
+      dataSourceCampaign.close();
       super.onPause();
     }
     
