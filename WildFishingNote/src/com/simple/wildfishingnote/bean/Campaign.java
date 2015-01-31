@@ -6,8 +6,15 @@ public class Campaign {
     private String startTime;
     private String endTime;
     private String summary;
+    private String placeId;
     
-    public long getId() {
+    public String getPlaceId() {
+		return placeId;
+	}
+	public void setPlaceId(String placeId) {
+		this.placeId = placeId;
+	}
+	public long getId() {
         return id;
     }
     public void setId(long id) {

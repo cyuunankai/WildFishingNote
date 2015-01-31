@@ -94,6 +94,7 @@
 	            android:layout_margin="8dp"
 	            android:hint="@string/summary_hint" 
 	            bootstrapbutton:be_roundedCorners="true"
+	            bootstrapbutton:be_state="success"
 	            android:gravity="left|top"
 	       		android:inputType="textMultiLine" />
 			
