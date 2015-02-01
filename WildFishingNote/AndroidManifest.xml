@@ -72,6 +72,10 @@
             android:name=".CalendarDailogActivity"
             android:label="@string/title_activity_calendar_dailog" >
         </activity>
+        <activity
+            android:name="com.simple.wildfishingnote.campaign.PlaceDetailActivity"
+            android:label="@string/title_activity_place_detail" >
+        </activity>
     </application>
 
 </manifest>
