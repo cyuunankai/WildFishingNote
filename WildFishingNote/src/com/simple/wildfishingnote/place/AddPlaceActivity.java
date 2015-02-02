@@ -85,9 +85,8 @@ public class AddPlaceActivity extends ActionBarActivity {
         etDetail.setText(place.getDetail());
         
         String directory = getApplicationContext().getFilesDir() + Constant.PLACE_IMAGE_PATH;
-        // TODO
         single_path = directory + place.getFileName();
-        imageLoader.displayImage(single_path, imgSinglePick);
+        imageLoader.displayImage("file://" + single_path, imgSinglePick);
     }
     
     /**
@@ -149,23 +148,22 @@ public class AddPlaceActivity extends ActionBarActivity {
     private String dealImageFile() {
         String fileName;
         
+        String from = single_path;
+        String directory = getApplicationContext().getFilesDir() + Constant.PLACE_IMAGE_PATH;
         if ("".equals(globalPlaceId)) {
             // 新规
-//            String from = "file://" + single_path;
-            Toast.makeText(this, single_path, Toast.LENGTH_SHORT).show();
-            String from = single_path;
-            String to = getApplicationContext().getFilesDir() + Constant.PLACE_IMAGE_PATH;
-            fileName = FileUtil.saveImageToInternalStorage(from, to);
+            fileName = FileUtil.saveImageToInternalStorage(from, directory);
         } else {
             // 更新
             Place place = dataSourceCampaign.getPlaceById(globalPlaceId);
-            if (place.getFileName().equals(single_path)) {
+            String existFile = directory + place.getFileName();
+            if (existFile.equals(single_path)) {
+                // 图片没有变更
                 fileName = place.getFileName();
             } else {
-                String from = "file://" + single_path;
-                String to = getApplicationContext().getFilesDir() + Constant.PLACE_IMAGE_PATH;
-                FileUtil.deleteFile(to + place.getFileName());
-                fileName = FileUtil.saveImageToInternalStorage(from, to);
+                // 图片变更
+                FileUtil.deleteFile(existFile);
+                fileName = FileUtil.saveImageToInternalStorage(from, directory);
             }
         }
         
