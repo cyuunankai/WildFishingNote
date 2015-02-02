@@ -61,7 +61,7 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
     }
 
     private void setStartDateBtn() {
-        BootstrapButton dateBtn = (BootstrapButton)tab1View.findViewById(R.id.startDate);
+        BootstrapButton dateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartDate);
         dateBtn.setOnClickListener(this);
 
         final Calendar c = Calendar.getInstance();
@@ -73,7 +73,7 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
     }
 
     private void setStartTimeBtn() {
-        BootstrapButton timeBtn = (BootstrapButton)tab1View.findViewById(R.id.startTime);
+        BootstrapButton timeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartTime);
         timeBtn.setOnClickListener(this);
 
         final Calendar c = Calendar.getInstance();
@@ -84,7 +84,7 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
     }
     
     private void setEndDateBtn() {
-        BootstrapButton dateBtn = (BootstrapButton)tab1View.findViewById(R.id.endDate);
+        BootstrapButton dateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndDate);
         dateBtn.setOnClickListener(this);
 
         final Calendar c = Calendar.getInstance();
@@ -96,7 +96,7 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
     }
 
     private void setEndTimeBtn() {
-        BootstrapButton timeBtn = (BootstrapButton)tab1View.findViewById(R.id.endTime);
+        BootstrapButton timeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndTime);
         timeBtn.setOnClickListener(this);
 
         final Calendar c = Calendar.getInstance();
@@ -110,27 +110,27 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         BootstrapButton b = (BootstrapButton)v;
         switch (v.getId()) {
-            case R.id.startDate:
+            case R.id.addCampaignStartDate:
                 DialogFragment startDateFragment = new DatePickerFragment(b);
                 startDateFragment.show(getActivity().getSupportFragmentManager(), "startDatePicker");
                 break;
-            case R.id.startTime:
+            case R.id.addCampaignStartTime:
                 DialogFragment startTimeFragment = new TimePickerFragment(b);
                 startTimeFragment.show(getActivity().getSupportFragmentManager(), "startTimePicker");
                 break;
-            case R.id.endDate:
+            case R.id.addCampaignEndDate:
                 DialogFragment endDateFragment = new DatePickerFragment(b);
                 endDateFragment.show(getActivity().getSupportFragmentManager(), "endDatePicker");
                 break;
-            case R.id.endTime:
+            case R.id.addCampaignEndTime:
                 DialogFragment endTimeFragment = new TimePickerFragment(b);
                 endTimeFragment.show(getActivity().getSupportFragmentManager(), "endTimePicker");
                 break;
             case R.id.buttonSaveCampagin:
-                BootstrapButton startDateBtn = (BootstrapButton)tab1View.findViewById(R.id.startDate);
-                BootstrapButton startTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.startTime);
-                BootstrapButton endDateBtn = (BootstrapButton)tab1View.findViewById(R.id.endDate);
-                BootstrapButton endTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.endTime);
+                BootstrapButton startDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartDate);
+                BootstrapButton startTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartTime);
+                BootstrapButton endDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndDate);
+                BootstrapButton endTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndTime);
                 BootstrapEditText summaryEditText = (BootstrapEditText)tab1View.findViewById(R.id.tab1_summary);
 
                 String startDate = startDateBtn.getText().toString();

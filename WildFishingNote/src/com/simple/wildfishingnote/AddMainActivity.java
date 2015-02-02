@@ -87,11 +87,11 @@ public class AddMainActivity extends ActionBarActivity {
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
         ActionBar.TabListener tabListener = getTabListener();
+        bar.addTab(bar.newTab().setText(R.string.time).setTabListener(tabListener));
         bar.addTab(bar.newTab().setText(R.string.place).setTabListener(tabListener));
         bar.addTab(bar.newTab().setText(R.string.point).setTabListener(tabListener));
         bar.addTab(bar.newTab().setText(R.string.results).setTabListener(tabListener));
         bar.addTab(bar.newTab().setText(R.string.weather).setTabListener(tabListener));
-        bar.addTab(bar.newTab().setText(R.string.time).setTabListener(tabListener));
     }
     
     /**

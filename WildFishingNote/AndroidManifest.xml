@@ -47,11 +47,13 @@
         </activity>
         <activity
             android:name=".AddMainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_add_main"
             android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
         <activity
             android:name="campaigntabs.Tab1Activity"
+            android:windowSoftInputMode="adjustPan"
             android:label="title_activity_tab1" >
         </activity>
         <activity

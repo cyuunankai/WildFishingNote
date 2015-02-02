@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,22 +13,46 @@
 		android:orientation="vertical" >
 		
 		<TextView
-        android:id="@+id/placeDetailTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="22dp"/>
+        android:text="@string/place_detail_title"
+        android:layout_margin="8dp"/>
+        
+		<com.beardedhen.androidbootstrap.BootstrapEditText
+        android:id="@+id/placeDetailTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        bootstrapbutton:be_roundedCorners="true"
+	    bootstrapbutton:be_state="success"/>
 
-    <TextView
+	<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/place_detail_detail"
+        android:layout_margin="8dp"/>
+        
+    <com.beardedhen.androidbootstrap.BootstrapEditText
         android:id="@+id/placeDetailDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="8dp"
+        bootstrapbutton:be_roundedCorners="true"
+	            bootstrapbutton:be_state="success"
+	            android:gravity="left|top"
+	       		android:inputType="textMultiLine"/>
 
+	<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/place_detail_image"
+        android:layout_margin="8dp"/>
     <ImageView
         android:id="@+id/placeDetailImage"
-        android:layout_width="400dp"
-        android:layout_height="300dp" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp" />
 
     
 </LinearLayout>

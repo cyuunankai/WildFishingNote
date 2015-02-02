@@ -38,6 +38,11 @@
     <string name="add_place_detail_hint">详细描述</string>
     <string name="add_place_pick_pic">添加钓位图片</string>
     <string name="confirm">确定</string>
+    <string name="place_detail_title">钓位标题:</string>
+    <string name="place_detail_detail">钓位详细:</string>
+    <string name="place_detail_image">钓位图片:</string>
+    
+    
     
 
 </resources>

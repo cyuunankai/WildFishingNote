@@ -2345,6 +2345,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int action_mode_close_button=0x7f0b0031;
         public static final int action_statistics=0x7f0b00d4;
         public static final int activity_chooser_view_content=0x7f0b0032;
+        public static final int addCampaignEndDate=0x7f0b0068;
+        public static final int addCampaignEndTime=0x7f0b0069;
+        public static final int addCampaignStartDate=0x7f0b0066;
+        public static final int addCampaignStartTime=0x7f0b0067;
         public static final int addPlaceButtonCancel=0x7f0b005a;
         public static final int addPlaceButtonSave=0x7f0b005b;
         public static final int addPlaceDetail=0x7f0b0054;
@@ -2375,7 +2379,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int button_bar=0x7f0b00b6;
         public static final int button_once=0x7f0b00bd;
         public static final int buttonsLayoutAddPlace=0x7f0b0059;
-        public static final int buttonsLayoutCampaign=0x7f0b0065;
+        public static final int buttonsLayoutCampaign=0x7f0b006a;
         public static final int buttonsLayoutPlace=0x7f0b006e;
         public static final int calendar1=0x7f0b005c;
         public static final int calendar_gridview=0x7f0b0095;
@@ -2412,8 +2416,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int edit_query=0x7f0b0045;
         public static final int edittext_container=0x7f0b00b0;
         public static final int empty=0x7f0b0013;
-        public static final int endDate=0x7f0b0068;
-        public static final int endTime=0x7f0b0069;
         public static final int expand_activities_button=0x7f0b0033;
         public static final int expanded_menu=0x7f0b0039;
         public static final int floating=0x7f0b0017;
@@ -2516,12 +2518,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int slider_menu=0x7f0b00c3;
         public static final int slider_menu_group_indicator=0x7f0b00c6;
         public static final int split_action_bar=0x7f0b002b;
-        public static final int startDate=0x7f0b0066;
-        public static final int startTime=0x7f0b0067;
         public static final int submit_area=0x7f0b004e;
         public static final int summary=0x7f0b00ae;
         public static final int switchWidget=0x7f0b00ba;
-        public static final int tab1_summary=0x7f0b006a;
+        public static final int tab1_summary=0x7f0b0065;
         public static final int tabMode=0x7f0b0002;
         public static final int tabSwipePager=0x7f0b00c7;
         public static final int textViewPlaceTitle=0x7f0b0062;
@@ -2831,6 +2831,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int number_picker_increment_scroll_action=0x7f090032;
         public static final int number_picker_increment_scroll_mode=0x7f090033;
         public static final int place=0x7f090044;
+        public static final int place_detail_detail=0x7f09005e;
+        public static final int place_detail_image=0x7f09005f;
+        public static final int place_detail_title=0x7f09005d;
+        public static final int please_select_place=0x7f090060;
         public static final int point=0x7f090045;
         public static final int results=0x7f090046;
         public static final int ringtone_default=0x7f090034;

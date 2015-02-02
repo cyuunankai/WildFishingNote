@@ -5,8 +5,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.Place;
 import com.simple.wildfishingnote.common.Constant;
@@ -34,8 +34,15 @@ public class PlaceDetailActivity extends ActionBarActivity {
     private void initPlaceDetail(String placeId) {
         Place place = dataSourceCampaign.getPlaceById(placeId);
         
-		((TextView) findViewById(R.id.placeDetailTitle)).setText(place.getTitle());
-		((TextView) findViewById(R.id.placeDetailDetail)).setText(place.getDetail());
+        BootstrapEditText etTextTitle = (BootstrapEditText) findViewById(R.id.placeDetailTitle);
+        BootstrapEditText etTextDetail = (BootstrapEditText) findViewById(R.id.placeDetailDetail);
+        
+        etTextTitle.setText(place.getTitle());
+        etTextDetail.setText(place.getDetail());
+        
+        etTextTitle.setEnabled(false);
+        etTextDetail.setEnabled(false);
+        
 		ImageView imageView = ((ImageView) findViewById(R.id.placeDetailImage));
 		String path = getApplicationContext().getFilesDir() + Constant.PLACE_IMAGE_PATH;
 		imageView.setImageBitmap(BitmapFactory.decodeFile(path + place.getFileName()));

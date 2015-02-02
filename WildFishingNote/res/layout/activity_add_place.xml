@@ -70,8 +70,8 @@
         
         <ImageView
             android:id="@+id/addPlaceSinglePickImg"
-            android:layout_width="400dp"
-            android:layout_height="300dp"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
             android:layout_gravity="center"
             android:contentDescription="@string/app_name"
             android:src="@drawable/no_media" />

@@ -3,11 +3,12 @@
 				android:layout_height="wrap_content"
 				android:orientation="horizontal"
 				android:padding="6dip">
+					
 <LinearLayout android:id = "@+id/col1Layout"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_weight="1"
-    android:layout_height="70dp">
+    android:layout_height="30dp">
     
     <TextView
         android:id="@+id/textViewPlaceTitle"
@@ -19,7 +20,7 @@
         android:text="4"
         android:textSize="14sp" 
         />
-	</LinearLayout>    
+</LinearLayout>    
 	
 <LinearLayout android:id = "@+id/col2Layout"
     android:orientation="vertical"
