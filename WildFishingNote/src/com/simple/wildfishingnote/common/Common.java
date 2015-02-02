@@ -1,8 +1,5 @@
 package com.simple.wildfishingnote.common;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.Context;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;

@@ -25,7 +25,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                     WildFishingContract.Campaigns.COL_NAME_PLACE_ID + INTEGER_TYPE + 
             " )"; 
     
-    // 钓点
+    // 钓位
     private static final String SQL_CREATE_PLACES =
         "CREATE TABLE " + WildFishingContract.Places.TABLE_NAME + " (" +
         		WildFishingContract.Places._ID + " INTEGER PRIMARY KEY," +

@@ -1,7 +1,5 @@
 package com.simple.wildfishingnote;
 
-import org.holoeverywhere.widget.Toast;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Intent;
@@ -14,30 +12,32 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
-import com.beardedhen.androidbootstrap.BootstrapEditText;
-import com.simple.wildfishingnote.bean.Campaign;
+import com.simple.wildfishingnote.campaigntabs.Tab1Fragment;
+import com.simple.wildfishingnote.campaigntabs.Tab2Fragment;
+import com.simple.wildfishingnote.campaigntabs.Tab3Fragment;
+import com.simple.wildfishingnote.campaigntabs.Tab4Fragment;
+import com.simple.wildfishingnote.campaigntabs.Tab5Fragment;
 import com.simple.wildfishingnote.database.CampaignDataSource;
-import com.simple.wildfishingnote.tabs.Tab1Fragment;
-import com.simple.wildfishingnote.tabs.Tab2Fragment;
-import com.simple.wildfishingnote.tabs.Tab3Fragment;
-import com.simple.wildfishingnote.tabs.Tab4Fragment;
-import com.simple.wildfishingnote.tabs.Tab5Fragment;
-import com.simple.wildfishingnote.tabs.Tab2Fragment.PlaceArrayAdapter;
 
 public class AddMainActivity extends ActionBarActivity {
-
+	
     private MyFragmentStatePagerAdapter mMyFragmentStatePagerAdapter;
     private ViewPager mViewPager;
     private ActionBar bar;
     private CampaignDataSource dataSourceCampaign;
     private long campaignId;
     
-    public CampaignDataSource getCampaignDataSource(){
-    	return dataSourceCampaign;
+    public long getCampaignId() {
+        return campaignId;
+    }
+
+    public void setCampaignId(long campaignId) {
+        this.campaignId = campaignId;
+    }
+
+    public CampaignDataSource getCampaignDataSource() {
+        return dataSourceCampaign;
     }
     
     @Override
@@ -78,36 +78,7 @@ public class AddMainActivity extends ActionBarActivity {
             bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
         }
     }
-    
-    public void onSaveBtnClickListener(View v) {
-    	int currentTabIndex = bar.getSelectedNavigationIndex();
-    	if(currentTabIndex == 0) {
-	        BootstrapButton startDateBtn = (BootstrapButton) findViewById(R.id.startDate);
-	        BootstrapButton startTimeBtn = (BootstrapButton) findViewById(R.id.startTime);
-	        BootstrapButton endDateBtn = (BootstrapButton) findViewById(R.id.endDate);
-	        BootstrapButton endTimeBtn = (BootstrapButton) findViewById(R.id.endTime);
-	        BootstrapEditText summaryEditText = (BootstrapEditText)findViewById(R.id.tab1_summary);
-	        
-	        String startDate = startDateBtn.getText().toString();
-	        String startTime = startTimeBtn.getText().toString();
-	        String endDate = endDateBtn.getText().toString();
-	        String endTime = endTimeBtn.getText().toString();
-	        
-	        Campaign campaign = new Campaign();
-	        campaign.setStartTime(startDate + " " + startTime);
-	        campaign.setEndTime(endDate + " " + endTime);
-	        campaign.setSummary(summaryEditText.getText().toString());
-	        
-	        campaign = dataSourceCampaign.addCampaign(campaign);
-	        campaignId = campaign.getId();
-    	} else if(currentTabIndex == 1) {
-    		ListView listViewPlace = (ListView)findViewById(R.id.listViewPlace);
-    		PlaceArrayAdapter adapter = (PlaceArrayAdapter)listViewPlace.getAdapter();
-    		Toast.makeText(this, adapter.getSelectedId(), Toast.LENGTH_SHORT).show();
-    	}
-        
-    }
-    
+   
     /**
      * 添加tab
      * 设定tab选中监听器
