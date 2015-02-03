@@ -228,29 +228,29 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
             } else {
                 viewHolder = (ViewHolder)convertView.getTag();
             }
-            // 保存bean值到UI tag 
-            // 响应事件取得对应item值
-            viewHolder.radio.setTag(list.get(position));
-
+            
             if (convertView == null) {
                 // 添加UI到convertView
                 convertView = context.getLayoutInflater().inflate(R.layout.activity_place_listview_each_item, null);
                 viewHolder.textPlaceTitle = (TextView)convertView.findViewById(R.id.textViewPlaceTitle);
                 viewHolder.radio = (RadioButton)convertView.findViewById(R.id.placeRadio);
+                viewHolder.radio.setTag(list.get(position));//// 保存bean值到UI tag (响应事件从这个UI tag取值)
                 convertView.setTag(viewHolder);
-
-                // radio事件
+                
+                // 添加事件
+                //// radio事件
                 addRadioButtonOnCheckedChangeListener(viewHolder);
-                // 内容单击事件->详细页面
+                //// 内容单击事件->详细页面
                 addContentLayoutOnClickListener(viewHolder, convertView);
-                // 内容长按事件->编辑页面，删除
+                //// 内容长按事件->编辑页面，删除
                 addContentLayoutOnLongClickListener(viewHolder, convertView);
             }
 
-            // UI显示bean中值
-            ViewHolder holder = (ViewHolder)convertView.getTag();
-            holder.textPlaceTitle.setText(list.get(position).getTitle());
-            holder.radio.setChecked(list.get(position).isSelected());
+            // 设置bean值到UI
+            viewHolder.textPlaceTitle.setText(list.get(position).getTitle());
+            viewHolder.radio.setChecked(list.get(position).isSelected());
+            // 保存bean值到UI tag (响应事件从这个UI tag取值)
+//            viewHolder.radio.setTag(list.get(position));
 
             return convertView;
         }
