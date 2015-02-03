@@ -2834,7 +2834,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int place_detail_detail=0x7f09005e;
         public static final int place_detail_image=0x7f09005f;
         public static final int place_detail_title=0x7f09005d;
-        public static final int please_select_place=0x7f090060;
         public static final int point=0x7f090045;
         public static final int results=0x7f090046;
         public static final int ringtone_default=0x7f090034;

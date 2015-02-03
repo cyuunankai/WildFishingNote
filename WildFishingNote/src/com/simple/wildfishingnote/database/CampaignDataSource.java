@@ -23,7 +23,8 @@ public class CampaignDataSource {
     private String[] campaignAllColumns = {WildFishingContract.Campaigns._ID,
             WildFishingContract.Campaigns.COL_NAME_START_TIME,
             WildFishingContract.Campaigns.COL_NAME_END_TIME,
-            WildFishingContract.Campaigns.COL_NAME_SUMMARY};
+            WildFishingContract.Campaigns.COL_NAME_SUMMARY,
+            WildFishingContract.Campaigns.COL_NAME_PLACE_ID};
     
     private String[] placeAllColumns = { WildFishingContract.Places._ID,
 			WildFishingContract.Places.COLUMN_NAME_TITLE,
@@ -79,12 +80,40 @@ public class CampaignDataSource {
         cursor.close();
         return newCampaign;
     }
+    
+    public Campaign updateCampaign(Campaign campaign) {
+
+        ContentValues values = new ContentValues();
+        values.put(WildFishingContract.Campaigns.COL_NAME_START_TIME, campaign.getStartTime());
+        values.put(WildFishingContract.Campaigns.COL_NAME_END_TIME, campaign.getEndTime());
+        values.put(WildFishingContract.Campaigns.COL_NAME_SUMMARY, campaign.getSummary());
+        values.put(WildFishingContract.Campaigns.COL_NAME_PLACE_ID, campaign.getPlaceId());
+
+        String selection = WildFishingContract.Campaigns._ID + " = ? ";
+        String[] selelectionArgs = { String.valueOf(campaign.getId()) };
+
+        database.update(WildFishingContract.Campaigns.TABLE_NAME, values,
+                selection, selelectionArgs);
+
+        return getCampaignById(String.valueOf(campaign.getId()));
+    }
 
     public void deleteCampaign(Campaign campagin) {
         long id = campagin.getId();
         System.out.println("Campaign deleted with id: " + id);
         database.delete(WildFishingContract.Campaigns.TABLE_NAME, WildFishingContract.Campaigns._ID
                 + " = " + id, null);
+    }
+    
+    public Campaign getCampaignById(String campaginId) {
+        Cursor cursor = database.query(WildFishingContract.Campaigns.TABLE_NAME,
+                campaignAllColumns, WildFishingContract.Campaigns._ID + " = " + campaginId,
+                null, null, null, null);
+        cursor.moveToFirst();
+        Campaign campaign = cursorToCampaign(cursor);
+        cursor.close();
+
+        return campaign;
     }
 
     public List<Campaign> getAllCampagins() {

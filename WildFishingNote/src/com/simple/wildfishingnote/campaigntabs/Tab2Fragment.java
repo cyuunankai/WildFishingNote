@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.simple.wildfishingnote.AddMainActivity;
 import com.simple.wildfishingnote.R;
+import com.simple.wildfishingnote.bean.Campaign;
 import com.simple.wildfishingnote.bean.Place;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
@@ -67,23 +68,23 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
                 startActivityForResult(intent, Constant.REQUEST_CODE_ADD_PLACE);
                 break;
             case R.id.buttonSavePlace:
-                if(addMainActivity.getCampaignId() == 0) {
-                    Toast.makeText(getActivity(), "请先保存时间!", Toast.LENGTH_SHORT).show();
+                String selectedPlaceId = getSelectedPlaceId();
+                
+                if (checkIsFail(selectedPlaceId)) {
                     return;
                 }
-                ListView listViewPlace = (ListView)tab2View.findViewById(R.id.listViewPlace);
-                PlaceArrayAdapter adapter = (PlaceArrayAdapter)listViewPlace.getAdapter();
-                Toast.makeText(getActivity(), adapter.getSelectedId(), Toast.LENGTH_SHORT).show();
+                
+                updateCampaign(selectedPlaceId);
                 break;
         }
     }
 	
 	/**
-	 * 监听所有onActivityResult事件
-	 */
-	@Override
+     * 监听所有onActivityResult事件
+     */
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    // 添加钓点返回
+        // 添加钓点返回
         if (requestCode == Constant.REQUEST_CODE_ADD_PLACE && resultCode == Activity.RESULT_OK) {
             if (data.getExtras().containsKey(AddPlaceActivity.PLACE_ID)) {
                 String placeId = data.getExtras().getString(AddPlaceActivity.PLACE_ID);
@@ -96,6 +97,44 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
             initPlaceListView(null);
         }
     }
+
+	/**
+     * 取得选中的钓位
+     */
+    private String getSelectedPlaceId() {
+        ListView listViewPlace = (ListView)tab2View.findViewById(R.id.listViewPlace);
+        PlaceArrayAdapter adapter = (PlaceArrayAdapter)listViewPlace.getAdapter();
+        return adapter.getSelectedId();
+    }
+    
+    /**
+     * 更新前check
+     */
+    private boolean checkIsFail(String selectedPlaceId) {
+        boolean ret = false;
+        if (addMainActivity.getCampaignId() == 0) {
+            Toast.makeText(getActivity(), "请先保存时间!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        if ("".equals(selectedPlaceId)) {
+            Toast.makeText(getActivity(), "请选择钓位!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        
+        return ret;
+    }
+    
+	/**
+	 * 更新钓位
+	 */
+    private void updateCampaign(String selectedPlaceId) {
+        Campaign campaign = dataSource.getCampaignById(String.valueOf(addMainActivity.getCampaignId()));
+        campaign.setPlaceId(selectedPlaceId);
+        dataSource.updateCampaign(campaign);
+    }
+	
+	
 	
 	/**
 	 * 初始化钓点listview
@@ -156,9 +195,21 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
             this.context = context;
             this.list = list;
         }
+        
+        /**
+         * 取得选中raidobutton对应的ID
+         * @return
+         */
+        public String getSelectedId() {
+            String retId = "";
+            for (Place p : list) {
+                if (p.isSelected()) {
+                    retId = p.getId();
+                    return retId;
+                }
+            }
 
-        public int getCount() {
-            return list.size();
+            return retId;
         }
 
         class ViewHolder {
@@ -176,23 +227,52 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
 
                 viewHolder.textPlaceTitle = (TextView)view.findViewById(R.id.textViewPlaceTitle);
                 viewHolder.radio = (RadioButton)view.findViewById(R.id.placeRadio);
+                // radio事件
                 addRadioButtonOnCheckedChangeListener(viewHolder);
 
                 view.setTag(viewHolder);
                 viewHolder.radio.setTag(list.get(position));
 
                 LinearLayout contentLayout = (LinearLayout)view.findViewById(R.id.col1Layout);
+                // 内容单击事件->详细页面
                 addContentLayoutOnClickListener(viewHolder, contentLayout);
+                // 内容长按事件->编辑页面，删除
                 addContentLayoutOnLongClickListener(viewHolder, contentLayout);
 
             } else {
                 view = convertView;
                 ((ViewHolder)view.getTag()).radio.setTag(list.get(position));
             }
+            
             ViewHolder holder = (ViewHolder)view.getTag();
             holder.textPlaceTitle.setText(list.get(position).getTitle());
             holder.radio.setChecked(list.get(position).isSelected());
             return view;
+        }
+        
+        /**
+         * 监听raidobutton选中变更事件
+         * @param viewHolder
+         */
+        private void addRadioButtonOnCheckedChangeListener(
+                final ViewHolder viewHolder) {
+            viewHolder.radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView,
+                        boolean isChecked) {
+                    // 画面状态更新到bean中
+                    Place element = (Place)viewHolder.radio.getTag();
+                    element.setSelected(buttonView.isChecked());
+
+                    // 取消前一次选中
+                    if (mSelectedRB != null) {
+                        mSelectedRB.setChecked(false);
+                    }
+
+                    mSelectedRB = (RadioButton)buttonView;
+                }
+            });
         }
 
         /**
@@ -299,47 +379,13 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
                 }
             });
         }
+        
 
-        /**
-         * 监听raidobutton选中变更事件
-         * @param viewHolder
-         */
-        private void addRadioButtonOnCheckedChangeListener(
-                final ViewHolder viewHolder) {
-            viewHolder.radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView,
-                        boolean isChecked) {
-                    // 画面状态更新到bean中
-                    Place element = (Place)viewHolder.radio.getTag();
-                    element.setSelected(buttonView.isChecked());
-
-                    // 取消前一次选中
-                    if (mSelectedRB != null) {
-                        mSelectedRB.setChecked(false);
-                    }
-
-                    mSelectedRB = (RadioButton)buttonView;
-                }
-            });
+        public int getCount() {
+            return list.size();
         }
 
-        /**
-         * 取得选中raidobutton对应的ID
-         * @return
-         */
-        public String getSelectedId() {
-            String retId = "";
-            for (Place p : list) {
-                if (p.isSelected()) {
-                    retId = p.getId();
-                    return retId;
-                }
-            }
-
-            return retId;
-        }
+        
 
     }
 
