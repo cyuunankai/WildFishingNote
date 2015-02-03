@@ -217,39 +217,44 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
             protected RadioButton radio;
         }
 
+        /**
+         * convertView -> viewHolder -> UI
+         */
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = null;
+            final ViewHolder viewHolder;
             if (convertView == null) {
-                LayoutInflater inflator = context.getLayoutInflater();
-                view = inflator.inflate(R.layout.activity_place_listview_each_item, null);
-                final ViewHolder viewHolder = new ViewHolder();
+                viewHolder = new ViewHolder();
+            } else {
+                viewHolder = (ViewHolder)convertView.getTag();
+            }
+            // 保存bean值到UI tag 
+            // 响应事件取得对应item值
+            viewHolder.radio.setTag(list.get(position));
 
-                viewHolder.textPlaceTitle = (TextView)view.findViewById(R.id.textViewPlaceTitle);
-                viewHolder.radio = (RadioButton)view.findViewById(R.id.placeRadio);
+            if (convertView == null) {
+                // 添加UI到convertView
+                convertView = context.getLayoutInflater().inflate(R.layout.activity_place_listview_each_item, null);
+                viewHolder.textPlaceTitle = (TextView)convertView.findViewById(R.id.textViewPlaceTitle);
+                viewHolder.radio = (RadioButton)convertView.findViewById(R.id.placeRadio);
+                convertView.setTag(viewHolder);
+
                 // radio事件
                 addRadioButtonOnCheckedChangeListener(viewHolder);
-
-                view.setTag(viewHolder);
-                viewHolder.radio.setTag(list.get(position));
-
-                LinearLayout contentLayout = (LinearLayout)view.findViewById(R.id.col1Layout);
                 // 内容单击事件->详细页面
-                addContentLayoutOnClickListener(viewHolder, contentLayout);
+                addContentLayoutOnClickListener(viewHolder, convertView);
                 // 内容长按事件->编辑页面，删除
-                addContentLayoutOnLongClickListener(viewHolder, contentLayout);
-
-            } else {
-                view = convertView;
-                ((ViewHolder)view.getTag()).radio.setTag(list.get(position));
+                addContentLayoutOnLongClickListener(viewHolder, convertView);
             }
-            
-            ViewHolder holder = (ViewHolder)view.getTag();
+
+            // UI显示bean中值
+            ViewHolder holder = (ViewHolder)convertView.getTag();
             holder.textPlaceTitle.setText(list.get(position).getTitle());
             holder.radio.setChecked(list.get(position).isSelected());
-            return view;
+
+            return convertView;
         }
-        
+
         /**
          * 监听raidobutton选中变更事件
          * @param viewHolder
@@ -280,8 +285,9 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
          * @param viewHolder
          * @param contentLayout
          */
-        private void addContentLayoutOnLongClickListener(
-                final ViewHolder viewHolder, LinearLayout contentLayout) {
+        private void addContentLayoutOnLongClickListener(final ViewHolder viewHolder, View convertView) {
+            
+            LinearLayout contentLayout = (LinearLayout)convertView.findViewById(R.id.col1Layout);
             contentLayout.setOnLongClickListener(new View.OnLongClickListener() {
 
                 @Override
@@ -366,8 +372,9 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
          * @param viewHolder
          * @param contentLayout
          */
-        private void addContentLayoutOnClickListener(
-                final ViewHolder viewHolder, LinearLayout contentLayout) {
+        private void addContentLayoutOnClickListener(final ViewHolder viewHolder, View convertView) {
+            
+            LinearLayout contentLayout = (LinearLayout)convertView.findViewById(R.id.col1Layout);
             contentLayout.setOnClickListener(new OnClickListener() {
 
                 @Override
