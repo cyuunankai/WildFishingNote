@@ -34,15 +34,20 @@
     <string name="title_activity_place_detail">钓位信息</string>
     <string name="add">添加</string>
     <string name="title_activity_add_place">AddPlaceActivity</string>
-    <string name="add_place_title_hint">标题，要求简短</string>    
+    <string name="add_place_title_hint">标题，要求简短</string>
     <string name="add_place_detail_hint">详细描述</string>
     <string name="add_place_pick_pic">添加钓位图片</string>
     <string name="confirm">确定</string>
     <string name="place_detail_title">钓位标题:</string>
     <string name="place_detail_detail">钓位详细:</string>
     <string name="place_detail_image">钓位图片:</string>
-    
-    
-    
+    <string name="title_activity_add_point">AddPointActivity</string>
+    <string name="title_activity_point_detail">PointDetailActivity</string>
+    <string name="depth_hint">水深 单位:米</string>
+    <string name="bait_name_hint">饵料标题</string>
+    <string name="bait_detail_hint">饵料详细</string>
+    <string name="lure_method_name_hint">打窝标题</string>
+    <string name="lure_method_detail_hint">打窝详细</string>
+    <string name="rod_length_name_hint">竿长 单位:米</string>
 
 </resources>

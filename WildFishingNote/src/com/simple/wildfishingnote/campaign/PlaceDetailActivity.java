@@ -1,4 +1,4 @@
-package com.simple.wildfishingnote.place;
+package com.simple.wildfishingnote.campaign;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;

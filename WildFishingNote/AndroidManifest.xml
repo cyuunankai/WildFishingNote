@@ -9,7 +9,7 @@
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -47,14 +47,14 @@
         </activity>
         <activity
             android:name=".AddMainActivity"
-            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_add_main"
-            android:uiOptions="splitActionBarWhenNarrow" >
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="campaigntabs.Tab1Activity"
-            android:windowSoftInputMode="adjustPan"
-            android:label="title_activity_tab1" >
+            android:label="title_activity_tab1"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="campaigntabs.Tab2Activity"
@@ -77,12 +77,20 @@
             android:label="@string/title_activity_calendar_dailog" >
         </activity>
         <activity
-            android:name="com.simple.wildfishingnote.place.PlaceDetailActivity"
+            android:name="com.simple.wildfishingnote.campaign.PlaceDetailActivity"
             android:label="@string/title_activity_place_detail" >
         </activity>
         <activity
-            android:name="com.simple.wildfishingnote.place.AddPlaceActivity"
+            android:name="com.simple.wildfishingnote.campaign.AddPlaceActivity"
             android:label="@string/title_activity_add_place" >
+        </activity>
+        <activity
+            android:name=".AddPointActivity"
+            android:label="@string/title_activity_add_point" >
+        </activity>
+        <activity
+            android:name=".PointDetailActivity"
+            android:label="@string/title_activity_point_detail" >
         </activity>
     </application>
 

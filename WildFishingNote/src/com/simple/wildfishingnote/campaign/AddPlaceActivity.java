@@ -1,4 +1,4 @@
-package com.simple.wildfishingnote.place;
+package com.simple.wildfishingnote.campaign;
 
 import org.holoeverywhere.widget.Toast;
 
@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ViewSwitcher;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.luminous.pick.Action;
 import com.luminous.pick.GalleryAdapter;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -44,8 +45,8 @@ public class AddPlaceActivity extends ActionBarActivity {
     
     public final static String PLACE_ID = "placeId"; 
     private CampaignDataSource dataSourceCampaign;
-    String globalPlaceId;
-    
+    String globalPlaceId;   
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +80,8 @@ public class AddPlaceActivity extends ActionBarActivity {
      */
     private void initEdit() {
         Place place = dataSourceCampaign.getPlaceById(globalPlaceId);
-        EditText etTitle = (EditText) findViewById(R.id.addPlaceTitle);
-        EditText etDetail = (EditText) findViewById(R.id.addPlaceDetail);
+        BootstrapEditText etTitle = (BootstrapEditText) findViewById(R.id.addPlaceTitle);
+        BootstrapEditText etDetail = (BootstrapEditText) findViewById(R.id.addPlaceDetail);
         etTitle.setText(place.getTitle());
         etDetail.setText(place.getDetail());
         

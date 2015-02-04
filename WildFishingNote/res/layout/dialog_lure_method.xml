@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    
+<com.beardedhen.androidbootstrap.BootstrapEditText
+	            android:id="@+id/lureMethodName"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_margin="8dp"
+	            android:hint="@string/lure_method_name_hint" 
+	            bootstrapbutton:be_roundedCorners="true"
+	            bootstrapbutton:be_state="success" />
+
+    
+<com.beardedhen.androidbootstrap.BootstrapEditText
+	            android:id="@+id/lureMethodDetail"
+	            android:layout_width="match_parent"
+	            android:layout_height="100dp"
+	            android:layout_margin="8dp"
+	            android:hint="@string/lure_method_detail_hint" 
+	            bootstrapbutton:be_roundedCorners="true"
+	            bootstrapbutton:be_state="success"
+	            android:gravity="left|top"
+	       		android:inputType="textMultiLine" />
+
+</LinearLayout>

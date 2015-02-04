@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+<com.beardedhen.androidbootstrap.BootstrapEditText
+	            android:id="@+id/baitName"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_margin="8dp"
+	            android:hint="@string/bait_name_hint" 
+	            bootstrapbutton:be_roundedCorners="true"
+	            bootstrapbutton:be_state="success" />
+
+    
+<com.beardedhen.androidbootstrap.BootstrapEditText
+	            android:id="@+id/baitDetail"
+	            android:layout_width="match_parent"
+	            android:layout_height="100dp"
+	            android:layout_margin="8dp"
+	            android:hint="@string/bait_detail_hint" 
+	            bootstrapbutton:be_roundedCorners="true"
+	            bootstrapbutton:be_state="success"
+	            android:gravity="left|top"
+	       		android:inputType="textMultiLine" />
+
+</LinearLayout>

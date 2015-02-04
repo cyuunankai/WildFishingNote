@@ -30,10 +30,10 @@ import com.simple.wildfishingnote.AddMainActivity;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.Campaign;
 import com.simple.wildfishingnote.bean.Place;
+import com.simple.wildfishingnote.campaign.AddPlaceActivity;
+import com.simple.wildfishingnote.campaign.PlaceDetailActivity;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
-import com.simple.wildfishingnote.place.AddPlaceActivity;
-import com.simple.wildfishingnote.place.PlaceDetailActivity;
 
 public class Tab2Fragment extends Fragment implements OnClickListener {
 	private View tab2View;
