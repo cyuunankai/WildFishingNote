@@ -45,6 +45,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	            WildFishingContract.Points.COLUMN_NAME_BAIT_ID + INTEGER_TYPE +  
         " )";
     
+    // relay_campaign_point
+    private static final String SQL_CREATE_RELAY_CAMPAIGN_POINTS =
+        "CREATE TABLE " + WildFishingContract.RelayCampaignPoints.TABLE_NAME + " (" +
+                WildFishingContract.RelayCampaignPoints._ID + " INTEGER PRIMARY KEY," +
+                WildFishingContract.RelayCampaignPoints.COLUMN_NAME_CAMPAIGN_ID + INTEGER_TYPE +  COMMA_SEP +
+                WildFishingContract.RelayCampaignPoints.COLUMN_NAME_POINT_ID + INTEGER_TYPE +  
+        " )";
+    
     // 竿长
     private static final String SQL_CREATE_ROD_LENGTHS =
             "CREATE TABLE " + WildFishingContract.RodLengths.TABLE_NAME + " (" +
@@ -76,6 +84,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       database.execSQL(SQL_CREATE_CAMPAINGS);
       database.execSQL(SQL_CREATE_PLACES);
       database.execSQL(SQL_CREATE_POINTS);
+      database.execSQL(SQL_CREATE_RELAY_CAMPAIGN_POINTS);
       database.execSQL(SQL_CREATE_ROD_LENGTHS);
       database.execSQL(SQL_CREATE_LURE_METHODS);
       database.execSQL(SQL_CREATE_BAITS);
@@ -89,6 +98,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Campaigns.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Places.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Points.TABLE_NAME);
+      db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.RelayCampaignPoints.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.RodLengths.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.LureMethods.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Baits.TABLE_NAME);

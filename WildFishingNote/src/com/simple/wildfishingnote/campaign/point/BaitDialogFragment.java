@@ -1,4 +1,4 @@
-package com.simple.wildfishingnote.campaign;
+package com.simple.wildfishingnote.campaign.point;
 
 import android.app.Activity;
 import android.app.AlertDialog;

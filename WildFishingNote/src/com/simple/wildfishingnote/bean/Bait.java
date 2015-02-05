@@ -24,4 +24,8 @@ public class Bait {
 		this.detail = detail;
 	}
 	
+    public String toString() {
+        return name;
+    }
+	
 }

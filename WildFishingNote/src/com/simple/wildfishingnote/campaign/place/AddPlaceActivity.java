@@ -1,4 +1,4 @@
-package com.simple.wildfishingnote.campaign;
+package com.simple.wildfishingnote.campaign.place;
 
 import org.holoeverywhere.widget.Toast;
 

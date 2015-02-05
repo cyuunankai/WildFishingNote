@@ -30,8 +30,8 @@ import com.simple.wildfishingnote.AddMainActivity;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.Campaign;
 import com.simple.wildfishingnote.bean.Place;
-import com.simple.wildfishingnote.campaign.AddPlaceActivity;
-import com.simple.wildfishingnote.campaign.PlaceDetailActivity;
+import com.simple.wildfishingnote.campaign.place.AddPlaceActivity;
+import com.simple.wildfishingnote.campaign.place.PlaceDetailActivity;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 
@@ -84,7 +84,7 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // 添加钓点返回
+        // 添加钓位返回
         if (requestCode == Constant.REQUEST_CODE_ADD_PLACE && resultCode == Activity.RESULT_OK) {
             if (data.getExtras().containsKey(AddPlaceActivity.PLACE_ID)) {
                 String placeId = data.getExtras().getString(AddPlaceActivity.PLACE_ID);
@@ -92,7 +92,7 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
             }
         }
         
-        // 编辑钓点返回
+        // 编辑钓位返回
         if (requestCode == Constant.REQUEST_CODE_EDIT_PLACE && resultCode == Activity.RESULT_OK) {
             initPlaceListView(null);
         }
@@ -137,7 +137,7 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
 	
 	
 	/**
-	 * 初始化钓点listview
+	 * 初始化钓位listview
 	 * @param placeId  是null，list中都不选中
 	 *        placeId 不是null，list有选中值
 	 */
@@ -153,7 +153,7 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
     }
 
 	/**
-	 * 根据ID选中钓点
+	 * 根据ID选中钓位
 	 */
     private void selectedPlaceById(String placeId, List<Place> list) {
         if (placeId != null) {

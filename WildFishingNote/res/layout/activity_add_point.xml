@@ -28,7 +28,7 @@
         
     	            <com.beardedhen.androidbootstrap.BootstrapButton
 	                android:id="@+id/addPointAddRodLenghtBtn"
-	                android:layout_width="30dp"
+	                android:layout_width="80dp"
 	                android:layout_height="wrap_content"
 	                android:layout_margin="8dp"
 	                android:text="@string/add"
@@ -51,7 +51,7 @@
         
         <com.beardedhen.androidbootstrap.BootstrapButton
 	                android:id="@+id/addPointAddLureMethodBtn"
-	                android:layout_width="30dp"
+	                android:layout_width="80dp"
 	                android:layout_height="wrap_content"
 	                android:layout_margin="8dp"
 	                android:text="@string/add"
@@ -72,7 +72,7 @@
         android:layout_margin="8dp"  />
 <com.beardedhen.androidbootstrap.BootstrapButton
 	                android:id="@+id/addPointAddBaitBtn"
-	                android:layout_width="30dp"
+	                android:layout_width="80dp"
 	                android:layout_height="wrap_content"
 	                android:layout_margin="8dp"
 	                android:text="@string/add"
@@ -96,7 +96,7 @@
 
 
 <LinearLayout
-    android:id="@+id/buttonsLayoutAddPlace"
+    android:id="@+id/buttonsLayoutAddPoint"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"

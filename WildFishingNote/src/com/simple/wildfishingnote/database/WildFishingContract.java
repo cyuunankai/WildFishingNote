@@ -37,6 +37,13 @@ public class WildFishingContract {
          public static final String COLUMN_NAME_BAIT_ID = "bait_id";
      }
  	
+ 	// 活动_钓点关系表
+    public static abstract class RelayCampaignPoints implements BaseColumns {
+         public static final String TABLE_NAME = "relay_campaign_points";
+         public static final String COLUMN_NAME_CAMPAIGN_ID = "campaign_id";
+         public static final String COLUMN_NAME_POINT_ID = "point_id";
+     }
+ 	
  	// 竿长
  	public static abstract class RodLengths implements BaseColumns {
          public static final String TABLE_NAME = "rod_lengths";

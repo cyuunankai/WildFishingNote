@@ -23,4 +23,8 @@ public class LureMethod {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
+	
+    public String toString() {
+        return name;
+    }
 }

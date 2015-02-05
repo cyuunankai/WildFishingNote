@@ -4,6 +4,7 @@ public class RodLength {
 
 	String id;
 	String name;
+	
 	public String getId() {
 		return id;
 	}
@@ -16,4 +17,8 @@ public class RodLength {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+    public String toString() {
+        return name;
+    }
 }

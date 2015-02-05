@@ -1,0 +1,116 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:padding="6dip">
+<LinearLayout android:id = "@+id/col1Layout"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_weight="1"
+    android:layout_height="70dp">
+    
+    <LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    
+    <TextView
+    	android:layout_width="0dp"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="0.1"
+	    android:hint="@string/depth"
+	    android:singleLine="true"
+		/>
+		
+    <TextView
+	    android:id="@+id/textViewDepthEachItem"
+	    android:layout_width="0dp"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="0.4"
+	    android:singleLine="true"
+		/>
+    
+    <TextView
+    	android:layout_width="0dp"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="0.1"
+	    android:hint="@string/rod_length"
+	    android:singleLine="true"
+		/>
+		
+	<TextView
+        android:id="@+id/textViewRodLengthEachItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.4"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:layout_alignParentRight="true"
+		/>
+    
+    
+	</LinearLayout>
+	
+    <LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+    	android:layout_width="0dp"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="0.1"
+	    android:hint="@string/lure_method"
+	    android:singleLine="true"
+		/>
+    <TextView
+        android:id="@+id/textViewLureMethodEachItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.9"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        />
+    </LinearLayout>   
+    <LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">  
+    <TextView
+    	android:layout_width="0dp"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="0.1"
+	    android:hint="@string/bait"
+	    android:singleLine="true"
+		/>   
+    <TextView
+        android:id="@+id/textViewBaitEachItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.9"
+        android:singleLine="true"
+        />
+    </LinearLayout>   
+    
+</LinearLayout>    
+	
+<LinearLayout android:id = "@+id/col2Layout"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    
+	<CheckBox
+        android:id="@+id/checkEachItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="4px"
+        android:layout_marginRight="10px" 
+        >
+    </CheckBox>
+    
+    
+</LinearLayout>
+
+
+</LinearLayout>

@@ -77,19 +77,19 @@
             android:label="@string/title_activity_calendar_dailog" >
         </activity>
         <activity
-            android:name="com.simple.wildfishingnote.campaign.PlaceDetailActivity"
+            android:name="com.simple.wildfishingnote.campaign.place.PlaceDetailActivity"
             android:label="@string/title_activity_place_detail" >
         </activity>
         <activity
-            android:name="com.simple.wildfishingnote.campaign.AddPlaceActivity"
+            android:name="com.simple.wildfishingnote.campaign.place.AddPlaceActivity"
             android:label="@string/title_activity_add_place" >
         </activity>
         <activity
-            android:name=".AddPointActivity"
+            android:name="com.simple.wildfishingnote.campaign.point.AddPointActivity"
             android:label="@string/title_activity_add_point" >
         </activity>
         <activity
-            android:name=".PointDetailActivity"
+            android:name="com.simple.wildfishingnote.campaign.point.PointDetailActivity"
             android:label="@string/title_activity_point_detail" >
         </activity>
     </application>

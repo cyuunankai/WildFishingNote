@@ -1,4 +1,4 @@
-package com.simple.wildfishingnote.campaign;
+package com.simple.wildfishingnote.campaign.place;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -14,17 +14,16 @@ import com.simple.wildfishingnote.database.CampaignDataSource;
 
 public class PlaceDetailActivity extends ActionBarActivity {
 
-    private CampaignDataSource dataSourceCampaign;
-    
-	public static final String ID = "id";
+    public static final String ID = "id";
+    private CampaignDataSource dataSource;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_place_detail);
 		
-		dataSourceCampaign = new CampaignDataSource(this);
-        dataSourceCampaign.open();
+		dataSource = new CampaignDataSource(this);
+        dataSource.open();
 		
 		Intent intent = getIntent();
 		String placeId = intent.getStringExtra(ID);
@@ -32,7 +31,7 @@ public class PlaceDetailActivity extends ActionBarActivity {
 	}
 
     private void initPlaceDetail(String placeId) {
-        Place place = dataSourceCampaign.getPlaceById(placeId);
+        Place place = dataSource.getPlaceById(placeId);
         
         BootstrapEditText etTextTitle = (BootstrapEditText) findViewById(R.id.placeDetailTitle);
         BootstrapEditText etTextDetail = (BootstrapEditText) findViewById(R.id.placeDetailDetail);
@@ -50,13 +49,13 @@ public class PlaceDetailActivity extends ActionBarActivity {
 	
 	@Override
     protected void onResume() {
-      dataSourceCampaign.open();
+      dataSource.open();
       super.onResume();
     }
 
     @Override
     protected void onPause() {
-      dataSourceCampaign.close();
+      dataSource.close();
       super.onPause();
     }
 

@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,9 +9,43 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.android.apis.app.Tab3Activity" >
 
-    <TextView
-        android:layout_width="wrap_content"
+	<ListView
+        android:id="@+id/listViewPoint"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="tab3" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_above = "@+id/buttonsLayoutPoint" >
+    </ListView>
+    
+    <LinearLayout
+    android:id="@+id/buttonsLayoutPoint"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal" >
+
+	<com.beardedhen.androidbootstrap.BootstrapButton
+				    android:id="@+id/buttonAddPoint"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.5"
+	                android:layout_margin="8dp"
+	                android:text="@string/add"
+	                bootstrapbutton:bb_icon_left="fa-undo"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
+	
+	            <com.beardedhen.androidbootstrap.BootstrapButton
+	                android:id="@+id/buttonSavePoint"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.5"
+	                android:layout_margin="8dp"
+	                android:text="@string/save"
+	                bootstrapbutton:bb_icon_left="fa-floppy-o"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
+</LinearLayout>
 
 </RelativeLayout>

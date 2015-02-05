@@ -2,15 +2,28 @@ package com.simple.wildfishingnote.bean;
 
 public class Point {
 	String id;
-	String placeId;
 	String rodLengthId;
 	String rodLengthName;
 	String depth;
 	String lureMethodId;
 	String lureMethodName;
+	String lureMethodDetail;
 	String baitId;
 	String baitName;
-	boolean selected;
+	String baitDetail;
+	public String getLureMethodDetail() {
+        return lureMethodDetail;
+    }
+    public void setLureMethodDetail(String lureMethodDetail) {
+        this.lureMethodDetail = lureMethodDetail;
+    }
+    public String getBaitDetail() {
+        return baitDetail;
+    }
+    public void setBaitDetail(String baitDetail) {
+        this.baitDetail = baitDetail;
+    }
+    boolean selected;
 	
 	public boolean isSelected() {
 		return selected;
@@ -41,13 +54,6 @@ public class Point {
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getPlaceId() {
-		return placeId;
-	}
-	public void setPlaceId(String placeId) {
-		this.placeId = placeId;
 	}
 	public String getRodLengthId() {
 		return rodLengthId;

@@ -14,6 +14,7 @@ import com.simple.wildfishingnote.bean.Campaign;
 import com.simple.wildfishingnote.bean.LureMethod;
 import com.simple.wildfishingnote.bean.Place;
 import com.simple.wildfishingnote.bean.Point;
+import com.simple.wildfishingnote.bean.RelayCampaignPoint;
 import com.simple.wildfishingnote.bean.RodLength;
 
 public class CampaignDataSource {
@@ -32,11 +33,14 @@ public class CampaignDataSource {
 			WildFishingContract.Places.COLUMN_NAME_FILE_NAME };
     
     private String[] pointAllColumns = { WildFishingContract.Points._ID,
-			WildFishingContract.Points.COLUMN_NAME_PLACE_ID,
 			WildFishingContract.Points.COLUMN_NAME_ROD_LENGTH_ID,
 			WildFishingContract.Points.COLUMN_NAME_DEPTH,
 			WildFishingContract.Points.COLUMN_NAME_LURE_METHOD_ID,
 			WildFishingContract.Points.COLUMN_NAME_BAIT_ID};
+    
+    private String[] relayCampaignPointAllColumns = { WildFishingContract.RelayCampaignPoints._ID,
+            WildFishingContract.RelayCampaignPoints.COLUMN_NAME_CAMPAIGN_ID,
+            WildFishingContract.RelayCampaignPoints.COLUMN_NAME_POINT_ID };
     
     private String[] rodLengthAllColumns = { WildFishingContract.RodLengths._ID,
 			WildFishingContract.RodLengths.COLUMN_NAME_NAME };
@@ -259,7 +263,6 @@ public class CampaignDataSource {
 	public Point addPoint(Point point) {
     	
     	ContentValues values = new ContentValues();
-    	values.put(WildFishingContract.Points.COLUMN_NAME_PLACE_ID, point.getPlaceId());
     	values.put(WildFishingContract.Points.COLUMN_NAME_ROD_LENGTH_ID, point.getRodLengthId());
     	values.put(WildFishingContract.Points.COLUMN_NAME_DEPTH, point.getDepth());
     	values.put(WildFishingContract.Points.COLUMN_NAME_LURE_METHOD_ID, point.getLureMethodId());
@@ -278,7 +281,6 @@ public class CampaignDataSource {
 	public Point updatePoint(Point point) {
     	
     	ContentValues values = new ContentValues();
-    	values.put(WildFishingContract.Points.COLUMN_NAME_PLACE_ID, point.getPlaceId());
     	values.put(WildFishingContract.Points.COLUMN_NAME_ROD_LENGTH_ID, point.getRodLengthId());
     	values.put(WildFishingContract.Points.COLUMN_NAME_DEPTH, point.getDepth());
     	values.put(WildFishingContract.Points.COLUMN_NAME_LURE_METHOD_ID, point.getLureMethodId());
@@ -308,17 +310,19 @@ public class CampaignDataSource {
 	}
 
 	public Point getPointById(String rowId) {
-		String selection = WildFishingContract.Points._ID + " = ? ";
-		String[] selelectionArgs = { rowId };
+	    StringBuffer  sb = new StringBuffer();
+        sb.append("SELECT p._id,p.depth, ");
+        sb.append(" rl._id AS rl_id,rl.name AS rod_length_name, ");
+        sb.append(" lm._id AS lm_id,lm.name AS lure_method_name,lm.detail AS lure_method_detail, ");
+        sb.append(" b._id AS b_id,b.name AS bait_name, b.detail AS bait_detail ");
+        sb.append("FROM points p  ");
+        sb.append("INNER JOIN rod_lengths rl ON p.rod_length_id=rl._id ");
+        sb.append("INNER JOIN lure_methods lm ON p.lure_method_id=lm._id ");
+        sb.append("INNER JOIN baits b ON p.bait_id=b._id ");
+        sb.append(" WHERE p._id=?");
 
-		Cursor c = database.query(WildFishingContract.Points.TABLE_NAME, // The table to query
-				pointAllColumns, // The columns to return
-				selection, // The columns for the WHERE clause
-				selelectionArgs, // The values for the WHERE clause
-				null, // don't group the rows
-				null, // don't filter by row groups
-				null // The sort order
-				);
+        
+        Cursor c = database.rawQuery(sb.toString(), new String[]{rowId});
 
 		c.moveToFirst();
 		Point point = cursorToPoint(c);
@@ -327,50 +331,148 @@ public class CampaignDataSource {
 		return point;
 	}
 	
-	public List<Point> getPointsForList(String placeId) {
-		List<Point> list = new ArrayList<Point>();
-		
-		StringBuffer  sb = new StringBuffer();
-		sb.append("SELECT p._id,p.depth,rl._id AS rl_id,rl.name AS rod_length_name,lm._id AS lm_id,lm.name AS lure_method_name,b._id AS b_id,b.name AS bait_name ");
-		sb.append("FROM points p  ");
-		sb.append("INNER JOIN rod_lengths rl ON p.rod_length_id=rl._id ");
-		sb.append("INNER JOIN lure_methods lm ON p.lure_method_id=lm._id ");
-		sb.append("INNER JOIN baits b ON p.bait_id=b._id ");
-		sb.append(" WHERE p.place_id=?");
+	public List<Point> getAllPoints() {
+	        List<Point> list = new ArrayList<Point>();
+	        
+	        StringBuffer  sb = new StringBuffer();
+	        sb.append("SELECT p._id,p.depth, ");
+	        sb.append(" rl._id AS rl_id,rl.name AS rod_length_name, ");
+	        sb.append(" lm._id AS lm_id,lm.name AS lure_method_name,lm.detail AS lure_method_detail, ");
+	        sb.append(" b._id AS b_id,b.name AS bait_name, b.detail AS bait_detail ");
+	        sb.append("FROM points p  ");
+	        sb.append("INNER JOIN rod_lengths rl ON p.rod_length_id=rl._id ");
+	        sb.append("INNER JOIN lure_methods lm ON p.lure_method_id=lm._id ");
+	        sb.append("INNER JOIN baits b ON p.bait_id=b._id ");
 
-		
-		Cursor c = database.rawQuery(sb.toString(), new String[]{String.valueOf(placeId)});
-		
-		c.moveToFirst();
-		while(!c.isAfterLast()){
-			Point point = new Point();
-			point.setId(c.getString(c.getColumnIndex(WildFishingContract.Points._ID)));
-			point.setDepth(c.getString(c.getColumnIndex(WildFishingContract.Points.COLUMN_NAME_DEPTH)));
-			point.setRodLengthId(c.getString(c.getColumnIndex("rl_id")));
-			point.setRodLengthName(c.getString(c.getColumnIndex("rod_length_name")));
-			point.setLureMethodId(c.getString(c.getColumnIndex("lm_id")));
-			point.setLureMethodName(c.getString(c.getColumnIndex("lure_method_name")));
-			point.setBaitId(c.getString(c.getColumnIndex("b_id")));
-			point.setBaitName(c.getString(c.getColumnIndex("bait_name")));
-		
-			list.add(point);
-			c.moveToNext();
-		}
-		c.close();
-		
-		return list;
-	}
+	        
+	        Cursor c = database.rawQuery(sb.toString(), new String[]{});
+	        
+	        c.moveToFirst();
+	        while(!c.isAfterLast()){
+	            Point point = cursorToPoint(c);
+	        
+	            list.add(point);
+	            c.moveToNext();
+	        }
+	        c.close();
+	        
+	        return list;
+	    }
+	
+//	public List<Point> getPointsForList(String placeId) {
+//		List<Point> list = new ArrayList<Point>();
+//		
+//		StringBuffer  sb = new StringBuffer();
+//		sb.append("SELECT p._id,p.depth, ");
+//        sb.append(" rl._id AS rl_id,rl.name AS rod_length_name, ");
+//        sb.append(" lm._id AS lm_id,lm.name AS lure_method_name,lm.detail AS lure_method_detail, ");
+//        sb.append(" b._id AS b_id,b.name AS bait_name, b.detail AS bait_detail ");
+//        sb.append("FROM points p  ");
+//        sb.append("INNER JOIN rod_lengths rl ON p.rod_length_id=rl._id ");
+//        sb.append("INNER JOIN lure_methods lm ON p.lure_method_id=lm._id ");
+//        sb.append("INNER JOIN baits b ON p.bait_id=b._id ");
+//		sb.append(" WHERE p.place_id=?");
+//
+//		
+//		Cursor c = database.rawQuery(sb.toString(), new String[]{String.valueOf(placeId)});
+//		
+//		c.moveToFirst();
+//		while(!c.isAfterLast()){
+//			Point point = cursorToPoint(c);
+//		
+//			list.add(point);
+//			c.moveToNext();
+//		}
+//		c.close();
+//		
+//		return list;
+//	}
 	
 	private Point cursorToPoint(Cursor c) {
 		Point point = new Point();
 		point.setId(c.getString(c.getColumnIndex(WildFishingContract.Points._ID)));
-		point.setPlaceId(c.getString(c.getColumnIndex(WildFishingContract.Points.COLUMN_NAME_PLACE_ID)));
-		point.setRodLengthId(c.getString(c.getColumnIndex(WildFishingContract.Points.COLUMN_NAME_ROD_LENGTH_ID)));
-		point.setDepth(c.getString(c.getColumnIndex(WildFishingContract.Points.COLUMN_NAME_DEPTH)));
-		point.setLureMethodId(c.getString(c.getColumnIndex(WildFishingContract.Points.COLUMN_NAME_LURE_METHOD_ID)));
-		point.setBaitId(c.getString(c.getColumnIndex(WildFishingContract.Points.COLUMN_NAME_BAIT_ID)));
+        point.setDepth(c.getString(c.getColumnIndex(WildFishingContract.Points.COLUMN_NAME_DEPTH)));
+        point.setRodLengthId(c.getString(c.getColumnIndex("rl_id")));
+        point.setRodLengthName(c.getString(c.getColumnIndex("rod_length_name")));
+        point.setLureMethodId(c.getString(c.getColumnIndex("lm_id")));
+        point.setLureMethodName(c.getString(c.getColumnIndex("lure_method_name")));
+        point.setLureMethodDetail(c.getString(c.getColumnIndex("lure_method_detail")));
+        point.setBaitId(c.getString(c.getColumnIndex("b_id")));
+        point.setBaitName(c.getString(c.getColumnIndex("bait_name")));
+        point.setBaitDetail(c.getString(c.getColumnIndex("bait_detail")));
 		return point;
 	}
+	
+	
+    // 活动钓点关系
+    
+    public void addRelayCampaignPoint(String campaignId, List<String> pointIdList) {
+
+        for (String pointId : pointIdList) {
+            ContentValues values = new ContentValues();
+            values.put(WildFishingContract.RelayCampaignPoints.COLUMN_NAME_CAMPAIGN_ID, campaignId);
+            values.put(WildFishingContract.RelayCampaignPoints.COLUMN_NAME_POINT_ID, pointId);
+
+            // Insert the new row, returning the primary key value of the new row
+            database.insert(
+                    WildFishingContract.RelayCampaignPoints.TABLE_NAME,
+                    null,
+                    values);
+        }
+    }
+    
+    public void updateRelayCampaignPoint(String campaignId, List<String> pointIdList) {
+        
+        deleteRelayCampaignPoint(campaignId);
+        addRelayCampaignPoint(campaignId, pointIdList);
+    }
+    
+    public void deleteRelayCampaignPoint(String campaignId) {
+        
+        String selection = WildFishingContract.RelayCampaignPoints._ID + " = ? ";
+        String[] selelectionArgs = { campaignId };
+
+        database.delete(
+                 WildFishingContract.RelayCampaignPoints.TABLE_NAME,
+                 selection,
+                 selelectionArgs);
+    }
+
+    public List<String> getPointIdListByCampaignId(String campaignId) {
+        List<String> retList = new ArrayList<String>();
+
+        String selection = WildFishingContract.RelayCampaignPoints.COLUMN_NAME_CAMPAIGN_ID + " = ? ";
+        String[] selelectionArgs = {campaignId};
+
+        Cursor c = database.query(WildFishingContract.RelayCampaignPoints.TABLE_NAME,
+                relayCampaignPointAllColumns, // The columns to return
+                selection, // The columns for the WHERE clause
+                selelectionArgs, // The values for the WHERE clause
+                null, // don't group the rows
+                null, // don't filter by row groups
+                null // The sort order
+                );
+
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            RelayCampaignPoint rcp = cursorToRelayCampaignPoint(c);
+            retList.add(rcp.getPointId());
+
+            c.moveToNext();
+        }
+        c.close();
+
+        return retList;
+    }
+
+    private RelayCampaignPoint cursorToRelayCampaignPoint(Cursor c) {
+        RelayCampaignPoint rcp = new RelayCampaignPoint();
+        rcp.setId(c.getString(c.getColumnIndex(WildFishingContract.RelayCampaignPoints._ID)));
+        rcp.setCampaignId(c.getString(c.getColumnIndex(WildFishingContract.RelayCampaignPoints.COLUMN_NAME_CAMPAIGN_ID)));
+        rcp.setPointId(c.getString(c.getColumnIndex(WildFishingContract.RelayCampaignPoints.COLUMN_NAME_POINT_ID)));
+        
+        return rcp;
+    }
 	
 	// 竿长
 	public RodLength addRodLength(RodLength rl) {
@@ -431,8 +533,9 @@ public class CampaignDataSource {
 		return rl;
 	}
 
-	public Cursor getRodLengthForPinner() {
-
+	public List<RodLength> getAllRodLengths() {
+	    List<RodLength> retList = new ArrayList<RodLength>();
+	    
 		String[] projection = { WildFishingContract.RodLengths._ID,
 				WildFishingContract.RodLengths.COLUMN_NAME_NAME };
 
@@ -444,8 +547,17 @@ public class CampaignDataSource {
 				null, // don't filter by row groups
 				null // The sort order
 				);
-
-		return c;
+		
+		c.moveToFirst();
+		while(!c.isAfterLast()){
+		    RodLength rl = cursorToRodLength(c); 
+		    retList.add(rl);
+		    
+		    c.moveToNext();
+		}
+		c.close();
+		
+		return retList;
 	}
 
 	private RodLength cursorToRodLength(Cursor cursor) {
@@ -515,23 +627,30 @@ public class CampaignDataSource {
 
 		return lm;
 	}
+	
+    public List<LureMethod> getAllLureMethods() {
+        List<LureMethod> retList = new ArrayList<LureMethod>();
 
-	public Cursor getLureMethodForPinner() {
+        Cursor c = database.query(WildFishingContract.LureMethods.TABLE_NAME,
+                lureMethodAllColumns, // The columns to return
+                null, // The columns for the WHERE clause
+                null, // The values for the WHERE clause
+                null, // don't group the rows
+                null, // don't filter by row groups
+                null // The sort order
+                );
 
-		String[] projection = { WildFishingContract.LureMethods._ID,
-				WildFishingContract.LureMethods.COLUMN_NAME_NAME };
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            LureMethod lm = cursorToLureMethod(c);
+            retList.add(lm);
 
-		Cursor c = database.query(WildFishingContract.LureMethods.TABLE_NAME, 
-				projection, // The columns to return
-				null, // The columns for the WHERE clause
-				null, // The values for the WHERE clause
-				null, // don't group the rows
-				null, // don't filter by row groups
-				null // The sort order
-				);
+            c.moveToNext();
+        }
+        c.close();
 
-		return c;
-	}
+        return retList;
+    }
 
 	private LureMethod cursorToLureMethod(Cursor c) {
 		LureMethod lm = new LureMethod();
@@ -605,22 +724,29 @@ public class CampaignDataSource {
 		return bait;
 	}
 
-	public Cursor getBaitForPinner() {
+    public List<Bait> getAllBaits() {
+        List<Bait> retList = new ArrayList<Bait>();
 
-		String[] projection = { WildFishingContract.Baits._ID,
-				WildFishingContract.Baits.COLUMN_NAME_NAME };
+        Cursor c = database.query(WildFishingContract.Baits.TABLE_NAME,
+                baitAllColumns, // The columns to return
+                null, // The columns for the WHERE clause
+                null, // The values for the WHERE clause
+                null, // don't group the rows
+                null, // don't filter by row groups
+                null // The sort order
+                );
 
-		Cursor c = database.query(WildFishingContract.Baits.TABLE_NAME, 
-				projection, // The columns to return
-				null, // The columns for the WHERE clause
-				null, // The values for the WHERE clause
-				null, // don't group the rows
-				null, // don't filter by row groups
-				null // The sort order
-				);
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            Bait obj = cursorToBait(c);
+            retList.add(obj);
 
-		return c;
-	}
+            c.moveToNext();
+        }
+        c.close();
+
+        return retList;
+    }
 
 	private Bait cursorToBait(Cursor c) {
 		Bait bait = new Bait();
