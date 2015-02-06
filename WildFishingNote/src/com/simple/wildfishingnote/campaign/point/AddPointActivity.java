@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.holoeverywhere.widget.Toast;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -18,6 +19,7 @@ import com.simple.wildfishingnote.bean.Bait;
 import com.simple.wildfishingnote.bean.LureMethod;
 import com.simple.wildfishingnote.bean.Point;
 import com.simple.wildfishingnote.bean.RodLength;
+import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 
 public class AddPointActivity extends ActionBarActivity implements RodLengthDialogFragment.NoticeDialogListener,
@@ -57,13 +59,33 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
         finish();
     }
     
+    /**
+     * [查看竿长]按钮按下
+     * @param v
+     */
+    public void addPointDispAllRodLenghtBtnClick(View v){
+        Intent intent = new Intent(this, ShowAllRodLengthActivity.class);
+        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
+    }
+    
+    /**
+     * 监听所有onActivityResult事件
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // 查看竿长返回
+        if (requestCode == Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH && resultCode == Activity.RESULT_OK) {
+            initRodLengthSpinner();
+        }
+    }
+    
    
     /**
      * [添加竿长]按钮按下
      * @param v
      */
     public void addPointShowAddRodLengthBtnClick(View v){
-        RodLengthDialogFragment dialog = new RodLengthDialogFragment();
+        RodLengthDialogFragment dialog = new RodLengthDialogFragment("");
         dialog.show(getSupportFragmentManager(), "rodLengthDialog");
     }
     
@@ -97,11 +119,6 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
         
         initRodLengthSpinner();
         setRodLengthSpinnerSelection(newRl.getId());
-    }
-
-    @Override
-    public void onRLDialogNegativeClick(DialogFragment dialog) {
-        // User touched the dialog's negative button
     }
     
     /**
@@ -175,6 +192,7 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
     }
     
     private void initRodLengthSpinner() {
+        dataSource.open();
         List<RodLength> list = dataSource.getAllRodLengths();
         
         RodLength[] arr = convertRodLengthListToArr(list);

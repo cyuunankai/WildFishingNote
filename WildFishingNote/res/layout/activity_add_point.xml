@@ -14,23 +14,108 @@
 		android:layout_height="wrap_content"
 		android:orientation="vertical" >
 		
+	<com.beardedhen.androidbootstrap.BootstrapEditText
+        android:id="@+id/addPointDepthEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="@string/depth_hint" 
+        android:inputType="numberDecimal" 
+        bootstrapbutton:be_roundedCorners="true"
+	    bootstrapbutton:be_state="success"/>
+	    
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" >
-		
+	<TextView
+ 		android:layout_width="35dp" 
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp" 
+		android:layout_marginLeft="8dp"
+		android:layout_marginBottom="8dp"
+ 		android:text="@string/rod_length" />		
     <Spinner
         android:id="@+id/addPointRodLengthSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"  />
+    </LinearLayout>
+    
+    <LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal" >
+	<TextView
+ 		android:layout_width="35dp" 
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp" 
+		android:layout_marginLeft="8dp"
+		android:layout_marginBottom="8dp"
+ 		android:text="@string/lure_method" />	
+    <Spinner
+        android:id="@+id/addPointLureMethodSpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_margin="8dp"  />
         
+    </LinearLayout>
+    
+    <LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal" >
+	<TextView
+ 		android:layout_width="35dp" 
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp" 
+		android:layout_marginLeft="8dp"
+		android:layout_marginBottom="8dp"
+ 		android:text="@string/bait" />	
+    <Spinner
+        android:id="@+id/addPointBaitSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="8dp"  />
+    </LinearLayout>
+    
+    
+  	
+  	<TextView
+ 		android:layout_width="match_parent" 
+		android:layout_height="wrap_content"
+		android:layout_marginTop="20dp" 
+ 		android:text="@string/rod_length_and_lure_method_and_bait_edit" />	
+  	<TextView
+ 		android:layout_width="match_parent" 
+		 android:layout_height="1dp" 
+		 android:layout_margin="8dp" 
+		 android:background="@android:color/black" />	
+	
+    <LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal" >    
     	            <com.beardedhen.androidbootstrap.BootstrapButton
-	                android:id="@+id/addPointAddRodLenghtBtn"
-	                android:layout_width="80dp"
+	                android:id="@+id/addPointDispAllRodLenghtBtn"
+	                android:layout_width="0dp"
+	                android:layout_weight="0.5"
 	                android:layout_height="wrap_content"
-	                android:layout_margin="8dp"
+	                android:layout_margin="4dp"
+	                android:text="@string/edit"
+	                android:onClick="addPointDispAllRodLenghtBtnClick"
+	                bootstrapbutton:bb_icon_left="fa-clock-o"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />    
+	                
+	                <com.beardedhen.androidbootstrap.BootstrapButton
+	                android:id="@+id/addPointAddRodLenghtBtn"
+	                android:layout_width="0dp"
+	                android:layout_weight="0.5"
+	                android:layout_height="wrap_content"
+	                android:layout_margin="4dp"
 	                android:text="@string/add"
 	                android:onClick="addPointShowAddRodLengthBtnClick"
 	                bootstrapbutton:bb_icon_left="fa-clock-o"
@@ -42,39 +127,55 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" >
-    <Spinner
-        android:id="@+id/addPointLureMethodSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_margin="8dp"  />
+		
+		<com.beardedhen.androidbootstrap.BootstrapButton
+	                android:id="@+id/addPointDispAllLureMethodBtn"
+	                android:layout_width="0dp"
+	                android:layout_weight="0.5"
+	                android:layout_height="wrap_content"
+	                android:layout_margin="4dp"
+	                android:text="@string/edit"
+	                android:onClick="addPointDispAllLureMethodBtnClick"
+	                bootstrapbutton:bb_icon_left="fa-clock-o"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />    
         
         <com.beardedhen.androidbootstrap.BootstrapButton
 	                android:id="@+id/addPointAddLureMethodBtn"
-	                android:layout_width="80dp"
+	                android:layout_width="0dp"
+	                android:layout_weight="0.5"
 	                android:layout_height="wrap_content"
-	                android:layout_margin="8dp"
+	                android:layout_margin="4dp"
 	                android:text="@string/add"
 	                android:onClick="addPointShowAddLureMethodBtnClick"
 	                bootstrapbutton:bb_icon_left="fa-clock-o"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success" />    
     </LinearLayout>
+    
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" >
-    <Spinner
-        android:id="@+id/addPointBaitSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_margin="8dp"  />
-<com.beardedhen.androidbootstrap.BootstrapButton
-	                android:id="@+id/addPointAddBaitBtn"
-	                android:layout_width="80dp"
+		
+    <com.beardedhen.androidbootstrap.BootstrapButton
+	                android:id="@+id/addPointDispAllBaitBtn"
+	                android:layout_width="0dp"
+	                android:layout_weight="0.5"
 	                android:layout_height="wrap_content"
-	                android:layout_margin="8dp"
+	                android:layout_margin="4dp"
+	                android:text="@string/edit"
+	                android:onClick="addPointDispAllBaitBtnClick"
+	                bootstrapbutton:bb_icon_left="fa-clock-o"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />   
+	                 
+	<com.beardedhen.androidbootstrap.BootstrapButton
+	                android:id="@+id/addPointAddBaitBtn"
+	               android:layout_width="0dp"
+	                android:layout_weight="0.5"
+	                android:layout_height="wrap_content"
+	                android:layout_margin="4dp"
 	                android:text="@string/add"
 	                android:onClick="addPointShowAddBaitBtnClick"
 	                bootstrapbutton:bb_icon_left="fa-clock-o"
@@ -82,15 +183,7 @@
 	                bootstrapbutton:bb_type="success" />    
     </LinearLayout>
 
-	<com.beardedhen.androidbootstrap.BootstrapEditText
-        android:id="@+id/addPointDepthEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:hint="@string/depth_hint" 
-        android:inputType="numberDecimal" 
-        bootstrapbutton:be_roundedCorners="true"
-	    bootstrapbutton:be_state="success"/>
+
     
 </LinearLayout>
 
