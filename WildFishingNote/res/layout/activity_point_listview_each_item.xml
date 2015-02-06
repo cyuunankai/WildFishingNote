@@ -1,11 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:padding="6dip">
+				android:orientation="horizontal">
 <LinearLayout android:id = "@+id/col1Layout"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_weight="1"
     android:layout_height="70dp">
     
@@ -20,7 +19,9 @@
 	    android:layout_weight="0.1"
 	    android:hint="@string/depth"
 	    android:singleLine="true"
+	    android:layout_margin="2dp"
 		/>
+		
 		
     <TextView
 	    android:id="@+id/textViewDepthEachItem"
@@ -28,6 +29,7 @@
 	    android:layout_height="wrap_content"
 	    android:layout_weight="0.4"
 	    android:singleLine="true"
+	    android:layout_margin="2dp"
 		/>
     
     <TextView
@@ -36,6 +38,7 @@
 	    android:layout_weight="0.1"
 	    android:hint="@string/rod_length"
 	    android:singleLine="true"
+	    android:layout_margin="2dp"
 		/>
 		
 	<TextView
@@ -46,6 +49,7 @@
         android:gravity="center_vertical"
         android:singleLine="true"
         android:layout_alignParentRight="true"
+        android:layout_margin="2dp"
 		/>
     
     
@@ -61,6 +65,7 @@
 	    android:layout_weight="0.1"
 	    android:hint="@string/lure_method"
 	    android:singleLine="true"
+	    android:layout_margin="2dp"
 		/>
     <TextView
         android:id="@+id/textViewLureMethodEachItem"
@@ -69,6 +74,7 @@
         android:layout_weight="0.9"
         android:gravity="center_vertical"
         android:singleLine="true"
+        android:layout_margin="2dp"
         />
     </LinearLayout>   
     <LinearLayout 
@@ -81,6 +87,7 @@
 	    android:layout_weight="0.1"
 	    android:hint="@string/bait"
 	    android:singleLine="true"
+	    android:layout_margin="2dp"
 		/>   
     <TextView
         android:id="@+id/textViewBaitEachItem"
@@ -88,6 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.9"
         android:singleLine="true"
+        android:layout_margin="2dp"
         />
     </LinearLayout>   
     
@@ -95,20 +103,18 @@
 	
 <LinearLayout android:id = "@+id/col2Layout"
     android:orientation="vertical"
-    android:gravity="center_vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="80dp"
+    android:layout_height="70dp">
     
 	<CheckBox
         android:id="@+id/checkEachItem"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="4px"
-        android:layout_marginRight="10px" 
+        android:layout_height="fill_parent"
+        android:layout_gravity="right|center_vertical"
+        android:layout_margin="2dp"
         >
     </CheckBox>
-    
+   
     
 </LinearLayout>
 

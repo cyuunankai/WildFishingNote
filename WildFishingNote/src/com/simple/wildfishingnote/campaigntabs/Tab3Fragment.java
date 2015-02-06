@@ -259,8 +259,8 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
             }
 
             // 设置bean值到UI
-            viewHolder.textViewDepth.setText(list.get(position).getDepth());
-            viewHolder.textViewRodLength.setText(list.get(position).getRodLengthName());
+            viewHolder.textViewDepth.setText(list.get(position).getDepth() + "米");
+            viewHolder.textViewRodLength.setText(list.get(position).getRodLengthName() + "米");
             viewHolder.textViewLureMethod.setText(list.get(position).getLureMethodName());
             viewHolder.textViewBait.setText(list.get(position).getBaitName());
             viewHolder.check.setChecked(list.get(position).isSelected());

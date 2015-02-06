@@ -49,9 +49,9 @@
     <string name="lure_method_name_hint">打窝标题</string>
     <string name="lure_method_detail_hint">打窝详细</string>
     <string name="rod_length_name_hint">竿长 单位:米</string>
-    <string name="rod_length">竿长</string>
-    <string name="lure_method">打窝</string>
-    <string name="bait">饵料</string>
-    <string name="depth">水深</string>
+    <string name="rod_length">竿长:</string>
+    <string name="lure_method">打窝:</string>
+    <string name="bait">饵料:</string>
+    <string name="depth">水深:</string>
 
 </resources>

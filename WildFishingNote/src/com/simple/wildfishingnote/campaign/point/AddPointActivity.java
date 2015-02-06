@@ -182,6 +182,7 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
         Spinner s = (Spinner) findViewById(R.id.addPointRodLengthSpinner);
         ArrayAdapter<RodLength> spinnerArrayAdapter = new ArrayAdapter<RodLength>(this,
                 android.R.layout.simple_spinner_item, arr);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s.setAdapter(spinnerArrayAdapter);  
     }
 
@@ -223,6 +224,7 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
         Spinner s = (Spinner) findViewById(R.id.addPointLureMethodSpinner);
         ArrayAdapter<LureMethod> spinnerArrayAdapter = new ArrayAdapter<LureMethod>(this,
                 android.R.layout.simple_spinner_item, arr);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s.setAdapter(spinnerArrayAdapter);  
 
     }
@@ -265,6 +267,7 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
         Spinner s = (Spinner) findViewById(R.id.addPointBaitSpinner);
         ArrayAdapter<Bait> spinnerArrayAdapter = new ArrayAdapter<Bait>(this,
                 android.R.layout.simple_spinner_item, arr);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s.setAdapter(spinnerArrayAdapter);  
     }
     
