@@ -88,7 +88,7 @@ public class MainActivity extends ActionBarActivity {
 		ViewGroup parent = (ViewGroup) findViewById(R.id.rootLayout);
 		List<ImageSrcIntent> itemImageSrcIntentList = getInitialItemImageSrcAndIntentList();
 		hoverSwitch = new HoverSwitch();
-		hoverSwitch.init(parent, ROOT_IMAGE, itemImageSrcIntentList, this);
+		hoverSwitch.init(parent, ROOT_IMAGE, itemImageSrcIntentList, this, 10);
 	
 		
 		List<ImageIntentBean> itemBtnImageIntentList = hoverSwitch.getItemBtnImageList();
@@ -107,19 +107,19 @@ public class MainActivity extends ActionBarActivity {
 		ImageSrcIntent imageSrcIntent = new ImageSrcIntent();
 		imageSrcIntent.setItemButtonSrc(IMAGE);
 		imageSrcIntent.setItemTextSrc(IMAGE);
-		imageSrcIntent.setIntentClass(CalendarDailogActivity.class);
+		imageSrcIntent.setInvokeIntentOnClick("CalendarDailogActivity");
 		imageSrcIntentList.add(imageSrcIntent);
 		
 		imageSrcIntent = new ImageSrcIntent();
 		imageSrcIntent.setItemButtonSrc(IMAGE);
 		imageSrcIntent.setItemTextSrc(IMAGE);
-		imageSrcIntent.setIntentClass(AddMainActivity.class);
+		imageSrcIntent.setInvokeIntentOnClick("AddMainActivity");
 		imageSrcIntentList.add(imageSrcIntent);
 		
 		imageSrcIntent = new ImageSrcIntent();
 		imageSrcIntent.setItemButtonSrc(IMAGE);
 		imageSrcIntent.setItemTextSrc(IMAGE);
-		imageSrcIntent.setIntentClass(AddMainActivity.class);
+		imageSrcIntent.setInvokeIntentOnClick("AddMainActivity");
 		imageSrcIntentList.add(imageSrcIntent);
 		
 		return imageSrcIntentList;
@@ -131,13 +131,22 @@ public class MainActivity extends ActionBarActivity {
 	private void addItemClickListener(List<ImageIntentBean> imageIntentList){
 		for(ImageIntentBean imageIntent : imageIntentList){
 			ImageView imageView = imageIntent.getImageView();
-			final Class intentClass = imageIntent.getIntentClass();
+			final String intentName = imageIntent.getInvokeIntentOnClick();
 			imageView.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View view) {
-					Intent intent = new Intent(getApplicationContext(), intentClass);
-					startActivity(intent);
+					if ("CalendarDailogActivity".equals(intentName)) {
+						Intent intent = new Intent(getApplicationContext(), CalendarDailogActivity.class);
+						startActivity(intent);
+					} else if ("AddMainActivity".equals(intentName)) {
+						Intent intent = new Intent(getApplicationContext(), AddMainActivity.class);
+						startActivity(intent);
+					} else if ("AddMainActivity".equals(intentName)) {
+						Intent intent = new Intent(getApplicationContext(), AddMainActivity.class);
+						startActivity(intent);
+					}
+					
 				}
 			});
 		}

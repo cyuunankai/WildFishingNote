@@ -10,4 +10,6 @@ public class Constant {
 	public final static int REQUEST_CODE_ADD_POINT = 103;
     public final static int REQUEST_CODE_EDIT_POINT = 104;
     public final static int REQUEST_CODE_SHOW_ALL_ROD_LENGTH = 105;
+    public final static int REQUEST_CODE_SHOW_ALL_LURE_METHOD = 106;
+    public final static int REQUEST_CODE_SHOW_ALL_BAIR = 107;
 }

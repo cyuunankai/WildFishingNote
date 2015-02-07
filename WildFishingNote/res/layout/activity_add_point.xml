@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -95,106 +96,7 @@
     
     
   	
-  	<TextView
- 		android:layout_width="match_parent" 
-		android:layout_height="wrap_content"
-		android:layout_marginTop="20dp" 
-		android:layout_marginLeft="8dp"
- 		android:text="@string/rod_length_and_lure_method_and_bait_edit" />	
-  	<TextView
- 		android:layout_width="match_parent" 
-		 android:layout_height="1dp" 
-		 android:layout_margin="8dp" 
-		 android:background="@android:color/black" />	
-	
-    <LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal" >    
-    	            <com.beardedhen.androidbootstrap.BootstrapButton
-	                android:id="@+id/addPointDispAllRodLenghtBtn"
-	                android:layout_width="0dp"
-	                android:layout_weight="0.5"
-	                android:layout_height="wrap_content"
-	                android:layout_margin="4dp"
-	                android:text="@string/edit_rod_length"
-	                android:onClick="addPointDispAllRodLenghtBtnClick"
-	                bootstrapbutton:bb_icon_left="fa-clock-o"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success" />    
-	                
-	                <com.beardedhen.androidbootstrap.BootstrapButton
-	                android:id="@+id/addPointAddRodLenghtBtn"
-	                android:layout_width="0dp"
-	                android:layout_weight="0.5"
-	                android:layout_height="wrap_content"
-	                android:layout_margin="4dp"
-	                android:text="@string/add_rod_length"
-	                android:onClick="addPointShowAddRodLengthBtnClick"
-	                bootstrapbutton:bb_icon_left="fa-clock-o"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success" />    
-    </LinearLayout>
-    
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal" >
-		
-		<com.beardedhen.androidbootstrap.BootstrapButton
-	                android:id="@+id/addPointDispAllLureMethodBtn"
-	                android:layout_width="0dp"
-	                android:layout_weight="0.5"
-	                android:layout_height="wrap_content"
-	                android:layout_margin="4dp"
-	                android:text="@string/edit_lure_method"
-	                android:onClick="addPointDispAllLureMethodBtnClick"
-	                bootstrapbutton:bb_icon_left="fa-clock-o"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success" />    
-        
-        <com.beardedhen.androidbootstrap.BootstrapButton
-	                android:id="@+id/addPointAddLureMethodBtn"
-	                android:layout_width="0dp"
-	                android:layout_weight="0.5"
-	                android:layout_height="wrap_content"
-	                android:layout_margin="4dp"
-	                android:text="@string/add_lure_method"
-	                android:onClick="addPointShowAddLureMethodBtnClick"
-	                bootstrapbutton:bb_icon_left="fa-clock-o"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success" />    
-    </LinearLayout>
-    
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal" >
-		
-    <com.beardedhen.androidbootstrap.BootstrapButton
-	                android:id="@+id/addPointDispAllBaitBtn"
-	                android:layout_width="0dp"
-	                android:layout_weight="0.5"
-	                android:layout_height="wrap_content"
-	                android:layout_margin="4dp"
-	                android:text="@string/edit_bait"
-	                android:onClick="addPointDispAllBaitBtnClick"
-	                bootstrapbutton:bb_icon_left="fa-clock-o"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success" />   
-	                 
-	<com.beardedhen.androidbootstrap.BootstrapButton
-	                android:id="@+id/addPointAddBaitBtn"
-	               android:layout_width="0dp"
-	                android:layout_weight="0.5"
-	                android:layout_height="wrap_content"
-	                android:layout_margin="4dp"
-	                android:text="@string/add_bait"
-	                android:onClick="addPointShowAddBaitBtnClick"
-	                bootstrapbutton:bb_icon_left="fa-clock-o"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success" />    
-    </LinearLayout>
+
 
 
     

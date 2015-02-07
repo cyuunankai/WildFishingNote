@@ -32,7 +32,7 @@ public class HoverSwitch {
 
 	private boolean isItemShow = false;
 	
-	private final static int BOTTOM_MARGIN = 10;
+	private int mBottomMargin = 0;
 	private final static int ITEM_BUTTON_RIGHT_MARGIN = 10;
 	private final static int ITEM_TEXT_RIGHT_MARGIN = 70;
 	private final static float ROTATION = 215f;
@@ -43,7 +43,8 @@ public class HoverSwitch {
 	private final static int ROOT_SHRINK_ROTATION_DURATION = 200;
 	private final static int ITEM_SHRINK_DURATION = 100;
 
-	public void init(ViewGroup parent, int rootImageSrc, List<ImageSrcIntent> imageSrcIntentList, Context context) {
+	public void init(ViewGroup parent, int rootImageSrc, List<ImageSrcIntent> imageSrcIntentList, Context context, int bottomMargin) {
+		mBottomMargin = bottomMargin;
 		addImage(parent, rootImageSrc, imageSrcIntentList, context);
 		hideItems();
 		addAnimator();
@@ -62,7 +63,7 @@ public class HoverSwitch {
 		for (ImageSrcIntent imageSrcIntent : imageSrcIntentList) {
 			int imageBtnSrc = imageSrcIntent.getItemButtonSrc();
 			int imageTextSrc = imageSrcIntent.getItemTextSrc();
-			Class intentClass = imageSrcIntent.getIntentClass();
+			String invokeIntentOnClick = imageSrcIntent.getInvokeIntentOnClick();
 			
 			// item button
 			ImageView itemBtnImage = createImage(imageBtnSrc, context);
@@ -72,7 +73,7 @@ public class HoverSwitch {
 			
 			ImageIntentBean imageIntent = new ImageIntentBean();
 			imageIntent.setImageView(itemBtnImage);
-			imageIntent.setIntentClass(intentClass);
+			imageIntent.setInvokeIntentOnClick(invokeIntentOnClick);
 			itemBtnImageList.add(imageIntent);
 			
 			
@@ -84,7 +85,7 @@ public class HoverSwitch {
 			
 			imageIntent = new ImageIntentBean();
 			imageIntent.setImageView(itemTextImage);
-			imageIntent.setIntentClass(intentClass);
+			imageIntent.setInvokeIntentOnClick(invokeIntentOnClick);
 			itemTextImageList.add(imageIntent);
 		}
 		
@@ -210,7 +211,7 @@ public class HoverSwitch {
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 		params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
 		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-		params.bottomMargin = BOTTOM_MARGIN;
+		params.bottomMargin = mBottomMargin;
 		params.rightMargin = rightMargin;
 		imageView.setLayoutParams(params);
 	}

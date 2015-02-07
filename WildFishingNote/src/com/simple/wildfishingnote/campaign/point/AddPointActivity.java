@@ -1,5 +1,6 @@
 package com.simple.wildfishingnote.campaign.point;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.holoeverywhere.widget.Toast;
@@ -10,15 +11,21 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.simple.wildfishingnote.R;
+import com.simple.wildfishingnote.animation.hover.HoverSwitch;
 import com.simple.wildfishingnote.bean.Bait;
 import com.simple.wildfishingnote.bean.LureMethod;
 import com.simple.wildfishingnote.bean.Point;
 import com.simple.wildfishingnote.bean.RodLength;
+import com.simple.wildfishingnote.bean.animation.hover.ImageIntentBean;
+import com.simple.wildfishingnote.bean.animation.hover.ImageSrcIntent;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 
@@ -30,6 +37,10 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
     String globalPointId;
     private CampaignDataSource dataSource;
     
+    private final static int IMAGE = R.drawable.ic_launcher;
+    private final static int ROOT_IMAGE = R.drawable.ic_launcher;
+    HoverSwitch hoverSwitch = null;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +49,106 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
         dataSource = new CampaignDataSource(this);
         dataSource.open();
         
+        initHoverSwith();
+        
         initAddOrEdit();
     }
+    
+	private void initHoverSwith() {
+		ViewGroup parent = (ViewGroup) findViewById(R.id.rootLayout);
+		List<ImageSrcIntent> itemImageSrcIntentList = getInitialItemImageSrcAndIntentList();
+		hoverSwitch = new HoverSwitch();
+		hoverSwitch.init(parent, ROOT_IMAGE, itemImageSrcIntentList, this, 150);
+	
+		
+		List<ImageIntentBean> itemBtnImageIntentList = hoverSwitch.getItemBtnImageList();
+		addItemClickListener(itemBtnImageIntentList);
+		List<ImageIntentBean> itemTextImageIntentList = hoverSwitch.getItemTextImageList();
+		addItemClickListener(itemTextImageIntentList);
+	}
+	
+    /**
+	 * get initial item image src and intent
+	 * @return
+	 */
+	private List<ImageSrcIntent> getInitialItemImageSrcAndIntentList(){
+		List<ImageSrcIntent> imageSrcIntentList = new ArrayList<ImageSrcIntent>();
+		
+		// 至下向上
+		ImageSrcIntent imageSrcIntent = new ImageSrcIntent();
+		imageSrcIntent.setItemButtonSrc(IMAGE);
+		imageSrcIntent.setItemTextSrc(IMAGE);
+		imageSrcIntent.setInvokeIntentOnClick("BaitDialogFragment");
+		imageSrcIntentList.add(imageSrcIntent);
+		
+		imageSrcIntent = new ImageSrcIntent();
+		imageSrcIntent.setItemButtonSrc(IMAGE);
+		imageSrcIntent.setItemTextSrc(IMAGE);
+		imageSrcIntent.setInvokeIntentOnClick("LureMethodDialogFragment");
+		imageSrcIntentList.add(imageSrcIntent);
+		
+		imageSrcIntent = new ImageSrcIntent();
+		imageSrcIntent.setItemButtonSrc(IMAGE);
+		imageSrcIntent.setItemTextSrc(IMAGE);
+		imageSrcIntent.setInvokeIntentOnClick("RodLengthDialogFragment");
+		imageSrcIntentList.add(imageSrcIntent);
+		
+		imageSrcIntent = new ImageSrcIntent();
+		imageSrcIntent.setItemButtonSrc(IMAGE);
+		imageSrcIntent.setItemTextSrc(IMAGE);
+		imageSrcIntent.setInvokeIntentOnClick("ShowAllRodLengthActivity");
+		imageSrcIntentList.add(imageSrcIntent);
+		
+		imageSrcIntent = new ImageSrcIntent();
+		imageSrcIntent.setItemButtonSrc(IMAGE);
+		imageSrcIntent.setItemTextSrc(IMAGE);
+		imageSrcIntent.setInvokeIntentOnClick("ShowAllRodLengthActivity");
+		imageSrcIntentList.add(imageSrcIntent);
+		
+		imageSrcIntent = new ImageSrcIntent();
+		imageSrcIntent.setItemButtonSrc(IMAGE);
+		imageSrcIntent.setItemTextSrc(IMAGE);
+		imageSrcIntent.setInvokeIntentOnClick("ShowAllRodLengthActivity");
+		imageSrcIntentList.add(imageSrcIntent);
+		
+		return imageSrcIntentList;
+	}
+	
+	/**
+	 * add item click listener
+	 */
+	private void addItemClickListener(List<ImageIntentBean> imageIntentList){
+		for(ImageIntentBean imageIntent : imageIntentList){
+			ImageView imageView = imageIntent.getImageView();
+			final String intentName = imageIntent.getInvokeIntentOnClick();
+			imageView.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View view) {
+					if ("RodLengthDialogFragment".equals(intentName)) {
+						RodLengthDialogFragment dialog = new RodLengthDialogFragment("");
+				        dialog.show(getSupportFragmentManager(), "rodLengthDialog");
+					} else if ("LureMethodDialogFragment".equals(intentName)) {
+						LureMethodDialogFragment dialog = new LureMethodDialogFragment();
+				        dialog.show(getSupportFragmentManager(), "lureMethodDialog");
+					} else if ("BaitDialogFragment".equals(intentName)) {
+						BaitDialogFragment dialog = new BaitDialogFragment();
+				        dialog.show(getSupportFragmentManager(), "baitDialog");
+					} else if ("ShowAllRodLengthActivity".equals(intentName)){
+						Intent intent = new Intent(getApplicationContext(), ShowAllRodLengthActivity.class);
+				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
+					} else if ("ShowAllRodLengthActivity".equals(intentName)){
+						Intent intent = new Intent(getApplicationContext(), ShowAllRodLengthActivity.class);
+				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
+					} else if ("ShowAllRodLengthActivity".equals(intentName)){
+						Intent intent = new Intent(getApplicationContext(), ShowAllRodLengthActivity.class);
+				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
+					}
+					
+				}
+			});
+		}
+	}
     
     /**
      * [保存]按钮按下
@@ -80,32 +189,32 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
     }
     
    
-    /**
-     * [添加竿长]按钮按下
-     * @param v
-     */
-    public void addPointShowAddRodLengthBtnClick(View v){
-        RodLengthDialogFragment dialog = new RodLengthDialogFragment("");
-        dialog.show(getSupportFragmentManager(), "rodLengthDialog");
-    }
-    
-    /**
-     * [添加打窝]按钮按下
-     * @param v
-     */
-    public void addPointShowAddLureMethodBtnClick(View v){
-        LureMethodDialogFragment dialog = new LureMethodDialogFragment();
-        dialog.show(getSupportFragmentManager(), "lureMethodDialog");
-    }
-    
-    /**
-     * [添加饵料]按钮按下
-     * @param v
-     */
-    public void addPointShowAddBaitBtnClick(View v){
-        BaitDialogFragment dialog = new BaitDialogFragment();
-        dialog.show(getSupportFragmentManager(), "baitDialog");
-    }
+//    /**
+//     * [添加竿长]按钮按下
+//     * @param v
+//     */
+//    public void addPointShowAddRodLengthBtnClick(View v){
+//        RodLengthDialogFragment dialog = new RodLengthDialogFragment("");
+//        dialog.show(getSupportFragmentManager(), "rodLengthDialog");
+//    }
+//    
+//    /**
+//     * [添加打窝]按钮按下
+//     * @param v
+//     */
+//    public void addPointShowAddLureMethodBtnClick(View v){
+//        LureMethodDialogFragment dialog = new LureMethodDialogFragment();
+//        dialog.show(getSupportFragmentManager(), "lureMethodDialog");
+//    }
+//    
+//    /**
+//     * [添加饵料]按钮按下
+//     * @param v
+//     */
+//    public void addPointShowAddBaitBtnClick(View v){
+//        BaitDialogFragment dialog = new BaitDialogFragment();
+//        dialog.show(getSupportFragmentManager(), "baitDialog");
+//    }
     
     /**
      * 【添加竿长】画面[OK]按钮按下
@@ -119,6 +228,8 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
         
         initRodLengthSpinner();
         setRodLengthSpinnerSelection(newRl.getId());
+        
+        hoverSwitch.execRootImageClick(true);
     }
     
     /**
@@ -134,6 +245,8 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
         
         initLureMethodSpinner();
         setLureMethodSpinnerSelection(newLm.getId());
+        
+        hoverSwitch.execRootImageClick(true);
     }
 
     @Override
@@ -154,6 +267,8 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
         
         initBaitSpinner();
         setBaitSpinnerSelection(newBait.getId());
+        
+        hoverSwitch.execRootImageClick(true);
     }
 
     @Override
@@ -398,6 +513,7 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
      protected void onResume() {
        dataSource.open();
        super.onResume();
+       hoverSwitch.execRootImageClick(true);
      }
 
      @Override
