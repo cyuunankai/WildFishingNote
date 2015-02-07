@@ -13,7 +13,18 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical" >
-		
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal" >	
+	<TextView
+ 		android:layout_width="35dp" 
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp" 
+		android:layout_marginLeft="8dp"
+		android:layout_marginBottom="8dp"
+ 		android:text="@string/depth" />	
 	<com.beardedhen.androidbootstrap.BootstrapEditText
         android:id="@+id/addPointDepthEditText"
         android:layout_width="match_parent"
@@ -23,6 +34,7 @@
         android:inputType="numberDecimal" 
         bootstrapbutton:be_roundedCorners="true"
 	    bootstrapbutton:be_state="success"/>
+	</LinearLayout>
 	    
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -87,6 +99,7 @@
  		android:layout_width="match_parent" 
 		android:layout_height="wrap_content"
 		android:layout_marginTop="20dp" 
+		android:layout_marginLeft="8dp"
  		android:text="@string/rod_length_and_lure_method_and_bait_edit" />	
   	<TextView
  		android:layout_width="match_parent" 
@@ -104,7 +117,7 @@
 	                android:layout_weight="0.5"
 	                android:layout_height="wrap_content"
 	                android:layout_margin="4dp"
-	                android:text="@string/edit"
+	                android:text="@string/edit_rod_length"
 	                android:onClick="addPointDispAllRodLenghtBtnClick"
 	                bootstrapbutton:bb_icon_left="fa-clock-o"
 	                bootstrapbutton:bb_roundedCorners="true"
@@ -116,7 +129,7 @@
 	                android:layout_weight="0.5"
 	                android:layout_height="wrap_content"
 	                android:layout_margin="4dp"
-	                android:text="@string/add"
+	                android:text="@string/add_rod_length"
 	                android:onClick="addPointShowAddRodLengthBtnClick"
 	                bootstrapbutton:bb_icon_left="fa-clock-o"
 	                bootstrapbutton:bb_roundedCorners="true"
@@ -134,7 +147,7 @@
 	                android:layout_weight="0.5"
 	                android:layout_height="wrap_content"
 	                android:layout_margin="4dp"
-	                android:text="@string/edit"
+	                android:text="@string/edit_lure_method"
 	                android:onClick="addPointDispAllLureMethodBtnClick"
 	                bootstrapbutton:bb_icon_left="fa-clock-o"
 	                bootstrapbutton:bb_roundedCorners="true"
@@ -146,7 +159,7 @@
 	                android:layout_weight="0.5"
 	                android:layout_height="wrap_content"
 	                android:layout_margin="4dp"
-	                android:text="@string/add"
+	                android:text="@string/add_lure_method"
 	                android:onClick="addPointShowAddLureMethodBtnClick"
 	                bootstrapbutton:bb_icon_left="fa-clock-o"
 	                bootstrapbutton:bb_roundedCorners="true"
@@ -164,7 +177,7 @@
 	                android:layout_weight="0.5"
 	                android:layout_height="wrap_content"
 	                android:layout_margin="4dp"
-	                android:text="@string/edit"
+	                android:text="@string/edit_bait"
 	                android:onClick="addPointDispAllBaitBtnClick"
 	                bootstrapbutton:bb_icon_left="fa-clock-o"
 	                bootstrapbutton:bb_roundedCorners="true"
@@ -176,7 +189,7 @@
 	                android:layout_weight="0.5"
 	                android:layout_height="wrap_content"
 	                android:layout_margin="4dp"
-	                android:text="@string/add"
+	                android:text="@string/add_bait"
 	                android:onClick="addPointShowAddBaitBtnClick"
 	                bootstrapbutton:bb_icon_left="fa-clock-o"
 	                bootstrapbutton:bb_roundedCorners="true"

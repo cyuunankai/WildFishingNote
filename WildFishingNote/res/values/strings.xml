@@ -43,7 +43,7 @@
     <string name="place_detail_image">钓位图片:</string>
     <string name="title_activity_add_point">AddPointActivity</string>
     <string name="title_activity_point_detail">PointDetailActivity</string>
-    <string name="depth_hint">水深 单位:米</string>
+    <string name="depth_hint">单位:米</string>
     <string name="bait_name_hint">饵料标题</string>
     <string name="bait_detail_hint">饵料详细</string>
     <string name="lure_method_name_hint">打窝标题</string>
@@ -57,5 +57,11 @@
     <string name="title_activity_show_all_rod_length">ShowAllRodLengthActivity</string>
     <string name="back">返回</string>
     <string name="rod_length_and_lure_method_and_bait_edit">竿长、打窝、饵料维护区</string>
+    <string name="edit_rod_length">编辑竿长</string>
+    <string name="add_rod_length">添加竿长</string>
+    <string name="edit_lure_method">编辑打窝</string>
+    <string name="add_lure_method">添加打窝</string>
+    <string name="edit_bait">编辑饵料</string>
+    <string name="add_bait">添加饵料</string>
 
 </resources>

@@ -19,6 +19,6 @@ public class RodLength {
 	}
 	
     public String toString() {
-        return name;
+        return name + "米";
     }
 }
