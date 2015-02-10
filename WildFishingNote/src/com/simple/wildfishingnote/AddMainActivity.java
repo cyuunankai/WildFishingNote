@@ -2,9 +2,12 @@ package com.simple.wildfishingnote;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -12,12 +15,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 
 import com.simple.wildfishingnote.campaigntabs.Tab1Fragment;
 import com.simple.wildfishingnote.campaigntabs.Tab2Fragment;
 import com.simple.wildfishingnote.campaigntabs.Tab3Fragment;
 import com.simple.wildfishingnote.campaigntabs.Tab4Fragment;
 import com.simple.wildfishingnote.campaigntabs.Tab5Fragment;
+import com.simple.wildfishingnote.common.Common;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 
 public class AddMainActivity extends ActionBarActivity {
@@ -26,16 +33,13 @@ public class AddMainActivity extends ActionBarActivity {
     private ViewPager mViewPager;
     private ActionBar bar;
     private CampaignDataSource dataSourceCampaign;
-    private long campaignId;
+    private Handler mHandler;
+    private SharedPreferences sharedPref;
+
+    public ActionBar getActionBarReference() {
+        return bar;
+    }
     
-    public long getCampaignId() {
-        return campaignId;
-    }
-
-    public void setCampaignId(long campaignId) {
-        this.campaignId = campaignId;
-    }
-
     public CampaignDataSource getCampaignDataSource() {
         return dataSourceCampaign;
     }
@@ -47,7 +51,10 @@ public class AddMainActivity extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_add_main);
         
-        campaignId = 0;
+        Common.initCampaignPrefernce(this);
+        Common.setCampaignPrefernce(this, "campaign_operation_mode", "add");
+        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        mHandler = new Handler();
         
         dataSourceCampaign = new CampaignDataSource(this);
         dataSourceCampaign.open();
@@ -60,14 +67,18 @@ public class AddMainActivity extends ActionBarActivity {
         
         // 设定适配器
         mViewPager.setAdapter(mMyFragmentStatePagerAdapter);
+        
+        disableViewPagerScroll(); 
 
         // 添加tab
         // 设定tab选中监听器
         bar = getActionBar();
         addTabAndSetTabListener(bar);
-        
+        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         bar.setDisplayShowHomeEnabled(false);
         bar.setDisplayShowTitleEnabled(false);
+        
+        
 
         
         // 初始化手势横向滑动监听器
@@ -78,13 +89,21 @@ public class AddMainActivity extends ActionBarActivity {
             bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
         }
     }
+
+    private void disableViewPagerScroll() {
+        mViewPager.setOnTouchListener(new OnTouchListener() {
+
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+                    return true;
+            }
+        });
+    }
    
     /**
      * 添加tab
      * 设定tab选中监听器
      */
     private void addTabAndSetTabListener(ActionBar bar){
-        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
         ActionBar.TabListener tabListener = getTabListener();
         bar.addTab(bar.newTab().setText(R.string.time).setTabListener(tabListener));
@@ -101,7 +120,7 @@ public class AddMainActivity extends ActionBarActivity {
     private ActionBar.TabListener getTabListener() {
         // Create a tab listener that is called when the user changes tabs.
         ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-
+            
             @Override
             public void onTabReselected(Tab arg0,
                     android.app.FragmentTransaction arg1) {
@@ -112,13 +131,28 @@ public class AddMainActivity extends ActionBarActivity {
             public void onTabSelected(Tab tab,
                     android.app.FragmentTransaction arg1) {
                 
-                mViewPager.setCurrentItem(tab.getPosition());
+                String mode = sharedPref.getString("campaign_operation_mode", "");
+                String btnClick = sharedPref.getString("btn_click", "");
+                if (mode.equals("add") && btnClick.equals("false")) {
+                    mHandler.postAtFrontOfQueue(new Runnable() {
+                        @Override
+                        public void run() {
+                            bar.setSelectedNavigationItem(0);
+                        }
+                    });
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("btn_click", "false");
+                    editor.commit();    
+                } else if (mode.equals("add") && btnClick.equals("true")) {
+                    mViewPager.setCurrentItem(tab.getPosition());
+                } else {
+                    mViewPager.setCurrentItem(tab.getPosition());
+                }
             }
 
             @Override
-            public void onTabUnselected(Tab arg0,
+            public void onTabUnselected(Tab tab,
                     android.app.FragmentTransaction arg1) {
-
             }
 
         };
@@ -133,8 +167,7 @@ public class AddMainActivity extends ActionBarActivity {
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                // When swiping between pages, select the
-                // corresponding tab.
+                
                 bar.setSelectedNavigationItem(position);
             }
         });

@@ -1,6 +1,7 @@
 package com.simple.wildfishingnote.campaigntabs;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.holoeverywhere.widget.Toast;
@@ -29,10 +30,10 @@ import android.widget.TextView;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.simple.wildfishingnote.AddMainActivity;
 import com.simple.wildfishingnote.R;
-import com.simple.wildfishingnote.bean.Campaign;
 import com.simple.wildfishingnote.bean.Point;
 import com.simple.wildfishingnote.campaign.point.AddPointActivity;
 import com.simple.wildfishingnote.campaign.point.PointDetailActivity;
+import com.simple.wildfishingnote.common.Common;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 
@@ -54,8 +55,24 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
         initPointListView(null);
         setAddPointBtn();
         setSavePointBtn();
+        setPreBtn();
+        setNextBtn();
+        setOperationBtnVisibility();
         
         return tab3View;
+    }
+	
+	private void setOperationBtnVisibility() {
+	    LinearLayout buttonsLayoutCmapginPointEdit = (LinearLayout)tab3View.findViewById(R.id.buttonsLayoutCampaignPointEdit);
+	    LinearLayout buttonsLayoutCmapginPointAdd = (LinearLayout)tab3View.findViewById(R.id.buttonsLayoutCampaignPointAdd);
+        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if (mode.equals("add")) {
+            buttonsLayoutCmapginPointAdd.setVisibility(View.VISIBLE);
+            buttonsLayoutCmapginPointEdit.setVisibility(View.INVISIBLE);
+        } else if (mode.equals("edit")) {
+            buttonsLayoutCmapginPointAdd.setVisibility(View.INVISIBLE);
+            buttonsLayoutCmapginPointEdit.setVisibility(View.VISIBLE);
+        }
     }
 	
 	/**
@@ -78,7 +95,24 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
                 
                 addRelayCampaignPoint(selectedPointIds);
                 break;
+            case R.id.buttonCampaignPointPre:
+                Common.setCampaignPrefernce(getActivity(), "btn_click", "true");
+                ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(1);
+                break;
+            case R.id.buttonCampaignPointNext:
+                setCampaignPointToPreference();
+                break;
         }
+    }
+
+    private void setCampaignPointToPreference() {
+        List<String> selectedPointIds = getSelectedPointIds();
+        
+        if (checkIsFail(selectedPointIds)) {
+            return;
+        }
+        
+        Common.setCampaignPrefernce(getActivity(), "campaign_point_ids", new HashSet<String>(selectedPointIds));
     }
     
     /**
@@ -112,16 +146,16 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
      */
     private boolean checkIsFail(List<String> selectedPointIds) {
         boolean ret = false;
-        if (addMainActivity.getCampaignId() == 0) {
-            Toast.makeText(getActivity(), "请先保存时间!", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        
-        Campaign c = dataSource.getCampaignById(String.valueOf(addMainActivity.getCampaignId()));
-        if("".equals(getPlaceId())){
-            Toast.makeText(getActivity(), "请先保存钓位!", Toast.LENGTH_SHORT).show();
-            return true;
-        }
+//        if (addMainActivity.getCampaignId() == 0) {
+//            Toast.makeText(getActivity(), "请先保存时间!", Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
+//        
+//        Campaign c = dataSource.getCampaignById(String.valueOf(addMainActivity.getCampaignId()));
+//        if("".equals(getPlaceId())){
+//            Toast.makeText(getActivity(), "请先保存钓位!", Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
 
         if (selectedPointIds.size() == 0) {
             Toast.makeText(getActivity(), "请选择钓点!", Toast.LENGTH_SHORT).show();
@@ -131,17 +165,12 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
         return ret;
     }
     
-    //TODO
-    private String getPlaceId() {
-        Campaign c = dataSource.getCampaignById(String.valueOf(addMainActivity.getCampaignId()));
-        return c.getPlaceId();
-    }
-    
     /**
      * 更新钓位
      */
     private void addRelayCampaignPoint(List<String> selectedPointIds) {
-        dataSource.updateRelayCampaignPoint(getPlaceId(), selectedPointIds);
+        String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
+        dataSource.updateRelayCampaignPoint(campaignId, selectedPointIds);
     }
     
     /**
@@ -188,6 +217,22 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
     private void setAddPointBtn() {
         BootstrapButton addPointBtn = (BootstrapButton)tab3View.findViewById(R.id.buttonAddPoint);
         addPointBtn.setOnClickListener(this);
+    }
+    
+    /**
+     * 注册[上一步]按钮事件
+     */
+    private void setPreBtn() {
+        BootstrapButton buttonCampaignPointPre = (BootstrapButton)tab3View.findViewById(R.id.buttonCampaignPointPre);
+        buttonCampaignPointPre.setOnClickListener(this);
+    }
+    
+    /**
+     * 注册[下一步]按钮事件
+     */
+    private void setNextBtn() {
+        BootstrapButton buttonCampaignPointNext = (BootstrapButton)tab3View.findViewById(R.id.buttonCampaignPointNext);
+        buttonCampaignPointNext.setOnClickListener(this);
     }
     
     public class PointArrayAdapter extends ArrayAdapter<Point> {

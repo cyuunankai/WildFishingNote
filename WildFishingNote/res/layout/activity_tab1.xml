@@ -105,14 +105,14 @@
 	
 	
 	<LinearLayout
-    android:id="@+id/buttonsLayoutCampaign"
+    android:id="@+id/buttonsLayoutCampaignTimeEdit"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:orientation="horizontal" >
 
 <com.beardedhen.androidbootstrap.BootstrapButton
-				    android:id="@+id/buttonCancelCampaign"
+				    android:id="@+id/buttonCancelCampaignTime"
 	                android:layout_width="10dp"
 	                android:layout_height="wrap_content"
 	                android:layout_weight="0.5"
@@ -123,12 +123,30 @@
 	                bootstrapbutton:bb_type="success" />
 	
 	            <com.beardedhen.androidbootstrap.BootstrapButton
-	                android:id="@+id/buttonSaveCampagin"
+	                android:id="@+id/buttonSaveCampaginTime"
 	                android:layout_width="0dp"
 	                android:layout_height="wrap_content"
 	                android:layout_weight="0.5"
 	                android:layout_margin="8dp"
 	                android:text="@string/save"
+	                bootstrapbutton:bb_icon_left="fa-floppy-o"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
+</LinearLayout>
+
+<LinearLayout
+    android:id="@+id/buttonsLayoutCampaignTimeAdd"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal" >
+	
+	            <com.beardedhen.androidbootstrap.BootstrapButton
+	                android:id="@+id/buttonCampaginTimeNext"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_margin="8dp"
+	                android:text="@string/next"
 	                bootstrapbutton:bb_icon_left="fa-floppy-o"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success" />

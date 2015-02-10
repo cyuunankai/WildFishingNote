@@ -32,6 +32,7 @@ import com.simple.wildfishingnote.bean.Campaign;
 import com.simple.wildfishingnote.bean.Place;
 import com.simple.wildfishingnote.campaign.place.AddPlaceActivity;
 import com.simple.wildfishingnote.campaign.place.PlaceDetailActivity;
+import com.simple.wildfishingnote.common.Common;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 
@@ -52,8 +53,24 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
 		initPlaceListView(null);
 		setAddPlaceBtn();
 		setSavePlaceBtn();
+		setPreBtn();
+		setNextBtn();
+		setOperationBtnVisibility();
 		
         return tab2View;
+    }
+	
+	private void setOperationBtnVisibility() {
+	    LinearLayout buttonsLayoutCampaignPlaceAdd = (LinearLayout)tab2View.findViewById(R.id.buttonsLayoutCampaignPlaceAdd);
+	    LinearLayout buttonsLayoutCampaignPlaceEdit = (LinearLayout)tab2View.findViewById(R.id.buttonsLayoutCampaignPlaceEdit);
+        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if (mode.equals("add")) {
+            buttonsLayoutCampaignPlaceAdd.setVisibility(View.VISIBLE);
+            buttonsLayoutCampaignPlaceEdit.setVisibility(View.INVISIBLE);
+        } else if (mode.equals("edit")) {
+            buttonsLayoutCampaignPlaceAdd.setVisibility(View.INVISIBLE);
+            buttonsLayoutCampaignPlaceEdit.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -70,13 +87,30 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
             case R.id.buttonSavePlace:
                 String selectedPlaceId = getSelectedPlaceId();
                 
-                if (checkIsFail(selectedPlaceId)) {
-                    return;
+                if (!checkIsFail(selectedPlaceId)) {
+                    updateCampaign(selectedPlaceId);
                 }
                 
-                updateCampaign(selectedPlaceId);
+                break;
+            case R.id.buttonCampaignPlacePre:
+                Common.setCampaignPrefernce(getActivity(), "btn_click", "true");
+                ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(0);
+                break;
+            case R.id.buttonCampaignPlaceNext:
+                setCampaignPlaceToPreference();
                 break;
         }
+    }
+
+    private void setCampaignPlaceToPreference() {
+        String selectedPlaceId = getSelectedPlaceId();
+        
+        if (!checkIsFail(selectedPlaceId)) {
+            Common.setCampaignPrefernce(getActivity(), "campaign_place_id", selectedPlaceId);
+            Common.setCampaignPrefernce(getActivity(), "btn_click", "true");
+            ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(2);
+        }
+        
     }
 	
 	/**
@@ -112,10 +146,6 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
      */
     private boolean checkIsFail(String selectedPlaceId) {
         boolean ret = false;
-        if (addMainActivity.getCampaignId() == 0) {
-            Toast.makeText(getActivity(), "请先保存时间!", Toast.LENGTH_SHORT).show();
-            return true;
-        }
 
         if ("".equals(selectedPlaceId)) {
             Toast.makeText(getActivity(), "请选择钓位!", Toast.LENGTH_SHORT).show();
@@ -129,7 +159,8 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
 	 * 更新钓位
 	 */
     private void updateCampaign(String selectedPlaceId) {
-        Campaign campaign = dataSource.getCampaignById(String.valueOf(addMainActivity.getCampaignId()));
+        String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
+        Campaign campaign = dataSource.getCampaignById(campaignId);
         campaign.setPlaceId(selectedPlaceId);
         dataSource.updateCampaign(campaign);
     }
@@ -180,6 +211,22 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
     private void setAddPlaceBtn() {
         BootstrapButton addPlaceBtn = (BootstrapButton)tab2View.findViewById(R.id.buttonAddPlace);
         addPlaceBtn.setOnClickListener(this);
+    }
+    
+    /**
+     * 注册[上一步]按钮事件
+     */
+    private void setPreBtn() {
+        BootstrapButton buttonCampaignPlacePre = (BootstrapButton)tab2View.findViewById(R.id.buttonCampaignPlacePre);
+        buttonCampaignPlacePre.setOnClickListener(this);
+    }
+    
+    /**
+     * 注册[下一步]按钮事件
+     */
+    private void setNextBtn() {
+        BootstrapButton buttonCampaignPlaceNext = (BootstrapButton)tab2View.findViewById(R.id.buttonCampaignPlaceNext);
+        buttonCampaignPlaceNext.setOnClickListener(this);
     }
 
 	

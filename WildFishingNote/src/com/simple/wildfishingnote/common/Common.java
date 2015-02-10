@@ -1,11 +1,13 @@
 package com.simple.wildfishingnote.common;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.MenuItem;
-import android.widget.Spinner;
 
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.animation.hover.HoverSwitch;
@@ -85,29 +87,48 @@ public class Common {
         return ret;
 	}
 	
-	public static void initSpinner(Context context, Spinner s, Cursor c, String[] from){
-
-
-        // create an array of the display item we want to bind our data to
-        int[] to = new int[] { android.R.id.text1 };
-        // create simple cursor adapter
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(context,
-                android.R.layout.simple_spinner_item, c, from, to, 0);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // get reference to our spinner
-        s.setAdapter(adapter);
-	}
-	
-    public static void setSpinnerSelection(String selectedId, Spinner s, Cursor c, String colNameId) {
-        int position = 0;
-        c.moveToFirst();
-        while (!c.isAfterLast()) {
-            if (c.getString(c.getColumnIndex(colNameId)).equals(selectedId)) {
-                break;
-            }
-            position++;
-            c.moveToNext();
-        }
-        s.setSelection(position);
+    public static void initCampaignPrefernce(Activity activity) {
+        
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("campaign_operation_mode", ""); //add edit
+        editor.putString("campaign_id", "");
+        editor.putString("campaign_start_time", "");
+        editor.putString("campaign_end_time", "");
+        editor.putString("campaign_summary", "");
+        editor.putString("campaign_place_id", "");
+        editor.putStringSet("campaign_point_ids", null);
+        
+        editor.putString("btn_click", "false");
+        editor.commit();
     }
+    
+    public static void setCampaignPrefernce(Activity activity, String key, String value) {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+    
+    public static void setCampaignPrefernce(Activity activity, String key, Set<String> value) {
+        
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putStringSet(key, value);
+        editor.commit();
+    }
+    
+    public static String getCampaignPrefernceString(Activity activity, String key) {
+        
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getString(key, "");
+    }
+    
+    public static Set<String> getCampaignPrefernceSet(Activity activity, String key) {
+        
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getStringSet(key, new HashSet<String>());
+    }
+    
+    
 }

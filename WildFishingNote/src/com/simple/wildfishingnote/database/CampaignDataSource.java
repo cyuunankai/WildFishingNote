@@ -103,10 +103,8 @@ public class CampaignDataSource {
     }
 
     public void deleteCampaign(Campaign campagin) {
-        long id = campagin.getId();
-        System.out.println("Campaign deleted with id: " + id);
         database.delete(WildFishingContract.Campaigns.TABLE_NAME, WildFishingContract.Campaigns._ID
-                + " = " + id, null);
+                + " = " + campagin.getId(), null);
     }
     
     public Campaign getCampaignById(String campaginId) {
@@ -139,7 +137,7 @@ public class CampaignDataSource {
 
     private Campaign cursorToCampaign(Cursor cursor) {
         Campaign campaign = new Campaign();
-        campaign.setId(cursor.getLong(0));
+        campaign.setId(cursor.getString(0));
         campaign.setStartTime(cursor.getString(1));
         campaign.setEndTime(cursor.getString(2));
         campaign.setSummary(cursor.getString(3));

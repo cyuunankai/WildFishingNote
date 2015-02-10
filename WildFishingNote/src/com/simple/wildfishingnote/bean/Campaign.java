@@ -2,7 +2,7 @@ package com.simple.wildfishingnote.bean;
 
 public class Campaign {
     
-    private long id;
+    private String id;
     private String startTime;
     private String endTime;
     private String summary;
@@ -14,10 +14,11 @@ public class Campaign {
 	public void setPlaceId(String placeId) {
 		this.placeId = placeId;
 	}
-	public long getId() {
+
+    public String getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getStartTime() {

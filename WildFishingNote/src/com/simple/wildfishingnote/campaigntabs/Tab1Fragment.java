@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
@@ -17,6 +18,7 @@ import com.simple.wildfishingnote.AddMainActivity;
 import com.simple.wildfishingnote.CalendarDailogActivity;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.Campaign;
+import com.simple.wildfishingnote.common.Common;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 import com.simple.wildfishingnote.datetimepicker.DatePickerFragment;
 import com.simple.wildfishingnote.datetimepicker.TimePickerFragment;
@@ -39,7 +41,10 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
         setStartTimeBtn();
         setEndDateBtn();
         setEndTimeBtn();
-        setSaveCampaignBtn();
+        setSaveCampaignTimeBtn();
+        setCampaignTimeNext();
+        
+        setOperationBtnVisibility();
         
         Intent intent = ((AddMainActivity)getActivity()).getIntent();
         if (intent == null) {
@@ -47,17 +52,65 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
         }
         String historyDate = intent.getStringExtra(CalendarDailogActivity.HISTORY_DATE);
 
-        // TextView tv = (TextView)view.findViewById(R.id.textView2);
-        // tv.setText(historyDate);
-        
-        
-
         return tab1View;
     }
+    
+    
+    @Override
+    public void onClick(View v) {
+        BootstrapButton b = (BootstrapButton)v;
+        switch (v.getId()) {
+            case R.id.addCampaignStartDate:
+                DialogFragment startDateFragment = new DatePickerFragment(b);
+                startDateFragment.show(getActivity().getSupportFragmentManager(), "startDatePicker");
+                break;
+            case R.id.addCampaignStartTime:
+                DialogFragment startTimeFragment = new TimePickerFragment(b);
+                startTimeFragment.show(getActivity().getSupportFragmentManager(), "startTimePicker");
+                break;
+            case R.id.addCampaignEndDate:
+                DialogFragment endDateFragment = new DatePickerFragment(b);
+                endDateFragment.show(getActivity().getSupportFragmentManager(), "endDatePicker");
+                break;
+            case R.id.addCampaignEndTime:
+                DialogFragment endTimeFragment = new TimePickerFragment(b);
+                endTimeFragment.show(getActivity().getSupportFragmentManager(), "endTimePicker");
+                break;
+            case R.id.buttonSaveCampaginTime:
+                updateCampaignTime();
 
-    private void setSaveCampaignBtn() {
-        BootstrapButton saveCampaignBtn = (BootstrapButton)tab1View.findViewById(R.id.buttonSaveCampagin);
-        saveCampaignBtn.setOnClickListener(this);
+                break;
+            case R.id.buttonCampaginTimeNext:
+                
+                setCampaignTimeToPreference();
+                Common.setCampaignPrefernce(getActivity(), "btn_click", "true");
+                ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(1);
+                
+                break;
+        }
+    }
+
+    private void setOperationBtnVisibility() {
+        LinearLayout layoutAdd = (LinearLayout)tab1View.findViewById(R.id.buttonsLayoutCampaignTimeAdd);
+        LinearLayout layoutEdit = (LinearLayout)tab1View.findViewById(R.id.buttonsLayoutCampaignTimeEdit);
+        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if (mode.equals("add")) {
+            layoutAdd.setVisibility(View.VISIBLE);
+            layoutEdit.setVisibility(View.INVISIBLE);
+        } else if (mode.equals("edit")) {
+            layoutAdd.setVisibility(View.INVISIBLE);
+            layoutEdit.setVisibility(View.VISIBLE);
+        }
+    }
+    
+    private void setCampaignTimeNext() {
+        BootstrapButton nextBtn = (BootstrapButton)tab1View.findViewById(R.id.buttonCampaginTimeNext);
+        nextBtn.setOnClickListener(this);
+    }
+
+    private void setSaveCampaignTimeBtn() {
+        BootstrapButton saveBtn = (BootstrapButton)tab1View.findViewById(R.id.buttonSaveCampaginTime);
+        saveBtn.setOnClickListener(this);
     }
 
     private void setStartDateBtn() {
@@ -106,48 +159,41 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
         timeBtn.setText(StringUtils.leftPadTwo(hour) + ":" + StringUtils.leftPadTwo(minute));
     }
 
-    @Override
-    public void onClick(View v) {
-        BootstrapButton b = (BootstrapButton)v;
-        switch (v.getId()) {
-            case R.id.addCampaignStartDate:
-                DialogFragment startDateFragment = new DatePickerFragment(b);
-                startDateFragment.show(getActivity().getSupportFragmentManager(), "startDatePicker");
-                break;
-            case R.id.addCampaignStartTime:
-                DialogFragment startTimeFragment = new TimePickerFragment(b);
-                startTimeFragment.show(getActivity().getSupportFragmentManager(), "startTimePicker");
-                break;
-            case R.id.addCampaignEndDate:
-                DialogFragment endDateFragment = new DatePickerFragment(b);
-                endDateFragment.show(getActivity().getSupportFragmentManager(), "endDatePicker");
-                break;
-            case R.id.addCampaignEndTime:
-                DialogFragment endTimeFragment = new TimePickerFragment(b);
-                endTimeFragment.show(getActivity().getSupportFragmentManager(), "endTimePicker");
-                break;
-            case R.id.buttonSaveCampagin:
-                BootstrapButton startDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartDate);
-                BootstrapButton startTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartTime);
-                BootstrapButton endDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndDate);
-                BootstrapButton endTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndTime);
-                BootstrapEditText summaryEditText = (BootstrapEditText)tab1View.findViewById(R.id.tab1_summary);
+    
 
-                String startDate = startDateBtn.getText().toString();
-                String startTime = startTimeBtn.getText().toString();
-                String endDate = endDateBtn.getText().toString();
-                String endTime = endTimeBtn.getText().toString();
+    private void setCampaignTimeToPreference() {
+        Campaign campaign = setViewValueToBean(new Campaign());
+        
+        Common.setCampaignPrefernce(getActivity(), "campaign_start_time", campaign.getStartTime());
+        Common.setCampaignPrefernce(getActivity(), "campaign_end_time", campaign.getEndTime());
+        Common.setCampaignPrefernce(getActivity(), "campaign_summary", campaign.getSummary());
+    }
 
-                Campaign campaign = new Campaign();
-                campaign.setStartTime(startDate + " " + startTime);
-                campaign.setEndTime(endDate + " " + endTime);
-                campaign.setSummary(summaryEditText.getText().toString());
+    private void updateCampaignTime() {
+        String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
+        Campaign campaign = dataSource.getCampaignById(campaignId);
+        campaign = setViewValueToBean(campaign);
+        campaign.setId(campaignId);
+        
+        dataSource.updateCampaign(campaign);
+    }
 
-                campaign = dataSource.addCampaign(campaign);
-                ((AddMainActivity)getActivity()).setCampaignId(campaign.getId());
-//                campaignId = campaign.getId();
-                break;
-        }
+    private Campaign setViewValueToBean(Campaign campaign) {
+        BootstrapButton startDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartDate);
+        BootstrapButton startTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartTime);
+        BootstrapButton endDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndDate);
+        BootstrapButton endTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndTime);
+        BootstrapEditText summaryEditText = (BootstrapEditText)tab1View.findViewById(R.id.tab1_summary);
+
+        String startDate = startDateBtn.getText().toString();
+        String startTime = startTimeBtn.getText().toString();
+        String endDate = endDateBtn.getText().toString();
+        String endTime = endTimeBtn.getText().toString();
+
+        campaign.setStartTime(startDate + " " + startTime);
+        campaign.setEndTime(endDate + " " + endTime);
+        campaign.setSummary(summaryEditText.getText().toString());
+        return campaign;
     }
 
 }

@@ -62,6 +62,9 @@
     <string name="edit_lure_method">编辑打窝</string>
     <string name="add_lure_method">添加打窝</string>
     <string name="edit_bait">编辑饵料</string>
-    <string name="add_bait">添加饵料</string>
+    <string name="add_bait">添加饵料</string>   
+    <string name="pre">上一步</string>
+    <string name="next">下一步</string>
+
 
 </resources>
