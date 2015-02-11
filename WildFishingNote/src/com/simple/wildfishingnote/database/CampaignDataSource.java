@@ -11,10 +11,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.simple.wildfishingnote.bean.Bait;
 import com.simple.wildfishingnote.bean.Campaign;
+import com.simple.wildfishingnote.bean.FishResult;
 import com.simple.wildfishingnote.bean.LureMethod;
 import com.simple.wildfishingnote.bean.Place;
 import com.simple.wildfishingnote.bean.Point;
 import com.simple.wildfishingnote.bean.RelayCampaignPoint;
+import com.simple.wildfishingnote.bean.RelayResultStatistics;
 import com.simple.wildfishingnote.bean.RodLength;
 
 public class CampaignDataSource {
@@ -356,35 +358,6 @@ public class CampaignDataSource {
 	        
 	        return list;
 	    }
-	
-//	public List<Point> getPointsForList(String placeId) {
-//		List<Point> list = new ArrayList<Point>();
-//		
-//		StringBuffer  sb = new StringBuffer();
-//		sb.append("SELECT p._id,p.depth, ");
-//        sb.append(" rl._id AS rl_id,rl.name AS rod_length_name, ");
-//        sb.append(" lm._id AS lm_id,lm.name AS lure_method_name,lm.detail AS lure_method_detail, ");
-//        sb.append(" b._id AS b_id,b.name AS bait_name, b.detail AS bait_detail ");
-//        sb.append("FROM points p  ");
-//        sb.append("INNER JOIN rod_lengths rl ON p.rod_length_id=rl._id ");
-//        sb.append("INNER JOIN lure_methods lm ON p.lure_method_id=lm._id ");
-//        sb.append("INNER JOIN baits b ON p.bait_id=b._id ");
-//		sb.append(" WHERE p.place_id=?");
-//
-//		
-//		Cursor c = database.rawQuery(sb.toString(), new String[]{String.valueOf(placeId)});
-//		
-//		c.moveToFirst();
-//		while(!c.isAfterLast()){
-//			Point point = cursorToPoint(c);
-//		
-//			list.add(point);
-//			c.moveToNext();
-//		}
-//		c.close();
-//		
-//		return list;
-//	}
 	
 	private Point cursorToPoint(Cursor c) {
 		Point point = new Point();
@@ -754,5 +727,29 @@ public class CampaignDataSource {
 		bait.setDetail(c.getString(c
 				.getColumnIndex(WildFishingContract.Baits.COLUMN_NAME_DETAIL)));
 		return bait;
+	}
+	
+	// 渔获
+	public void addResult(FishResult result) {
+
+		ContentValues values = new ContentValues();
+		values.put(WildFishingContract.FishResults.COLUMN_NAME_FILE_PATH1, result.getFile_path1());
+		values.put(WildFishingContract.FishResults.COLUMN_NAME_FILE_PATH2, result.getFile_path2());
+		values.put(WildFishingContract.FishResults.COLUMN_NAME_FILE_PATH3, result.getFile_path3());
+
+		// Insert the new row, returning the primary key value of the new row
+		long newRowId = database.insert(WildFishingContract.FishResults.TABLE_NAME, null,values);
+		
+		for(RelayResultStatistics rrs : result.getStatisticsList()){
+			values = new ContentValues();
+			values.put(WildFishingContract.RelayResultStatistics.COLUMN_NAME_RESULT_ID, String.valueOf(newRowId));
+			values.put(WildFishingContract.RelayResultStatistics.COLUMN_NAME_POINT_ID, rrs.getPointId());
+			values.put(WildFishingContract.RelayResultStatistics.COLUMN_NAME_FISH_TYPE_ID, rrs.getFishTypeId());
+			values.put(WildFishingContract.RelayResultStatistics.COLUMN_NAME_WEIGHT, rrs.getWeight());
+			values.put(WildFishingContract.RelayResultStatistics.COLUMN_NAME_COUNT, rrs.getCount());
+			values.put(WildFishingContract.RelayResultStatistics.COLUMN_NAME_HOOK_FLAG, rrs.getHookFlag());
+			
+			database.insert(WildFishingContract.RelayResultStatistics.TABLE_NAME, null,values);
+		}
 	}
 }

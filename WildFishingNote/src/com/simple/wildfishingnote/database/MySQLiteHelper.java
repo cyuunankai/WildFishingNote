@@ -74,6 +74,34 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             		WildFishingContract.Baits.COLUMN_NAME_NAME + TEXT_TYPE +  COMMA_SEP +
             		WildFishingContract.Baits.COLUMN_NAME_DETAIL + TEXT_TYPE +  
             " )";
+    
+    // 渔获
+    private static final String SQL_CREATE_RESULTS =
+            "CREATE TABLE " + WildFishingContract.FishResults.TABLE_NAME + " (" +
+            		WildFishingContract.FishResults._ID + " INTEGER PRIMARY KEY," +
+            		WildFishingContract.FishResults.COLUMN_NAME_FILE_PATH1 + TEXT_TYPE +  COMMA_SEP +
+            		WildFishingContract.FishResults.COLUMN_NAME_FILE_PATH2 + TEXT_TYPE +  COMMA_SEP +
+            		WildFishingContract.FishResults.COLUMN_NAME_FILE_PATH3 + TEXT_TYPE +  
+            " )";
+    
+    // 渔获统计关系表
+    private static final String SQL_CREATE_RELAY_RESULT_STATISTICS =
+            "CREATE TABLE " + WildFishingContract.RelayResultStatistics.TABLE_NAME + " (" +
+            		WildFishingContract.RelayResultStatistics._ID + " INTEGER PRIMARY KEY," +
+            		WildFishingContract.RelayResultStatistics.COLUMN_NAME_RESULT_ID + INTEGER_TYPE +  COMMA_SEP +
+            		WildFishingContract.RelayResultStatistics.COLUMN_NAME_POINT_ID + INTEGER_TYPE +  COMMA_SEP +
+            		WildFishingContract.RelayResultStatistics.COLUMN_NAME_FISH_TYPE_ID + INTEGER_TYPE +  COMMA_SEP +
+            		WildFishingContract.RelayResultStatistics.COLUMN_NAME_WEIGHT + REAL_TYPE +  COMMA_SEP +
+            		WildFishingContract.RelayResultStatistics.COLUMN_NAME_COUNT + INTEGER_TYPE +  COMMA_SEP +
+            		WildFishingContract.RelayResultStatistics.COLUMN_NAME_HOOK_FLAG + TEXT_TYPE +  
+            " )";
+    
+    // 鱼种
+    private static final String SQL_CREATE_FISH_TYPE =
+            "CREATE TABLE " + WildFishingContract.FishType.TABLE_NAME + " (" +
+            		WildFishingContract.FishType._ID + " INTEGER PRIMARY KEY," +
+            		WildFishingContract.FishType.COLUMN_NAME_NAME + TEXT_TYPE +  
+            " )";
 
     public MySQLiteHelper(Context context) {
       super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -88,6 +116,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       database.execSQL(SQL_CREATE_ROD_LENGTHS);
       database.execSQL(SQL_CREATE_LURE_METHODS);
       database.execSQL(SQL_CREATE_BAITS);
+      database.execSQL(SQL_CREATE_RESULTS);
+      database.execSQL(SQL_CREATE_RELAY_RESULT_STATISTICS);
+      database.execSQL(SQL_CREATE_FISH_TYPE);
     }
 
     @Override
@@ -102,6 +133,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.RodLengths.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.LureMethods.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Baits.TABLE_NAME);
+      db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.FishResults.TABLE_NAME);
+      db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.RelayResultStatistics.TABLE_NAME);
+      db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.FishType.TABLE_NAME);
       onCreate(db);
     }
 

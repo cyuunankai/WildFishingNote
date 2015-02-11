@@ -53,103 +53,7 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
         
         initAddOrEdit();
     }
-    
-	private void initHoverSwith() {
-		ViewGroup parent = (ViewGroup) findViewById(R.id.rootLayout);
-		List<ImageSrcIntent> itemImageSrcIntentList = getInitialItemImageSrcAndIntentList();
-		hoverSwitch = new HoverSwitch();
-		hoverSwitch.init(parent, ROOT_IMAGE, itemImageSrcIntentList, this, 150);
-	
-		
-		List<ImageIntentBean> itemBtnImageIntentList = hoverSwitch.getItemBtnImageList();
-		addItemClickListener(itemBtnImageIntentList);
-		List<ImageIntentBean> itemTextImageIntentList = hoverSwitch.getItemTextImageList();
-		addItemClickListener(itemTextImageIntentList);
-	}
-	
-    /**
-	 * get initial item image src and intent
-	 * @return
-	 */
-	private List<ImageSrcIntent> getInitialItemImageSrcAndIntentList(){
-		List<ImageSrcIntent> imageSrcIntentList = new ArrayList<ImageSrcIntent>();
-		
-		// 至下向上
-		ImageSrcIntent imageSrcIntent = new ImageSrcIntent();
-		imageSrcIntent.setItemButtonSrc(IMAGE);
-		imageSrcIntent.setItemTextSrc(IMAGE);
-		imageSrcIntent.setInvokeIntentOnClick("BaitDialogFragment");
-		imageSrcIntentList.add(imageSrcIntent);
-		
-		imageSrcIntent = new ImageSrcIntent();
-		imageSrcIntent.setItemButtonSrc(IMAGE);
-		imageSrcIntent.setItemTextSrc(IMAGE);
-		imageSrcIntent.setInvokeIntentOnClick("LureMethodDialogFragment");
-		imageSrcIntentList.add(imageSrcIntent);
-		
-		imageSrcIntent = new ImageSrcIntent();
-		imageSrcIntent.setItemButtonSrc(IMAGE);
-		imageSrcIntent.setItemTextSrc(IMAGE);
-		imageSrcIntent.setInvokeIntentOnClick("RodLengthDialogFragment");
-		imageSrcIntentList.add(imageSrcIntent);
-		
-		imageSrcIntent = new ImageSrcIntent();
-		imageSrcIntent.setItemButtonSrc(IMAGE);
-		imageSrcIntent.setItemTextSrc(IMAGE);
-		imageSrcIntent.setInvokeIntentOnClick("ShowAllRodLengthActivity");
-		imageSrcIntentList.add(imageSrcIntent);
-		
-		imageSrcIntent = new ImageSrcIntent();
-		imageSrcIntent.setItemButtonSrc(IMAGE);
-		imageSrcIntent.setItemTextSrc(IMAGE);
-		imageSrcIntent.setInvokeIntentOnClick("ShowAllRodLengthActivity");
-		imageSrcIntentList.add(imageSrcIntent);
-		
-		imageSrcIntent = new ImageSrcIntent();
-		imageSrcIntent.setItemButtonSrc(IMAGE);
-		imageSrcIntent.setItemTextSrc(IMAGE);
-		imageSrcIntent.setInvokeIntentOnClick("ShowAllRodLengthActivity");
-		imageSrcIntentList.add(imageSrcIntent);
-		
-		return imageSrcIntentList;
-	}
-	
-	/**
-	 * add item click listener
-	 */
-	private void addItemClickListener(List<ImageIntentBean> imageIntentList){
-		for(ImageIntentBean imageIntent : imageIntentList){
-			ImageView imageView = imageIntent.getImageView();
-			final String intentName = imageIntent.getInvokeIntentOnClick();
-			imageView.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View view) {
-					if ("RodLengthDialogFragment".equals(intentName)) {
-						RodLengthDialogFragment dialog = new RodLengthDialogFragment("");
-				        dialog.show(getSupportFragmentManager(), "rodLengthDialog");
-					} else if ("LureMethodDialogFragment".equals(intentName)) {
-						LureMethodDialogFragment dialog = new LureMethodDialogFragment();
-				        dialog.show(getSupportFragmentManager(), "lureMethodDialog");
-					} else if ("BaitDialogFragment".equals(intentName)) {
-						BaitDialogFragment dialog = new BaitDialogFragment();
-				        dialog.show(getSupportFragmentManager(), "baitDialog");
-					} else if ("ShowAllRodLengthActivity".equals(intentName)){
-						Intent intent = new Intent(getApplicationContext(), ShowAllRodLengthActivity.class);
-				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
-					} else if ("ShowAllRodLengthActivity".equals(intentName)){
-						Intent intent = new Intent(getApplicationContext(), ShowAllRodLengthActivity.class);
-				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
-					} else if ("ShowAllRodLengthActivity".equals(intentName)){
-						Intent intent = new Intent(getApplicationContext(), ShowAllRodLengthActivity.class);
-				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
-					}
-					
-				}
-			});
-		}
-	}
-    
+
     /**
      * [保存]按钮按下
      */
@@ -508,6 +412,102 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
          }
          return updatedPoint;
      }
+     
+     private void initHoverSwith() {
+ 		ViewGroup parent = (ViewGroup) findViewById(R.id.rootLayout);
+ 		List<ImageSrcIntent> itemImageSrcIntentList = getInitialItemImageSrcAndIntentList();
+ 		hoverSwitch = new HoverSwitch();
+ 		hoverSwitch.init(parent, ROOT_IMAGE, itemImageSrcIntentList, this, 150);
+ 	
+ 		
+ 		List<ImageIntentBean> itemBtnImageIntentList = hoverSwitch.getItemBtnImageList();
+ 		addItemClickListener(itemBtnImageIntentList);
+ 		List<ImageIntentBean> itemTextImageIntentList = hoverSwitch.getItemTextImageList();
+ 		addItemClickListener(itemTextImageIntentList);
+ 	}
+ 	
+     /**
+ 	 * get initial item image src and intent
+ 	 * @return
+ 	 */
+ 	private List<ImageSrcIntent> getInitialItemImageSrcAndIntentList(){
+ 		List<ImageSrcIntent> imageSrcIntentList = new ArrayList<ImageSrcIntent>();
+ 		
+ 		// 至下向上
+ 		ImageSrcIntent imageSrcIntent = new ImageSrcIntent();
+ 		imageSrcIntent.setItemButtonSrc(IMAGE);
+ 		imageSrcIntent.setItemTextSrc(IMAGE);
+ 		imageSrcIntent.setInvokeIntentOnClick("BaitDialogFragment");
+ 		imageSrcIntentList.add(imageSrcIntent);
+ 		
+ 		imageSrcIntent = new ImageSrcIntent();
+ 		imageSrcIntent.setItemButtonSrc(IMAGE);
+ 		imageSrcIntent.setItemTextSrc(IMAGE);
+ 		imageSrcIntent.setInvokeIntentOnClick("LureMethodDialogFragment");
+ 		imageSrcIntentList.add(imageSrcIntent);
+ 		
+ 		imageSrcIntent = new ImageSrcIntent();
+ 		imageSrcIntent.setItemButtonSrc(IMAGE);
+ 		imageSrcIntent.setItemTextSrc(IMAGE);
+ 		imageSrcIntent.setInvokeIntentOnClick("RodLengthDialogFragment");
+ 		imageSrcIntentList.add(imageSrcIntent);
+ 		
+ 		imageSrcIntent = new ImageSrcIntent();
+ 		imageSrcIntent.setItemButtonSrc(IMAGE);
+ 		imageSrcIntent.setItemTextSrc(IMAGE);
+ 		imageSrcIntent.setInvokeIntentOnClick("ShowAllRodLengthActivity");
+ 		imageSrcIntentList.add(imageSrcIntent);
+ 		
+ 		imageSrcIntent = new ImageSrcIntent();
+ 		imageSrcIntent.setItemButtonSrc(IMAGE);
+ 		imageSrcIntent.setItemTextSrc(IMAGE);
+ 		imageSrcIntent.setInvokeIntentOnClick("ShowAllRodLengthActivity");
+ 		imageSrcIntentList.add(imageSrcIntent);
+ 		
+ 		imageSrcIntent = new ImageSrcIntent();
+ 		imageSrcIntent.setItemButtonSrc(IMAGE);
+ 		imageSrcIntent.setItemTextSrc(IMAGE);
+ 		imageSrcIntent.setInvokeIntentOnClick("ShowAllRodLengthActivity");
+ 		imageSrcIntentList.add(imageSrcIntent);
+ 		
+ 		return imageSrcIntentList;
+ 	}
+ 	
+ 	/**
+ 	 * add item click listener
+ 	 */
+ 	private void addItemClickListener(List<ImageIntentBean> imageIntentList){
+ 		for(ImageIntentBean imageIntent : imageIntentList){
+ 			ImageView imageView = imageIntent.getImageView();
+ 			final String intentName = imageIntent.getInvokeIntentOnClick();
+ 			imageView.setOnClickListener(new OnClickListener() {
+ 				
+ 				@Override
+ 				public void onClick(View view) {
+ 					if ("RodLengthDialogFragment".equals(intentName)) {
+ 						RodLengthDialogFragment dialog = new RodLengthDialogFragment("");
+ 				        dialog.show(getSupportFragmentManager(), "rodLengthDialog");
+ 					} else if ("LureMethodDialogFragment".equals(intentName)) {
+ 						LureMethodDialogFragment dialog = new LureMethodDialogFragment();
+ 				        dialog.show(getSupportFragmentManager(), "lureMethodDialog");
+ 					} else if ("BaitDialogFragment".equals(intentName)) {
+ 						BaitDialogFragment dialog = new BaitDialogFragment();
+ 				        dialog.show(getSupportFragmentManager(), "baitDialog");
+ 					} else if ("ShowAllRodLengthActivity".equals(intentName)){
+ 						Intent intent = new Intent(getApplicationContext(), ShowAllRodLengthActivity.class);
+ 				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
+ 					} else if ("ShowAllRodLengthActivity".equals(intentName)){
+ 						Intent intent = new Intent(getApplicationContext(), ShowAllRodLengthActivity.class);
+ 				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
+ 					} else if ("ShowAllRodLengthActivity".equals(intentName)){
+ 						Intent intent = new Intent(getApplicationContext(), ShowAllRodLengthActivity.class);
+ 				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
+ 					}
+ 					
+ 				}
+ 			});
+ 		}
+ 	}
 
      @Override
      protected void onResume() {
