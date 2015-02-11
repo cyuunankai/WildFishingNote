@@ -35,6 +35,7 @@ public class AddMainActivity extends ActionBarActivity {
     private CampaignDataSource dataSourceCampaign;
     private Handler mHandler;
     private SharedPreferences sharedPref;
+    private String mode;
 
     public ActionBar getActionBarReference() {
         return bar;
@@ -54,6 +55,7 @@ public class AddMainActivity extends ActionBarActivity {
         Common.initCampaignPrefernce(this);
         Common.setCampaignPrefernce(this, "campaign_operation_mode", "add");
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        mode = sharedPref.getString("campaign_operation_mode", "");
         mHandler = new Handler();
         
         dataSourceCampaign = new CampaignDataSource(this);
@@ -68,7 +70,10 @@ public class AddMainActivity extends ActionBarActivity {
         // 设定适配器
         mViewPager.setAdapter(mMyFragmentStatePagerAdapter);
         
-        disableViewPagerScroll(); 
+        if (mode.equals("add")) {
+            disableViewPagerScroll();
+        }
+        
 
         // 添加tab
         // 设定tab选中监听器
@@ -77,9 +82,6 @@ public class AddMainActivity extends ActionBarActivity {
         bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         bar.setDisplayShowHomeEnabled(false);
         bar.setDisplayShowTitleEnabled(false);
-        
-        
-
         
         // 初始化手势横向滑动监听器
         initViewPagerPageChangeListener(bar);
@@ -103,7 +105,7 @@ public class AddMainActivity extends ActionBarActivity {
      * 添加tab
      * 设定tab选中监听器
      */
-    private void addTabAndSetTabListener(ActionBar bar){
+    private void addTabAndSetTabListener(ActionBar bar) {
         
         ActionBar.TabListener tabListener = getTabListener();
         bar.addTab(bar.newTab().setText(R.string.time).setTabListener(tabListener));
@@ -131,23 +133,31 @@ public class AddMainActivity extends ActionBarActivity {
             public void onTabSelected(Tab tab,
                     android.app.FragmentTransaction arg1) {
                 
-                String mode = sharedPref.getString("campaign_operation_mode", "");
-                String btnClick = sharedPref.getString("btn_click", "");
-                if (mode.equals("add") && btnClick.equals("false")) {
-                    mHandler.postAtFrontOfQueue(new Runnable() {
-                        @Override
-                        public void run() {
-                            bar.setSelectedNavigationItem(0);
-                        }
-                    });
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString("btn_click", "false");
-                    editor.commit();    
-                } else if (mode.equals("add") && btnClick.equals("true")) {
+                if (mode.equals("edit")) {
+                    // 编辑
                     mViewPager.setCurrentItem(tab.getPosition());
                 } else {
-                    mViewPager.setCurrentItem(tab.getPosition());
+                    // 新规
+                    String btnClick = sharedPref.getString("btn_click", "");
+                    if(btnClick.equals("false")){
+                        // 点击tab
+                        mHandler.postAtFrontOfQueue(new Runnable() {
+                            @Override
+                            public void run() {
+                                bar.setSelectedNavigationItem(0);
+                                mViewPager.setCurrentItem(0);
+                            }
+                        });
+                    }else{
+                        // 点击下一步按钮
+                        mViewPager.setCurrentItem(tab.getPosition());
+                    }
+                    
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("btn_click", "false");
+                    editor.commit();   
                 }
+
             }
 
             @Override
