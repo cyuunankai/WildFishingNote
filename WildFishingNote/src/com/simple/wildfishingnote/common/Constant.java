@@ -12,4 +12,8 @@ public class Constant {
     public final static int REQUEST_CODE_SHOW_ALL_ROD_LENGTH = 105;
     public final static int REQUEST_CODE_SHOW_ALL_LURE_METHOD = 106;
     public final static int REQUEST_CODE_SHOW_ALL_BAIR = 107;
+    
+    
+    public final static int ADD_PLACE_ID = 10000;
+    public final static int ADD_POINT_ID = 10001;
 }

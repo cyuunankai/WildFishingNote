@@ -18,9 +18,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -78,9 +80,8 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
      */
 	@Override
     public void onClick(View v) {
-        BootstrapButton b = (BootstrapButton)v;
         switch (v.getId()) {
-            case R.id.buttonAddPlace:
+            case Constant.ADD_PLACE_ID:
                 Intent intent = new Intent(getActivity(), AddPlaceActivity.class);
                 startActivityForResult(intent, Constant.REQUEST_CODE_ADD_PLACE);
                 break;
@@ -209,8 +210,21 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
      * 注册[添加]按钮事件
      */
     private void setAddPlaceBtn() {
-        BootstrapButton addPlaceBtn = (BootstrapButton)tab2View.findViewById(R.id.buttonAddPlace);
-        addPlaceBtn.setOnClickListener(this);
+        ViewGroup parent = (ViewGroup) tab2View.findViewById(R.id.addPlaceRootLayout);
+        ImageView imageView = new ImageView(getActivity());
+        imageView.setId(Constant.ADD_PLACE_ID);
+        imageView.setImageResource(R.drawable.ic_launcher);
+        
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        params.bottomMargin = 150;
+        params.rightMargin = 10;
+        imageView.setLayoutParams(params);
+        parent.addView(imageView);
+        
+        imageView.setOnClickListener(this);
     }
     
     /**

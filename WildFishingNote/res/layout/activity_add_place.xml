@@ -86,22 +86,11 @@
     android:layout_alignParentBottom="true"
     android:orientation="horizontal" >
 
-<com.beardedhen.androidbootstrap.BootstrapButton
-				    android:id="@+id/addPlaceButtonCancel"
-	                android:layout_width="10dp"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="0.5"
-	                android:layout_margin="8dp"
-	                android:text="@string/cancel"
-	                bootstrapbutton:bb_icon_left="fa-undo"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success" />
 	
 	            <com.beardedhen.androidbootstrap.BootstrapButton
 	                android:id="@+id/addPlaceButtonSave"
-	                android:layout_width="0dp"
+	                android:layout_width="match_parent"
 	                android:layout_height="wrap_content"
-	                android:layout_weight="0.5"
 	                android:layout_margin="8dp"
 	                android:text="@string/save"
 	                android:onClick="onAddPlaceButtonSaveClickListener"

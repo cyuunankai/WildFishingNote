@@ -21,9 +21,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
@@ -80,9 +82,8 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
      */
     @Override
     public void onClick(View v) {
-        BootstrapButton b = (BootstrapButton)v;
         switch (v.getId()) {
-            case R.id.buttonAddPoint:
+            case Constant.ADD_POINT_ID:
                 Intent intent = new Intent(getActivity(), AddPointActivity.class);
                 startActivityForResult(intent, Constant.REQUEST_CODE_ADD_POINT);
                 break;
@@ -215,8 +216,21 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
      * 注册[添加]按钮事件
      */
     private void setAddPointBtn() {
-        BootstrapButton addPointBtn = (BootstrapButton)tab3View.findViewById(R.id.buttonAddPoint);
-        addPointBtn.setOnClickListener(this);
+        ViewGroup parent = (ViewGroup) tab3View.findViewById(R.id.addPointRootLayout);
+        ImageView imageView = new ImageView(getActivity());
+        imageView.setId(Constant.ADD_POINT_ID);
+        imageView.setImageResource(R.drawable.ic_launcher);
+        
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        params.bottomMargin = 150;
+        params.rightMargin = 10;
+        imageView.setLayoutParams(params);
+        parent.addView(imageView);
+        
+        imageView.setOnClickListener(this);
     }
     
     /**
