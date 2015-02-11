@@ -52,29 +52,18 @@ public class AddMainActivity extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_add_main);
         
-        Common.initCampaignPrefernce(this);
-        Common.setCampaignPrefernce(this, "campaign_operation_mode", "add");
-        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        mode = sharedPref.getString("campaign_operation_mode", "");
-        mHandler = new Handler();
+        Intent intent = getIntent();
+        String historyDate = intent.getStringExtra(CalendarDailogActivity.HISTORY_DATE);
         
         dataSourceCampaign = new CampaignDataSource(this);
         dataSourceCampaign.open();
         
-        Intent intent = getIntent();
-        String historyDate = intent.getStringExtra(CalendarDailogActivity.HISTORY_DATE);
-        
-        mMyFragmentStatePagerAdapter = new MyFragmentStatePagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        
-        // 设定适配器
-        mViewPager.setAdapter(mMyFragmentStatePagerAdapter);
-        
-        if (mode.equals("add")) {
-            disableViewPagerScroll();
-        }
-        
+        initPreference();
+        initViewPager();
+        initActionBar(savedInstanceState);
+    }
 
+    private void initActionBar(Bundle savedInstanceState) {
         // 添加tab
         // 设定tab选中监听器
         bar = getActionBar();
@@ -90,6 +79,26 @@ public class AddMainActivity extends ActionBarActivity {
             // 初始化选中第一个tab
             bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
         }
+    }
+
+    private void initViewPager() {
+        mMyFragmentStatePagerAdapter = new MyFragmentStatePagerAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        
+        // 设定适配器
+        mViewPager.setAdapter(mMyFragmentStatePagerAdapter);
+        
+        if (mode.equals("add")) {
+            disableViewPagerScroll();
+        }
+    }
+
+    private void initPreference() {
+        Common.initCampaignPrefernce(this);
+        Common.setCampaignPrefernce(this, "campaign_operation_mode", "add");
+        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        mode = sharedPref.getString("campaign_operation_mode", "");
+        mHandler = new Handler();
     }
 
     private void disableViewPagerScroll() {
