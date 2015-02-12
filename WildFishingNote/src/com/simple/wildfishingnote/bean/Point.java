@@ -80,5 +80,9 @@ public class Point {
 		this.baitId = baitId;
 	}
 	
+    public String toString() {
+        return "竿长" + rodLengthName + "米" + " - 水深" + depth + "米";
+    }
+	
 	
 }

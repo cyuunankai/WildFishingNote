@@ -3,6 +3,8 @@ package com.simple.wildfishingnote.database;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -12,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.simple.wildfishingnote.bean.Bait;
 import com.simple.wildfishingnote.bean.Campaign;
 import com.simple.wildfishingnote.bean.FishResult;
+import com.simple.wildfishingnote.bean.FishType;
 import com.simple.wildfishingnote.bean.LureMethod;
 import com.simple.wildfishingnote.bean.Place;
 import com.simple.wildfishingnote.bean.Point;
@@ -358,6 +361,34 @@ public class CampaignDataSource {
 	        
 	        return list;
 	    }
+	
+	public List<Point> getPointsById(List<String> pointIds) {
+        List<Point> list = new ArrayList<Point>();
+        
+        StringBuffer  sb = new StringBuffer();
+        sb.append("SELECT p._id,p.depth, ");
+        sb.append(" rl._id AS rl_id,rl.name AS rod_length_name, ");
+        sb.append(" lm._id AS lm_id,lm.name AS lure_method_name,lm.detail AS lure_method_detail, ");
+        sb.append(" b._id AS b_id,b.name AS bait_name, b.detail AS bait_detail ");
+        sb.append("FROM points p  ");
+        sb.append("INNER JOIN rod_lengths rl ON p.rod_length_id=rl._id ");
+        sb.append("INNER JOIN lure_methods lm ON p.lure_method_id=lm._id ");
+        sb.append("INNER JOIN baits b ON p.bait_id=b._id ");
+        sb.append("WHERE p._id in ("+StringUtils.join(pointIds, ",")+") ");
+        
+        Cursor c = database.rawQuery(sb.toString(), new String[]{});
+        
+        c.moveToFirst();
+        while(!c.isAfterLast()){
+            Point point = cursorToPoint(c);
+        
+            list.add(point);
+            c.moveToNext();
+        }
+        c.close();
+        
+        return list;
+    }
 	
 	private Point cursorToPoint(Cursor c) {
 		Point point = new Point();
@@ -752,4 +783,48 @@ public class CampaignDataSource {
 			database.insert(WildFishingContract.RelayResultStatistics.TABLE_NAME, null,values);
 		}
 	}
+	
+	// 鱼种
+	public void addFishType(FishType fishType) {
+
+        ContentValues values = new ContentValues();
+        values.put(WildFishingContract.FishType.COLUMN_NAME_NAME, fishType.getName());
+
+        database.insert(WildFishingContract.FishType.TABLE_NAME, null, values);
+    }
+	
+	public List<FishType> getAllFileTypes() {
+        List<FishType> retList = new ArrayList<FishType>();
+        
+        String []cols = { WildFishingContract.FishType._ID,
+                WildFishingContract.FishType.COLUMN_NAME_NAME};
+        
+        Cursor c = database.query(WildFishingContract.FishType.TABLE_NAME,
+                cols, // The columns to return
+                null, // The columns for the WHERE clause
+                null, // The values for the WHERE clause
+                null, // don't group the rows
+                null, // don't filter by row groups
+                null // The sort order
+                );
+
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            FishType obj = cursorToFishType(c);
+            retList.add(obj);
+
+            c.moveToNext();
+        }
+        c.close();
+
+        return retList;
+    }
+
+    private FishType cursorToFishType(Cursor c) {
+        FishType bait = new FishType();
+        bait.setId(c.getString(c.getColumnIndex(WildFishingContract.FishType._ID)));
+        bait.setName(c.getString(c
+                .getColumnIndex(WildFishingContract.FishType.COLUMN_NAME_NAME)));
+        return bait;
+    }
 }

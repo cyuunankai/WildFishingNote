@@ -114,6 +114,8 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
         }
         
         Common.setCampaignPrefernce(getActivity(), "campaign_point_ids", new HashSet<String>(selectedPointIds));
+        Common.setCampaignPrefernce(getActivity(), "btn_click", "true");
+        ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(3);
     }
     
     /**

@@ -1,5 +1,7 @@
 package com.simple.wildfishingnote.database;
 
+import com.simple.wildfishingnote.bean.FishType;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -119,6 +121,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       database.execSQL(SQL_CREATE_RESULTS);
       database.execSQL(SQL_CREATE_RELAY_RESULT_STATISTICS);
       database.execSQL(SQL_CREATE_FISH_TYPE);
+      
+      String initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('鲤鱼')";
+      database.execSQL(initFishTypeSql);
+      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('鲫鱼')";
+      database.execSQL(initFishTypeSql);
     }
 
     @Override

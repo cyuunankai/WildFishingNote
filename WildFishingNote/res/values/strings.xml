@@ -65,6 +65,15 @@
     <string name="add_bait">添加饵料</string>   
     <string name="pre">上一步</string>
     <string name="next">下一步</string>
+    <string name="fish_type">鱼种</string>
+    <string name="weight">重量</string>
+    <string name="weight_hint">单位：克</string>
+    <string name="count">数量</string>
+    <string name="count_hint">数量</string>
+    <string name="hook_flag">入护</string>
+    <string name="in">入护</string>
+    <string name="out">跑鱼</string>
+    <string name="add_result_pick_pic">添加鱼获图片</string>
 
 
 </resources>
