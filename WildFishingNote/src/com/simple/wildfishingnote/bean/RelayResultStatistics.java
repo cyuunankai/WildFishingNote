@@ -9,7 +9,21 @@ public class RelayResultStatistics {
 	private String weight;
 	private String count;
 	private String hookFlag;
+	private String pointName;
+	private String fishTypeName;
 	
+	public String getPointName() {
+		return pointName;
+	}
+	public void setPointName(String pointName) {
+		this.pointName = pointName;
+	}
+	public String getFishTypeName() {
+		return fishTypeName;
+	}
+	public void setFishTypeName(String fishTypeName) {
+		this.fishTypeName = fishTypeName;
+	}
 	public String getId() {
 		return id;
 	}
