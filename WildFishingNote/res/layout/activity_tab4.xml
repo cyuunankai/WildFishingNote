@@ -10,14 +10,20 @@
     tools:context="com.example.android.apis.app.Tab4Activity" >
 
 
+
+ 		
+
 		
 <LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical" >
-		
-		
-		<com.beardedhen.androidbootstrap.BootstrapButton
+
+<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical" >		
+	<com.beardedhen.androidbootstrap.BootstrapButton
 				    android:id="@+id/addResultGalleryPickBtn"
 	                android:layout_width="match_parent"
 	                android:layout_height="wrap_content"
@@ -51,8 +57,9 @@
             tools:listitem="@layout/gallery_item" >
         </GridView>
         
-    </ViewSwitcher>
-    
+    </ViewSwitcher>		
+	   
+    </LinearLayout>
     
 
 
@@ -176,10 +183,13 @@
 	<ListView
         android:id="@+id/listViewResult"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" >
     </ListView>
+    
+    
+
  
 </LinearLayout>
 

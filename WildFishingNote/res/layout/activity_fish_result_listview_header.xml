@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				
+    <TextView
+    	android:layout_width="0dp"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"
+	    android:hint="@string/point"
+	    android:layout_margin="2dp"
+		/>
+
+    
+    <TextView
+    	android:layout_width="35dp"
+	    android:layout_height="wrap_content"
+	    android:hint="@string/fish_type"
+	    android:layout_margin="2dp"
+		/>
+    
+    <TextView
+    	android:layout_width="35dp"
+	    android:layout_height="wrap_content"
+	    android:hint="@string/weight"
+	    android:layout_margin="2dp"
+		/>
+
+    <TextView
+    	android:layout_width="35dp"
+	    android:layout_height="wrap_content"
+	    android:hint="@string/count"
+	    android:layout_margin="2dp"
+		/>
+		
+	<TextView
+    	android:layout_width="35dp"
+	    android:layout_height="wrap_content"
+	    android:hint="@string/in"
+	    android:layout_margin="2dp"
+		/>			
+    
+
+</LinearLayout>

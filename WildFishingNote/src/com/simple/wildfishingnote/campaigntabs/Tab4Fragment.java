@@ -79,8 +79,11 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         addMainActivity = (AddMainActivity)getActivity();
         dataSource = addMainActivity.getCampaignDataSource();
         
+        
         statisticsList = new ArrayList<RelayResultStatistics>();
         ListView listView = (ListView) tab4View.findViewById(R.id.listViewResult);
+        View header = inflater.inflate(R.layout.activity_fish_result_listview_header, null);
+        listView.addHeaderView(header);
         arrayAdapter = new StatisticsArrayAdapter(getActivity(), statisticsList);
         listView.setAdapter(arrayAdapter);
         
