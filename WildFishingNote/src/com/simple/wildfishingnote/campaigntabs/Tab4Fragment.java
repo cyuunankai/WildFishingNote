@@ -26,7 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,13 +47,14 @@ import com.simple.wildfishingnote.bean.FishType;
 import com.simple.wildfishingnote.bean.Point;
 import com.simple.wildfishingnote.bean.RelayResultStatistics;
 import com.simple.wildfishingnote.common.Common;
+import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 
 public class Tab4Fragment extends Fragment implements OnClickListener {
     
     GridView gridGallery;
     Handler handler;
-    GalleryAdapter adapter;
+    GalleryAdapter galleryAdapter;
 
     ImageView imgSinglePick;
     Button btnGalleryPick;
@@ -69,6 +69,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
     private AddMainActivity addMainActivity;
     private StatisticsArrayAdapter arrayAdapter;
     private List<RelayResultStatistics> statisticsList;
+    private String statisticsId = "";
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,7 +82,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         statisticsList = new ArrayList<RelayResultStatistics>();
         ListView listView = (ListView) tab4View.findViewById(R.id.listViewResult);
         arrayAdapter = new StatisticsArrayAdapter(getActivity(), statisticsList);
-        listView.setAdapter(adapter);
+        listView.setAdapter(arrayAdapter);
         
         // 图片
         initImageLoader();
@@ -107,42 +108,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.addResultAddBtn:
-            	Spinner pointSpinner = (Spinner) tab4View.findViewById(R.id.addResultPointSpinner);
-            	Spinner fishTypeSpinner = (Spinner) tab4View.findViewById(R.id.addResultFishTypeSpinner);
-            	BootstrapEditText weightEditText = (BootstrapEditText)tab4View.findViewById(R.id.addResultWeightEditText);
-            	BootstrapEditText countEditText = (BootstrapEditText)tab4View.findViewById(R.id.addResultCountEditText);
-            	RadioGroup radioGroup = (RadioGroup)tab4View.findViewById(R.id.radioGroup);
-            	RadioButton rb = (RadioButton)tab4View.findViewById(R.id.addResultInRadio);
-            	
-            	String pointId = ((Point)pointSpinner.getSelectedItem()).getId();
-            	String pointName = pointSpinner.getSelectedItem().toString();
-            	String fishTypeId = ((FishType)fishTypeSpinner.getSelectedItem()).getId();
-            	String fishTypeName = ((FishType)fishTypeSpinner.getSelectedItem()).getName();
-            	String weight = weightEditText.getText().toString();
-            	String count = countEditText.getText().toString();
-            	String hookFlag = "";
-            	int radioButtonId = radioGroup.getCheckedRadioButtonId();
-            	if(radioButtonId == R.id.addResultInRadio){
-            		hookFlag = "in";
-            	} else if(radioButtonId == R.id.addResultOutRadio){
-            		hookFlag = "out";
-            	}
-            	
-            	RelayResultStatistics rrs = new RelayResultStatistics();
-            	rrs.setPointId(pointId);
-            	rrs.setPointName(pointName);
-            	rrs.setFishTypeId(fishTypeId);
-            	rrs.setFishTypeName(fishTypeName);
-            	rrs.setWeight(weight);
-            	rrs.setCount(count);
-            	rrs.setHookFlag(hookFlag);
-            	int id = 1;
-            	if(statisticsList.size() > 0){
-            		id = Integer.parseInt(statisticsList.get(statisticsList.size() - 1).getId()) + 1;
-            	}
-            	rrs.setId(String.valueOf(id));
-            	statisticsList.add(rrs);
-            	arrayAdapter.notifyDataSetChanged();
+            	refreshStatisticsListView();
             	
                 break;
             case R.id.buttonCampaignResultPre:
@@ -150,8 +116,88 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
                 ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(2);
                 break;
             case R.id.buttonCampaignResultNext:
+                
                 break;
         }
+    }
+
+    private void refreshStatisticsListView() {
+        Spinner pointSpinner = (Spinner) tab4View.findViewById(R.id.addResultPointSpinner);
+        Spinner fishTypeSpinner = (Spinner) tab4View.findViewById(R.id.addResultFishTypeSpinner);
+        BootstrapEditText weightEditText = (BootstrapEditText)tab4View.findViewById(R.id.addResultWeightEditText);
+        BootstrapEditText countEditText = (BootstrapEditText)tab4View.findViewById(R.id.addResultCountEditText);
+        RadioGroup radioGroup = (RadioGroup)tab4View.findViewById(R.id.radioGroup);
+        
+        String pointId = ((Point)pointSpinner.getSelectedItem()).getId();
+        String pointName = pointSpinner.getSelectedItem().toString();
+        String fishTypeId = ((FishType)fishTypeSpinner.getSelectedItem()).getId();
+        String fishTypeName = ((FishType)fishTypeSpinner.getSelectedItem()).getName();
+        String weight = weightEditText.getText().toString();
+        String count = countEditText.getText().toString();
+        String hookFlag = "";
+        String hookFlagName = "";
+        int radioButtonId = radioGroup.getCheckedRadioButtonId();
+        if(radioButtonId == R.id.addResultInRadio){
+        	hookFlag = "in";
+        	hookFlagName = getResources().getString(R.string.in);
+        } else if(radioButtonId == R.id.addResultOutRadio){
+            hookFlagName = getResources().getString(R.string.out);
+        }
+        
+        
+        if ("".equals(statisticsId)) {
+            // 添加
+            RelayResultStatistics rrs = buildStatistics(pointId, pointName, fishTypeId, fishTypeName, weight, count, hookFlag, hookFlagName);
+            arrayAdapter.add(rrs);
+        }else{
+            // 更新
+            buildStatistics(pointId, pointName, fishTypeId, fishTypeName, weight, count, hookFlag, hookFlagName);
+            
+            arrayAdapter.notifyDataSetChanged();
+            statisticsId = "";
+        }
+    }
+
+    private RelayResultStatistics buildStatistics(String pointId, String pointName, String fishTypeId, String fishTypeName, String weight, String count, String hookFlag, String hookFlagName) {
+        RelayResultStatistics rrs = null;
+        
+        if ("".equals(statisticsId)) {
+            // 添加
+            rrs = new RelayResultStatistics();
+            
+            int id = 1;
+            if (statisticsList.size() > 0) {
+                id = Integer.parseInt(statisticsList.get(statisticsList.size() - 1).getId()) + 1;
+            }
+            rrs.setId(String.valueOf(id));
+
+        }else{
+            // 更新
+            rrs = statisticsList.get(getStatisticsSelectedIndex(statisticsId, statisticsList));
+            
+        }
+        rrs.setPointId(pointId);
+        rrs.setPointName(pointName);
+        rrs.setFishTypeId(fishTypeId);
+        rrs.setFishTypeName(fishTypeName);
+        rrs.setWeight(weight);
+        rrs.setCount(count);
+        rrs.setHookFlag(hookFlag);
+        rrs.setHookFlagName(hookFlagName);
+        
+        return rrs;
+    }
+    
+	
+	private int getStatisticsSelectedIndex(String selectedId, List<RelayResultStatistics> list) {
+        int selectedIndex = 0;
+        for (RelayResultStatistics obj : list){
+            if(selectedId.equals(obj.getId())) {
+                break;
+            }
+            selectedIndex++;
+        }
+        return selectedIndex;
     }
 	
     /**
@@ -213,9 +259,9 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         handler = new Handler();
         gridGallery = (GridView) tab4View.findViewById(R.id.addResultGridGallery);
         gridGallery.setFastScrollEnabled(true);
-        adapter = new GalleryAdapter(getActivity(), imageLoader);
-        adapter.setMultiplePick(false);
-        gridGallery.setAdapter(adapter);
+        galleryAdapter = new GalleryAdapter(getActivity(), imageLoader);
+        galleryAdapter.setMultiplePick(false);
+        gridGallery.setAdapter(galleryAdapter);
 
         viewSwitcher = (ViewSwitcher) tab4View.findViewById(R.id.addResultViewSwitcher);
         viewSwitcher.setDisplayedChild(0);
@@ -226,7 +272,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Action.ACTION_MULTIPLE_PICK);
-                startActivityForResult(i, 200);
+                startActivityForResult(i, Constant.REQUEST_CODE_PICK_MULTIPLE_IMAGE);
             }
         });
 
@@ -236,7 +282,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 200 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Constant.REQUEST_CODE_PICK_MULTIPLE_IMAGE && resultCode == Activity.RESULT_OK) {
             String[] all_path = data.getStringArrayExtra("all_path");
 
             ArrayList<CustomGallery> dataT = new ArrayList<CustomGallery>();
@@ -249,47 +295,54 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
             }
 
             viewSwitcher.setDisplayedChild(0);
-            adapter.addAll(dataT);
+            galleryAdapter.addAll(dataT);
         }
     }
     
+    private int getPointSelectedIndex(String selectedId, List<Point> list) {
+        int selectedIndex = 0;
+        for (Point obj : list){
+            if(selectedId.equals(obj.getId())) {
+                break;
+            }
+            selectedIndex++;
+        }
+        return selectedIndex;
+    }
+    
+    private int getFishTypeSelectedIndex(String selectedId, List<FishType> list) {
+        int selectedIndex = 0;
+        for (FishType obj : list){
+            if(selectedId.equals(obj.getId())) {
+                break;
+            }
+            selectedIndex++;
+        }
+        return selectedIndex;
+    }
     
     
+    /**
+     * 统计listview适配器
+     */
     public class StatisticsArrayAdapter extends ArrayAdapter<RelayResultStatistics> {
 
-        private final List<RelayResultStatistics> list;
-        private final Activity context;
+        private List<RelayResultStatistics> list;
+        private Activity context;
         protected Object mActionMode;
-        private RadioButton mSelectedRB;
 
         public StatisticsArrayAdapter(Activity context, List<RelayResultStatistics> list) {
             super(context, R.layout.activity_fish_result_listview_each_item, list);
             this.context = context;
             this.list = list;
         }
-        
-//        /**
-//         * 取得选中raidobutton对应的ID
-//         * @return
-//         */
-//        public String getSelectedId() {
-//            String retId = "";
-//            for (RelayResultStatistics p : list) {
-//                if (p.isSelected()) {
-//                    retId = p.getId();
-//                    return retId;
-//                }
-//            }
-//
-//            return retId;
-//        }
 
         class ViewHolder {
             protected TextView textPointName;
             protected TextView textFishTypeName;
             protected TextView textWeight;
             protected TextView textCount;
-            protected TextView textHookFlag;
+            protected TextView textHookFlagName;
         }
 
         /**
@@ -311,7 +364,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
                 viewHolder.textFishTypeName = (TextView)convertView.findViewById(R.id.textViewFishTypeEachItem);
                 viewHolder.textWeight = (TextView)convertView.findViewById(R.id.textViewWeightEachItem);
                 viewHolder.textCount = (TextView)convertView.findViewById(R.id.textViewCountEachItem);
-                viewHolder.textHookFlag = (TextView)convertView.findViewById(R.id.textViewHookFlagEachItem);
+                viewHolder.textHookFlagName = (TextView)convertView.findViewById(R.id.textViewHookFlagEachItem);
                 viewHolder.textPointName.setTag(list.get(position));//// 保存bean值到UI tag (响应事件从这个UI tag取值)
                 convertView.setTag(viewHolder);
                 
@@ -325,7 +378,9 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
             viewHolder.textFishTypeName.setText(list.get(position).getFishTypeName());
             viewHolder.textWeight.setText(list.get(position).getWeight());
             viewHolder.textCount.setText(list.get(position).getCount());
-            viewHolder.textHookFlag.setText(list.get(position).getHookFlag());
+            viewHolder.textHookFlagName.setText(list.get(position).getHookFlagName());
+            
+            viewHolder.textPointName.setTag(list.get(position));//// 保存bean值到UI tag (响应事件从这个UI tag取值)
 
             return convertView;
         }
@@ -402,29 +457,9 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         	}else{
         		rg.check(R.id.addResultOutRadio);
         	}
+        	
+        	statisticsId = element.getId();
             
-        }
-        
-        private int getPointSelectedIndex(String selectedId, List<Point> list) {
-            int selectedIndex = 0;
-            for (Point obj : list){
-                if(selectedId.equals(obj.getId())) {
-                    break;
-                }
-                selectedIndex++;
-            }
-            return selectedIndex;
-        }
-        
-        private int getFishTypeSelectedIndex(String selectedId, List<FishType> list) {
-            int selectedIndex = 0;
-            for (FishType obj : list){
-                if(selectedId.equals(obj.getId())) {
-                    break;
-                }
-                selectedIndex++;
-            }
-            return selectedIndex;
         }
         
         /**
@@ -447,6 +482,8 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
                     }
                     list.remove(deleteIndex);
                     arrayAdapter.notifyDataSetChanged();
+                    
+                    statisticsId = "";
                 }
             });
             adb.show();
@@ -456,8 +493,6 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         public int getCount() {
             return list.size();
         }
-
-        
 
     }
 

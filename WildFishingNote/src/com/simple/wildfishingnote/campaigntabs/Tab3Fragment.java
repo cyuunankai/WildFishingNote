@@ -325,8 +325,8 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
             viewHolder.textViewLureMethod.setText(list.get(position).getLureMethodName());
             viewHolder.textViewBait.setText(list.get(position).getBaitName());
             viewHolder.check.setChecked(list.get(position).isSelected());
-            // 保存bean值到UI tag (响应事件从这个UI tag取值)
-//            viewHolder.radio.setTag(list.get(position));
+            
+            viewHolder.check.setTag(list.get(position));//// 保存bean值到UI tag (响应事件从这个UI tag取值)
 
             return convertView;
         }

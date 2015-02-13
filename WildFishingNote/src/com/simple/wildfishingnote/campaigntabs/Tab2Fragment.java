@@ -310,8 +310,8 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
             // 设置bean值到UI
             viewHolder.textPlaceTitle.setText(list.get(position).getTitle());
             viewHolder.radio.setChecked(list.get(position).isSelected());
-            // 保存bean值到UI tag (响应事件从这个UI tag取值)
-//            viewHolder.radio.setTag(list.get(position));
+            
+            viewHolder.radio.setTag(list.get(position));//// 保存bean值到UI tag (响应事件从这个UI tag取值)
 
             return convertView;
         }

@@ -11,8 +11,15 @@ public class RelayResultStatistics {
 	private String hookFlag;
 	private String pointName;
 	private String fishTypeName;
+	private String hookFlagName;
 	
-	public String getPointName() {
+	public String getHookFlagName() {
+        return hookFlagName;
+    }
+    public void setHookFlagName(String hookFlagName) {
+        this.hookFlagName = hookFlagName;
+    }
+    public String getPointName() {
 		return pointName;
 	}
 	public void setPointName(String pointName) {
