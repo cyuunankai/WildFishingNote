@@ -16,8 +16,8 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -47,11 +47,7 @@ import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.FishType;
 import com.simple.wildfishingnote.bean.Point;
 import com.simple.wildfishingnote.bean.RelayResultStatistics;
-import com.simple.wildfishingnote.bean.RodLength;
-import com.simple.wildfishingnote.campaign.place.AddPlaceActivity;
-import com.simple.wildfishingnote.campaigntabs.Tab2Fragment.PlaceArrayAdapter;
 import com.simple.wildfishingnote.common.Common;
-import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 
 public class Tab4Fragment extends Fragment implements OnClickListener {
@@ -82,14 +78,9 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         addMainActivity = (AddMainActivity)getActivity();
         dataSource = addMainActivity.getCampaignDataSource();
         
-        initPointSpinner();
-        initFishTypeSpinner();
-        initRadioGroup();
-        setAddBtn();
-        
         statisticsList = new ArrayList<RelayResultStatistics>();
         ListView listView = (ListView) tab4View.findViewById(R.id.listViewResult);
-    	arrayAdapter = new StatisticsArrayAdapter(getActivity(), statisticsList);
+        arrayAdapter = new StatisticsArrayAdapter(getActivity(), statisticsList);
         listView.setAdapter(adapter);
         
         // 图片
@@ -97,6 +88,16 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         initMultiPickBtn();
         
         return tab4View;
+    }
+    
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser) {
+            initPointSpinner();
+            initFishTypeSpinner();
+            initRadioGroup();
+            setAddBtn();
+        }
     }
     
     /**
