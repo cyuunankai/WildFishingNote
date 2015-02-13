@@ -61,7 +61,6 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
     BootstrapButton btnGalleryPickMul;
 
     String action;
-    ViewSwitcher viewSwitcher;
     ImageLoader imageLoader;
     
     private CampaignDataSource dataSource;
@@ -266,9 +265,6 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         galleryAdapter.setMultiplePick(false);
         gridGallery.setAdapter(galleryAdapter);
 
-        viewSwitcher = (ViewSwitcher) tab4View.findViewById(R.id.addResultViewSwitcher);
-        viewSwitcher.setDisplayedChild(0);
-
         btnGalleryPickMul = (BootstrapButton) tab4View.findViewById(R.id.addResultGalleryPickBtn);
         btnGalleryPickMul.setOnClickListener(new View.OnClickListener() {
 
@@ -297,7 +293,6 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
                 dataT.add(item);
             }
 
-            viewSwitcher.setDisplayedChild(0);
             galleryAdapter.addAll(dataT);
         }
     }
