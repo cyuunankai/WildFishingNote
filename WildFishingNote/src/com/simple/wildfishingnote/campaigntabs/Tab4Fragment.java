@@ -29,10 +29,10 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
+import com.google.gson.Gson;
 import com.luminous.pick.Action;
 import com.luminous.pick.CustomGallery;
 import com.luminous.pick.GalleryAdapter;
@@ -100,6 +100,9 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
             initFishTypeSpinner();
             initRadioGroup();
             setAddBtn();
+            setPreBtn();
+            setNextBtn();
+            setOperationBtnVisibility();
         }
     }
     
@@ -118,8 +121,23 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
                 ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(2);
                 break;
             case R.id.buttonCampaignResultNext:
-                
+                Common.setCampaignPrefernce(getActivity(), "campaign_fish_result_obj", new Gson().toJson(statisticsList));
+                Common.setCampaignPrefernce(getActivity(), "btn_click", "true");
+                ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(4);
                 break;
+        }
+    }
+	
+	private void setOperationBtnVisibility() {
+        LinearLayout buttonsLayoutCampaignResultEdit = (LinearLayout)tab4View.findViewById(R.id.buttonsLayoutCampaignResultEdit);
+        LinearLayout buttonsLayoutCampaignResultAdd = (LinearLayout)tab4View.findViewById(R.id.buttonsLayoutCampaignResultAdd);
+        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if (mode.equals("add")) {
+            buttonsLayoutCampaignResultAdd.setVisibility(View.VISIBLE);
+            buttonsLayoutCampaignResultEdit.setVisibility(View.INVISIBLE);
+        } else if (mode.equals("edit")) {
+            buttonsLayoutCampaignResultAdd.setVisibility(View.INVISIBLE);
+            buttonsLayoutCampaignResultEdit.setVisibility(View.VISIBLE);
         }
     }
 
@@ -208,6 +226,22 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
     private void setAddBtn() {
         BootstrapButton addBtn = (BootstrapButton)tab4View.findViewById(R.id.addResultAddBtn);
         addBtn.setOnClickListener(this);
+    }
+    
+    /**
+     * 注册[上一步]按钮事件
+     */
+    private void setPreBtn() {
+        BootstrapButton preBtn = (BootstrapButton)tab4View.findViewById(R.id.buttonCampaignResultPre);
+        preBtn.setOnClickListener(this);
+    }
+    
+    /**
+     * 注册[下一步]按钮事件
+     */
+    private void setNextBtn() {
+        BootstrapButton nextBtn = (BootstrapButton)tab4View.findViewById(R.id.buttonCampaignResultNext);
+        nextBtn.setOnClickListener(this);
     }
 
     private void initRadioGroup() {

@@ -98,6 +98,7 @@ public class Common {
         editor.putString("campaign_summary", "");
         editor.putString("campaign_place_id", "");
         editor.putStringSet("campaign_point_ids", null);
+        editor.putString("campaign_fish_result_obj", null);
         
         editor.putString("btn_click", "false");
         editor.commit();
