@@ -15,6 +15,7 @@
     <string name="place">钓位</string>
     <string name="point">钓点</string>
     <string name="results">渔获</string>
+    <string name="confirm">确认</string>
     <string name="weather">天气</string>
     <string name="title_activity_history">HistoryActivity</string>
     <string name="history">听说/补记</string>
@@ -74,6 +75,7 @@
     <string name="in">入护</string>
     <string name="out">跑鱼</string>
     <string name="add_result_pick_pic">图片</string>
+    <string name="statistics">统计</string>
 
 
 </resources>

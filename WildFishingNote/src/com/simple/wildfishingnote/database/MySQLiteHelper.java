@@ -1,7 +1,5 @@
 package com.simple.wildfishingnote.database;
 
-import com.simple.wildfishingnote.bean.FishType;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -77,25 +75,24 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             		WildFishingContract.Baits.COLUMN_NAME_DETAIL + TEXT_TYPE +  
             " )";
     
-    // 渔获
+    // 活动渔获图片关系表
     private static final String SQL_CREATE_RESULTS =
-            "CREATE TABLE " + WildFishingContract.FishResults.TABLE_NAME + " (" +
-            		WildFishingContract.FishResults._ID + " INTEGER PRIMARY KEY," +
-            		WildFishingContract.FishResults.COLUMN_NAME_FILE_PATH1 + TEXT_TYPE +  COMMA_SEP +
-            		WildFishingContract.FishResults.COLUMN_NAME_FILE_PATH2 + TEXT_TYPE +  COMMA_SEP +
-            		WildFishingContract.FishResults.COLUMN_NAME_FILE_PATH3 + TEXT_TYPE +  
+            "CREATE TABLE " + WildFishingContract.RelayCampaignImageResults.TABLE_NAME + " (" +
+            		WildFishingContract.RelayCampaignImageResults._ID + " INTEGER PRIMARY KEY," +
+            		WildFishingContract.RelayCampaignImageResults.COLUMN_NAME_CAMPAIGN_ID + TEXT_TYPE +  COMMA_SEP +
+            		WildFishingContract.RelayCampaignImageResults.COLUMN_NAME_FILE_PATH + TEXT_TYPE +  
             " )";
     
-    // 渔获统计关系表
+    // 活动渔获统计关系表
     private static final String SQL_CREATE_RELAY_RESULT_STATISTICS =
-            "CREATE TABLE " + WildFishingContract.RelayResultStatistics.TABLE_NAME + " (" +
-            		WildFishingContract.RelayResultStatistics._ID + " INTEGER PRIMARY KEY," +
-            		WildFishingContract.RelayResultStatistics.COLUMN_NAME_RESULT_ID + INTEGER_TYPE +  COMMA_SEP +
-            		WildFishingContract.RelayResultStatistics.COLUMN_NAME_POINT_ID + INTEGER_TYPE +  COMMA_SEP +
-            		WildFishingContract.RelayResultStatistics.COLUMN_NAME_FISH_TYPE_ID + INTEGER_TYPE +  COMMA_SEP +
-            		WildFishingContract.RelayResultStatistics.COLUMN_NAME_WEIGHT + REAL_TYPE +  COMMA_SEP +
-            		WildFishingContract.RelayResultStatistics.COLUMN_NAME_COUNT + INTEGER_TYPE +  COMMA_SEP +
-            		WildFishingContract.RelayResultStatistics.COLUMN_NAME_HOOK_FLAG + TEXT_TYPE +  
+            "CREATE TABLE " + WildFishingContract.RelayCamapignStatisticsResults.TABLE_NAME + " (" +
+            		WildFishingContract.RelayCamapignStatisticsResults._ID + " INTEGER PRIMARY KEY," +
+            		WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_CAMPAIGN_ID + INTEGER_TYPE +  COMMA_SEP +
+            		WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_POINT_ID + INTEGER_TYPE +  COMMA_SEP +
+            		WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_FISH_TYPE_ID + INTEGER_TYPE +  COMMA_SEP +
+            		WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_WEIGHT + REAL_TYPE +  COMMA_SEP +
+            		WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_COUNT + INTEGER_TYPE +  COMMA_SEP +
+            		WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_HOOK_FLAG + TEXT_TYPE +  
             " )";
     
     // 鱼种
@@ -140,8 +137,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.RodLengths.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.LureMethods.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Baits.TABLE_NAME);
-      db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.FishResults.TABLE_NAME);
-      db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.RelayResultStatistics.TABLE_NAME);
+      db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.RelayCampaignImageResults.TABLE_NAME);
+      db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.RelayCamapignStatisticsResults.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.FishType.TABLE_NAME);
       onCreate(db);
     }

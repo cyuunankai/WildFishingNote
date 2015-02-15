@@ -12,7 +12,6 @@ public class WildFishingContract {
         public static final String COL_NAME_END_TIME = "end_time";
         public static final String COL_NAME_SUMMARY = "summary";
         public static final String COL_NAME_PLACE_ID = "place_id";
-        public static final String COL_NAME_RESULT_ID = "result_id";
     }
     
     // 钓位
@@ -65,18 +64,17 @@ public class WildFishingContract {
          public static final String COLUMN_NAME_DETAIL = "detail";
      }
  	
- 	// 渔获
-  	public static abstract class FishResults implements BaseColumns {
+ 	// 活动渔获图片关系表
+  	public static abstract class RelayCampaignImageResults implements BaseColumns {
           public static final String TABLE_NAME = "fish_results";
-          public static final String COLUMN_NAME_FILE_PATH1 = "file_path1";
-          public static final String COLUMN_NAME_FILE_PATH2 = "file_path2";
-          public static final String COLUMN_NAME_FILE_PATH3 = "file_path3";
+          public static final String COLUMN_NAME_CAMPAIGN_ID = "campaign_id";
+          public static final String COLUMN_NAME_FILE_PATH = "file_path";
     }
 	
-  	// 渔获统计关系表
-	public static abstract class RelayResultStatistics implements BaseColumns {
-		public static final String TABLE_NAME = "relay_result_statistics";
-		public static final String COLUMN_NAME_RESULT_ID = "result_id";
+  	// 活动渔获统计关系表
+	public static abstract class RelayCamapignStatisticsResults implements BaseColumns {
+		public static final String TABLE_NAME = "relay_campaign_statistics_results";
+		public static final String COLUMN_NAME_CAMPAIGN_ID = "campaign_id";
 		public static final String COLUMN_NAME_POINT_ID = "point_id";
         public static final String COLUMN_NAME_FISH_TYPE_ID = "fish_type_id";
         public static final String COLUMN_NAME_WEIGHT = "weight";

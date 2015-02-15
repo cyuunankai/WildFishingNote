@@ -1,9 +1,9 @@
 package com.simple.wildfishingnote.bean;
 
-public class RelayResultStatistics {
+public class RelayCamapignStatisticsResult {
 
 	private String id;
-	private String resultId;
+	private String campaignId;
 	private String pointId;
 	private String fishTypeId;
 	private String weight;
@@ -37,13 +37,13 @@ public class RelayResultStatistics {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getResultId() {
-		return resultId;
-	}
-	public void setResultId(String resultId) {
-		this.resultId = resultId;
-	}
-	public String getPointId() {
+	public String getCampaignId() {
+        return campaignId;
+    }
+    public void setCampaignId(String campaignId) {
+        this.campaignId = campaignId;
+    }
+    public String getPointId() {
 		return pointId;
 	}
 	public void setPointId(String pointId) {

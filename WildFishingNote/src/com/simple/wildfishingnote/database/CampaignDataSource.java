@@ -13,13 +13,13 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.simple.wildfishingnote.bean.Bait;
 import com.simple.wildfishingnote.bean.Campaign;
-import com.simple.wildfishingnote.bean.FishResult;
+import com.simple.wildfishingnote.bean.RelayCampaignImageResult;
 import com.simple.wildfishingnote.bean.FishType;
 import com.simple.wildfishingnote.bean.LureMethod;
 import com.simple.wildfishingnote.bean.Place;
 import com.simple.wildfishingnote.bean.Point;
 import com.simple.wildfishingnote.bean.RelayCampaignPoint;
-import com.simple.wildfishingnote.bean.RelayResultStatistics;
+import com.simple.wildfishingnote.bean.RelayCamapignStatisticsResult;
 import com.simple.wildfishingnote.bean.RodLength;
 
 public class CampaignDataSource {
@@ -70,24 +70,39 @@ public class CampaignDataSource {
         dbHelper.close();
     }
     
+    public void addAllData(Campaign campaign) {
+        database.beginTransaction();
+        try {
+            // 1. 活动
+            String campaignId = addCampaign(campaign);
+            // 2. 活动_钓点关系表
+            addRelayCampaignPoint(campaignId, campaign.getPointIdList());
+            // 3. 活动渔获图片关系表
+            addRelayCampaignImageResult(campaignId, campaign.getPicList());
+            // 4. 渔获统计关系表
+            addRelayCamapignStatisticsResults(campaignId, campaign.getStatisticsList());
+            
+            database.setTransactionSuccessful();
+        } catch (Exception e) {
+
+        } finally {
+            database.endTransaction();
+        }
+
+    }
+    
     // 活动
-	
-    public Campaign addCampaign(Campaign campaign) {
+    
+    public String addCampaign(Campaign campaign) {
         ContentValues values = new ContentValues();
         values.put(WildFishingContract.Campaigns.COL_NAME_START_TIME, campaign.getStartTime());
         values.put(WildFishingContract.Campaigns.COL_NAME_END_TIME, campaign.getEndTime());
         values.put(WildFishingContract.Campaigns.COL_NAME_SUMMARY, campaign.getSummary());
+        values.put(WildFishingContract.Campaigns.COL_NAME_PLACE_ID, campaign.getPlaceId());
 
-        // Insert the new row, returning the primary key value of the new row
         long insertId = database.insert(WildFishingContract.Campaigns.TABLE_NAME, null,
                 values);
-        Cursor cursor = database.query(WildFishingContract.Campaigns.TABLE_NAME,
-        		campaignAllColumns, WildFishingContract.Campaigns._ID + " = " + insertId, null,
-                null, null, null);
-        cursor.moveToFirst();
-        Campaign newCampaign = cursorToCampaign(cursor);
-        cursor.close();
-        return newCampaign;
+        return String.valueOf(insertId);
     }
     
     public Campaign updateCampaign(Campaign campaign) {
@@ -362,7 +377,7 @@ public class CampaignDataSource {
 	        return list;
 	    }
 	
-	public List<Point> getPointsById(List<String> pointIds) {
+	public List<Point> getPointsByIds(List<String> pointIds) {
         List<Point> list = new ArrayList<Point>();
         
         StringBuffer  sb = new StringBuffer();
@@ -760,29 +775,37 @@ public class CampaignDataSource {
 		return bait;
 	}
 	
-	// 渔获
-	public void addResult(FishResult result) {
+	/**
+	 * 添加活动渔获图片关系
+	 */
+	public void addRelayCampaignImageResult(String campaignId, List<String> picList) {
 
-		ContentValues values = new ContentValues();
-		values.put(WildFishingContract.FishResults.COLUMN_NAME_FILE_PATH1, result.getFile_path1());
-		values.put(WildFishingContract.FishResults.COLUMN_NAME_FILE_PATH2, result.getFile_path2());
-		values.put(WildFishingContract.FishResults.COLUMN_NAME_FILE_PATH3, result.getFile_path3());
-
-		// Insert the new row, returning the primary key value of the new row
-		long newRowId = database.insert(WildFishingContract.FishResults.TABLE_NAME, null,values);
-		
-		for(RelayResultStatistics rrs : result.getStatisticsList()){
-			values = new ContentValues();
-			values.put(WildFishingContract.RelayResultStatistics.COLUMN_NAME_RESULT_ID, String.valueOf(newRowId));
-			values.put(WildFishingContract.RelayResultStatistics.COLUMN_NAME_POINT_ID, rrs.getPointId());
-			values.put(WildFishingContract.RelayResultStatistics.COLUMN_NAME_FISH_TYPE_ID, rrs.getFishTypeId());
-			values.put(WildFishingContract.RelayResultStatistics.COLUMN_NAME_WEIGHT, rrs.getWeight());
-			values.put(WildFishingContract.RelayResultStatistics.COLUMN_NAME_COUNT, rrs.getCount());
-			values.put(WildFishingContract.RelayResultStatistics.COLUMN_NAME_HOOK_FLAG, rrs.getHookFlag());
-			
-			database.insert(WildFishingContract.RelayResultStatistics.TABLE_NAME, null,values);
-		}
+	    for(String path : picList){
+	        ContentValues values = new ContentValues();
+	        values.put(WildFishingContract.RelayCampaignImageResults.COLUMN_NAME_CAMPAIGN_ID, campaignId);
+	        values.put(WildFishingContract.RelayCampaignImageResults.COLUMN_NAME_FILE_PATH, path);
+	        
+	        database.insert(WildFishingContract.RelayCampaignImageResults.TABLE_NAME, null,values);
+	    }
 	}
+	
+	/**
+     * 添加活动渔获统计关系
+     */
+    public void addRelayCamapignStatisticsResults(String campaignId, List<RelayCamapignStatisticsResult> rcsrList) {
+
+        for(RelayCamapignStatisticsResult rrs : rcsrList){
+            ContentValues values = new ContentValues();
+            values.put(WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_CAMPAIGN_ID, campaignId);
+            values.put(WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_POINT_ID, rrs.getPointId());
+            values.put(WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_FISH_TYPE_ID, rrs.getFishTypeId());
+            values.put(WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_WEIGHT, rrs.getWeight());
+            values.put(WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_COUNT, rrs.getCount());
+            values.put(WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_HOOK_FLAG, rrs.getHookFlag());
+            
+            database.insert(WildFishingContract.RelayCamapignStatisticsResults.TABLE_NAME, null,values);
+        }
+    }
 	
 	// 鱼种
 	public void addFishType(FishType fishType) {
@@ -793,7 +816,7 @@ public class CampaignDataSource {
         database.insert(WildFishingContract.FishType.TABLE_NAME, null, values);
     }
 	
-	public List<FishType> getAllFileTypes() {
+	public List<FishType> getAllFishTypes() {
         List<FishType> retList = new ArrayList<FishType>();
         
         String []cols = { WildFishingContract.FishType._ID,

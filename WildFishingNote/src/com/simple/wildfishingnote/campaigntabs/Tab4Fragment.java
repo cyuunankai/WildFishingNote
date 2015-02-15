@@ -1,8 +1,8 @@
 package com.simple.wildfishingnote.campaigntabs;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.luminous.pick.Action;
 import com.luminous.pick.CustomGallery;
 import com.luminous.pick.GalleryAdapter;
@@ -45,7 +46,7 @@ import com.simple.wildfishingnote.AddMainActivity;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.FishType;
 import com.simple.wildfishingnote.bean.Point;
-import com.simple.wildfishingnote.bean.RelayResultStatistics;
+import com.simple.wildfishingnote.bean.RelayCamapignStatisticsResult;
 import com.simple.wildfishingnote.common.Common;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
@@ -67,35 +68,26 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
     private View tab4View;
     private AddMainActivity addMainActivity;
     private StatisticsArrayAdapter arrayAdapter;
-    private List<RelayResultStatistics> statisticsList;
+    private List<RelayCamapignStatisticsResult> statisticsList;
     private String statisticsId = "";
+    private LayoutInflater mInflater;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        mInflater = inflater;
         tab4View = inflater.inflate(R.layout.activity_tab4, container, false);
         addMainActivity = (AddMainActivity)getActivity();
         dataSource = addMainActivity.getCampaignDataSource();
-        
-        
-        statisticsList = new ArrayList<RelayResultStatistics>();
-        ListView listView = (ListView) tab4View.findViewById(R.id.listViewResult);
-        View header = inflater.inflate(R.layout.activity_fish_result_listview_header, null);
-        listView.addHeaderView(header);
-        arrayAdapter = new StatisticsArrayAdapter(getActivity(), statisticsList);
-        listView.setAdapter(arrayAdapter);
-        
-        // 图片
-        initImageLoader();
-        initMultiPickBtn();
-        
+
         return tab4View;
     }
     
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
+            dataSource.open();
+
             initPointSpinner();
             initFishTypeSpinner();
             initRadioGroup();
@@ -103,7 +95,30 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
             setPreBtn();
             setNextBtn();
             setOperationBtnVisibility();
+            
+            initListView();
+            
+            // 图片
+            initImageLoader();
+            initMultiPickBtn();
+
         }
+    }
+
+    private void initListView() {
+        String fishResultStatisticsListStr = Common.getCampaignPrefernceString(getActivity(), "campaign_fish_result_statistics_list");
+        if (!"".equals(fishResultStatisticsListStr)) {
+            Type statisticsListType = new TypeToken<List<RelayCamapignStatisticsResult>>() {}.getType();
+            statisticsList = new Gson().fromJson(fishResultStatisticsListStr, statisticsListType);
+        } else {
+            statisticsList = new ArrayList<RelayCamapignStatisticsResult>();
+        }
+
+        ListView listView = (ListView)tab4View.findViewById(R.id.listViewResult);
+        View header = mInflater.inflate(R.layout.activity_fish_result_listview_header, null);
+        listView.addHeaderView(header);
+        arrayAdapter = new StatisticsArrayAdapter(getActivity(), statisticsList);
+        listView.setAdapter(arrayAdapter);
     }
     
     /**
@@ -121,7 +136,13 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
                 ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(2);
                 break;
             case R.id.buttonCampaignResultNext:
-                Common.setCampaignPrefernce(getActivity(), "campaign_fish_result_obj", new Gson().toJson(statisticsList));
+                List<String> picList = new ArrayList<String>();
+                ArrayList<CustomGallery> allT = galleryAdapter.getSelected();
+                for (CustomGallery cg : allT) {
+                    picList.add(cg.sdcardPath);
+                }
+                Common.setCampaignPrefernce(getActivity(), "campaign_fish_result_pic_list", new Gson().toJson(picList));
+                Common.setCampaignPrefernce(getActivity(), "campaign_fish_result_statistics_list", new Gson().toJson(statisticsList));
                 Common.setCampaignPrefernce(getActivity(), "btn_click", "true");
                 ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(4);
                 break;
@@ -167,7 +188,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         
         if ("".equals(statisticsId)) {
             // 添加
-            RelayResultStatistics rrs = buildStatistics(pointId, pointName, fishTypeId, fishTypeName, weight, count, hookFlag, hookFlagName);
+            RelayCamapignStatisticsResult rrs = buildStatistics(pointId, pointName, fishTypeId, fishTypeName, weight, count, hookFlag, hookFlagName);
             arrayAdapter.add(rrs);
         }else{
             // 更新
@@ -178,12 +199,12 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         }
     }
 
-    private RelayResultStatistics buildStatistics(String pointId, String pointName, String fishTypeId, String fishTypeName, String weight, String count, String hookFlag, String hookFlagName) {
-        RelayResultStatistics rrs = null;
+    private RelayCamapignStatisticsResult buildStatistics(String pointId, String pointName, String fishTypeId, String fishTypeName, String weight, String count, String hookFlag, String hookFlagName) {
+        RelayCamapignStatisticsResult rrs = null;
         
         if ("".equals(statisticsId)) {
             // 添加
-            rrs = new RelayResultStatistics();
+            rrs = new RelayCamapignStatisticsResult();
             
             int id = 1;
             if (statisticsList.size() > 0) {
@@ -209,9 +230,9 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
     }
     
 	
-	private int getStatisticsSelectedIndex(String selectedId, List<RelayResultStatistics> list) {
+	private int getStatisticsSelectedIndex(String selectedId, List<RelayCamapignStatisticsResult> list) {
         int selectedIndex = 0;
-        for (RelayResultStatistics obj : list){
+        for (RelayCamapignStatisticsResult obj : list){
             if(selectedId.equals(obj.getId())) {
                 break;
             }
@@ -251,8 +272,9 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
     
     public void initPointSpinner() {
         dataSource.open();
-        Set<String> pointIds = Common.getCampaignPrefernceSet(getActivity(), "campaign_point_ids");
-        List<Point> list = dataSource.getPointsById(new ArrayList<String>(pointIds));
+        
+        List<String> pointIds = Common.getCampaignPrefernceStrList(getActivity(), "campaign_point_id_list");
+        List<Point> list = dataSource.getPointsByIds(pointIds);
         
         Point[] arr = list.toArray(new Point[list.size()]);
         
@@ -265,7 +287,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
     
     private void initFishTypeSpinner() {
         dataSource.open();
-        List<FishType> list = dataSource.getAllFileTypes();
+        List<FishType> list = dataSource.getAllFishTypes();
         
         FishType[] arr = list.toArray(new FishType[list.size()]);
         
@@ -357,13 +379,13 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
     /**
      * 统计listview适配器
      */
-    public class StatisticsArrayAdapter extends ArrayAdapter<RelayResultStatistics> {
+    public class StatisticsArrayAdapter extends ArrayAdapter<RelayCamapignStatisticsResult> {
 
-        private List<RelayResultStatistics> list;
+        private List<RelayCamapignStatisticsResult> list;
         private Activity context;
         protected Object mActionMode;
 
-        public StatisticsArrayAdapter(Activity context, List<RelayResultStatistics> list) {
+        public StatisticsArrayAdapter(Activity context, List<RelayCamapignStatisticsResult> list) {
             super(context, R.layout.activity_fish_result_listview_each_item, list);
             this.context = context;
             this.list = list;
@@ -430,7 +452,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
                 @Override
                 public boolean onLongClick(View paramView) {
 
-                    final RelayResultStatistics element = (RelayResultStatistics)viewHolder.textPointName.getTag();
+                    final RelayCamapignStatisticsResult element = (RelayCamapignStatisticsResult)viewHolder.textPointName.getTag();
 
                     PopupMenu popup = new PopupMenu(context, paramView);
                     popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
@@ -465,7 +487,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         /**
          * 编辑统计信息
          */
-        private void editStatistics(final RelayResultStatistics element) {
+        private void editStatistics(final RelayCamapignStatisticsResult element) {
         	Spinner pointSpinner = (Spinner) tab4View.findViewById(R.id.addResultPointSpinner);
         	Spinner fishTypeSpinner = (Spinner) tab4View.findViewById(R.id.addResultFishTypeSpinner);
         	BootstrapEditText weight = (BootstrapEditText)tab4View.findViewById(R.id.addResultWeightEditText);
@@ -473,12 +495,12 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         	RadioGroup rg = (RadioGroup)tab4View.findViewById(R.id.radioGroup);
         	
         	dataSource.open();
-        	Set<String> pointIds = Common.getCampaignPrefernceSet(getActivity(), "campaign_point_ids");
-        	List<Point> pointList = dataSource.getPointsById(new ArrayList<String>(pointIds));
+        	List<String> pointIds = Common.getCampaignPrefernceStrList(getActivity(), "campaign_point_id_list");
+        	List<Point> pointList = dataSource.getPointsByIds(pointIds);
         	int pointSelectedIndex = getPointSelectedIndex(element.getPointId(), pointList);
         	pointSpinner.setSelection(pointSelectedIndex);
         	
-        	List<FishType> fishTypeList = dataSource.getAllFileTypes();
+        	List<FishType> fishTypeList = dataSource.getAllFishTypes();
         	int fishTypeSelectedIndex = getFishTypeSelectedIndex(element.getFishTypeId(), fishTypeList);
         	fishTypeSpinner.setSelection(fishTypeSelectedIndex);
         	
@@ -497,7 +519,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         /**
          * 删除统计信息
          */
-        private void deleteStatistics(final RelayResultStatistics element) {
+        private void deleteStatistics(final RelayCamapignStatisticsResult element) {
             AlertDialog.Builder adb = new AlertDialog.Builder(context);
             adb.setTitle("删除?");
             adb.setMessage("确定删除该记录");

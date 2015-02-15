@@ -96,6 +96,8 @@ public class AddMainActivity extends ActionBarActivity {
     private void initPreference() {
         Common.initCampaignPrefernce(this);
         Common.setCampaignPrefernce(this, "campaign_operation_mode", "add");
+        
+        // 编辑用
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         mode = sharedPref.getString("campaign_operation_mode", "");
         mHandler = new Handler();
@@ -121,7 +123,7 @@ public class AddMainActivity extends ActionBarActivity {
         bar.addTab(bar.newTab().setText(R.string.place).setTabListener(tabListener));
         bar.addTab(bar.newTab().setText(R.string.point).setTabListener(tabListener));
         bar.addTab(bar.newTab().setText(R.string.results).setTabListener(tabListener));
-        bar.addTab(bar.newTab().setText(R.string.weather).setTabListener(tabListener));
+        bar.addTab(bar.newTab().setText(R.string.confirm).setTabListener(tabListener));
     }
     
     /**

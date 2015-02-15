@@ -22,9 +22,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.RelativeLayout;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
@@ -51,29 +51,29 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
         tab2View = inflater.inflate(R.layout.activity_tab2, container, false);
         addMainActivity = (AddMainActivity)getActivity();
         dataSource = addMainActivity.getCampaignDataSource();
-		
-		initPlaceListView(null);
-		setAddPlaceBtn();
-		setSavePlaceBtn();
-		setPreBtn();
-		setNextBtn();
-		setOperationBtnVisibility();
-		
+        
         return tab2View;
     }
 	
-	private void setOperationBtnVisibility() {
-	    LinearLayout buttonsLayoutCampaignPlaceAdd = (LinearLayout)tab2View.findViewById(R.id.buttonsLayoutCampaignPlaceAdd);
-	    LinearLayout buttonsLayoutCampaignPlaceEdit = (LinearLayout)tab2View.findViewById(R.id.buttonsLayoutCampaignPlaceEdit);
-        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
-        if (mode.equals("add")) {
-            buttonsLayoutCampaignPlaceAdd.setVisibility(View.VISIBLE);
-            buttonsLayoutCampaignPlaceEdit.setVisibility(View.INVISIBLE);
-        } else if (mode.equals("edit")) {
-            buttonsLayoutCampaignPlaceAdd.setVisibility(View.INVISIBLE);
-            buttonsLayoutCampaignPlaceEdit.setVisibility(View.VISIBLE);
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser) {
+            dataSource.open();
+            
+            String placeId = Common.getCampaignPrefernceString(getActivity(), "campaign_place_id");
+            if ("".equals(placeId)) {
+                placeId = null;
+            }
+            initPlaceListView(placeId);
+            setAddPlaceBtn();
+            setSavePlaceBtn();
+            setPreBtn();
+            setNextBtn();
+            setOperationBtnVisibility();
         }
     }
+	
+
 
     /**
      * 监听所有onClick事件
@@ -133,6 +133,20 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
         }
     }
 
+    
+    private void setOperationBtnVisibility() {
+        LinearLayout buttonsLayoutCampaignPlaceAdd = (LinearLayout)tab2View.findViewById(R.id.buttonsLayoutCampaignPlaceAdd);
+        LinearLayout buttonsLayoutCampaignPlaceEdit = (LinearLayout)tab2View.findViewById(R.id.buttonsLayoutCampaignPlaceEdit);
+        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if (mode.equals("add")) {
+            buttonsLayoutCampaignPlaceAdd.setVisibility(View.VISIBLE);
+            buttonsLayoutCampaignPlaceEdit.setVisibility(View.INVISIBLE);
+        } else if (mode.equals("edit")) {
+            buttonsLayoutCampaignPlaceAdd.setVisibility(View.INVISIBLE);
+            buttonsLayoutCampaignPlaceEdit.setVisibility(View.VISIBLE);
+        }
+    }
+    
 	/**
      * 取得选中的钓位
      */

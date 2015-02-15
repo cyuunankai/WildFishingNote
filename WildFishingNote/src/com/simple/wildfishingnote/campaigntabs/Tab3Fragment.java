@@ -1,7 +1,6 @@
 package com.simple.wildfishingnote.campaigntabs;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.holoeverywhere.widget.Toast;
@@ -25,11 +24,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.RelativeLayout;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.google.gson.Gson;
 import com.simple.wildfishingnote.AddMainActivity;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.Point;
@@ -51,32 +51,28 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
                              Bundle savedInstanceState) {
 	    // Inflate the layout for this fragment
         tab3View = inflater.inflate(R.layout.activity_tab3, container, false);
+
         addMainActivity = (AddMainActivity)getActivity();
         dataSource = addMainActivity.getCampaignDataSource();
-        
-        initPointListView(null);
-        setAddPointBtn();
-        setSavePointBtn();
-        setPreBtn();
-        setNextBtn();
-        setOperationBtnVisibility();
         
         return tab3View;
     }
 	
-	private void setOperationBtnVisibility() {
-	    LinearLayout buttonsLayoutCmapginPointEdit = (LinearLayout)tab3View.findViewById(R.id.buttonsLayoutCampaignPointEdit);
-	    LinearLayout buttonsLayoutCmapginPointAdd = (LinearLayout)tab3View.findViewById(R.id.buttonsLayoutCampaignPointAdd);
-        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
-        if (mode.equals("add")) {
-            buttonsLayoutCmapginPointAdd.setVisibility(View.VISIBLE);
-            buttonsLayoutCmapginPointEdit.setVisibility(View.INVISIBLE);
-        } else if (mode.equals("edit")) {
-            buttonsLayoutCmapginPointAdd.setVisibility(View.INVISIBLE);
-            buttonsLayoutCmapginPointEdit.setVisibility(View.VISIBLE);
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser) {
+            dataSource.open();
+            
+            List<String> pointIdList = Common.getCampaignPrefernceStrList(getActivity(), "campaign_point_id_list");
+            initPointListView(pointIdList);
+            setAddPointBtn();
+            setSavePointBtn();
+            setPreBtn();
+            setNextBtn();
+            setOperationBtnVisibility();
         }
     }
-	
+
 	/**
      * 监听所有onClick事件
      */
@@ -105,6 +101,19 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
                 break;
         }
     }
+    
+    private void setOperationBtnVisibility() {
+        LinearLayout buttonsLayoutCmapginPointEdit = (LinearLayout)tab3View.findViewById(R.id.buttonsLayoutCampaignPointEdit);
+        LinearLayout buttonsLayoutCmapginPointAdd = (LinearLayout)tab3View.findViewById(R.id.buttonsLayoutCampaignPointAdd);
+        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if (mode.equals("add")) {
+            buttonsLayoutCmapginPointAdd.setVisibility(View.VISIBLE);
+            buttonsLayoutCmapginPointEdit.setVisibility(View.INVISIBLE);
+        } else if (mode.equals("edit")) {
+            buttonsLayoutCmapginPointAdd.setVisibility(View.INVISIBLE);
+            buttonsLayoutCmapginPointEdit.setVisibility(View.VISIBLE);
+        }
+    }
 
     private void setCampaignPointToPreference() {
         List<String> selectedPointIds = getSelectedPointIds();
@@ -113,7 +122,7 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
             return;
         }
         
-        Common.setCampaignPrefernce(getActivity(), "campaign_point_ids", new HashSet<String>(selectedPointIds));
+        Common.setCampaignPrefernce(getActivity(), "campaign_point_id_list", new Gson().toJson(selectedPointIds));
         Common.setCampaignPrefernce(getActivity(), "btn_click", "true");
         ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(3);
     }
@@ -126,8 +135,10 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
         // 添加钓点返回
         if (requestCode == Constant.REQUEST_CODE_ADD_POINT && resultCode == Activity.RESULT_OK) {
             if (data.getExtras().containsKey(AddPointActivity.POINT_ID)) {
-                String PointId = data.getExtras().getString(AddPointActivity.POINT_ID);
-                initPointListView(PointId);
+                String pointId = data.getExtras().getString(AddPointActivity.POINT_ID);
+                List<String> selectedPointIds = getSelectedPointIds();
+                selectedPointIds.add(pointId);
+                initPointListView(selectedPointIds);
             }
         }
         
@@ -181,11 +192,11 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
      * @param PointId  是null，list中都不选中
      *        PointId 不是null，list有选中值
      */
-    private void initPointListView(String PointId) {
+    private void initPointListView(List<String> pointIdList) {
         dataSource.open();
         List<Point> list = dataSource.getAllPoints();
         
-        selectedPointById(PointId, list);
+        selectedPointById(pointIdList, list);
                 
         ListView listView = (ListView) tab3View.findViewById(R.id.listViewPoint);
         adapter = new PointArrayAdapter(getActivity(), list);
@@ -195,11 +206,11 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
     /**
      * 根据ID选中钓点
      */
-    private void selectedPointById(String PointId, List<Point> list) {
-        if (PointId != null) {
-            for (int i = 0; i < list.size(); i++) {
-                Point p = list.get(i);
-                if (p.getId().equals(PointId)) {
+    private void selectedPointById(List<String> selectedPointIdList, List<Point> allList) {
+        if (selectedPointIdList != null) {
+            for (int i = 0; i < allList.size(); i++) {
+                Point p = allList.get(i);
+                if (selectedPointIdList.contains(p.getId())) {
                     p.setSelected(true);
                 }
             }

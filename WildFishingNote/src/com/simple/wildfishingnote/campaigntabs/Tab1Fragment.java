@@ -19,6 +19,7 @@ import com.simple.wildfishingnote.CalendarDailogActivity;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.Campaign;
 import com.simple.wildfishingnote.common.Common;
+import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 import com.simple.wildfishingnote.datetimepicker.DatePickerFragment;
 import com.simple.wildfishingnote.datetimepicker.TimePickerFragment;
@@ -55,7 +56,42 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
         return tab1View;
     }
     
-    
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser) {
+            if (getActivity() != null) {
+             // 第一个tab特殊处理
+                initViewByPreference();
+            }
+        }
+    }
+
+    /**
+     * [钓位画面]点上一步时处理
+     */
+    private void initViewByPreference() {
+        String summary = Common.getCampaignPrefernceString(getActivity(), "campaign_summary");
+        String startTime = Common.getCampaignPrefernceString(getActivity(), "campaign_start_time");
+        String endTime = Common.getCampaignPrefernceString(getActivity(), "campaign_end_time");
+
+        BootstrapButton startDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartDate);
+        BootstrapButton startTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartTime);
+        BootstrapButton endDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndDate);
+        BootstrapButton endTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndTime);
+        BootstrapEditText summaryEditText = (BootstrapEditText)tab1View.findViewById(R.id.tab1_summary);
+        if (summary != null) {
+            summaryEditText.setText(summary);
+        }
+        if (startTime != null) {
+            startDateBtn.setText(startTime.split(Constant.SPACE)[0]);
+            startTimeBtn.setText(startTime.split(Constant.SPACE)[1]);
+        }
+        if (endTime != null) {
+            endDateBtn.setText(endTime.split(Constant.SPACE)[0]);
+            endTimeBtn.setText(endTime.split(Constant.SPACE)[1]);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         BootstrapButton b = (BootstrapButton)v;
@@ -190,8 +226,8 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
         String endDate = endDateBtn.getText().toString();
         String endTime = endTimeBtn.getText().toString();
 
-        campaign.setStartTime(startDate + " " + startTime);
-        campaign.setEndTime(endDate + " " + endTime);
+        campaign.setStartTime(startDate + Constant.SPACE + startTime);
+        campaign.setEndTime(endDate + Constant.SPACE + endTime);
         campaign.setSummary(summaryEditText.getText().toString());
         return campaign;
     }
