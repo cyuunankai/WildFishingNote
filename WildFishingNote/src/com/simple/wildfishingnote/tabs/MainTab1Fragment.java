@@ -3,26 +3,34 @@ package com.simple.wildfishingnote.tabs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.holoeverywhere.widget.Toast;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.Spanned;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.Point;
 import com.simple.wildfishingnote.campaign.place.PlaceDetailActivity;
+import com.simple.wildfishingnote.flowtextview.FlowTextView;
 import com.simple.wildfishingnote.sectionedlistview.SectionListAdapter;
 import com.simple.wildfishingnote.sectionedlistview.SectionListItem;
 import com.simple.wildfishingnote.sectionedlistview.SectionListView;
 
-public class MainTab1Fragment extends Fragment {
+public class MainTab1Fragment extends Fragment implements OnClickListener {
 
     private StandardArrayAdapter arrayAdapter;
     private SectionListAdapter sectionAdapter;
@@ -30,11 +38,28 @@ public class MainTab1Fragment extends Fragment {
     
     private View tab1View;
     
+    private static final float defaultFontSize = 20.0f;
+
+    private FlowTextView flowTextView;
+    private TextView dateTextView;
+    
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 	    
         tab1View = inflater.inflate(R.layout.activity_main_tab1, container, false);
+        
+        setAddBtn1();
+        setDelBtn1();
+        setShowBtn1();
+        setAddBtn();
+        setDelBtn();
+        setShowBtn();
+        
+        dateTextView = (TextView) tab1View.findViewById(R.id.dateTextView);
+        flowTextView = (FlowTextView) tab1View.findViewById(R.id.ftv);
+        Spanned html = Html.fromHtml("阿呆家附近啊东风大街噶较高的风景郭德纲风刀霜剑公司东风股份等施工水电费井冈山的风景哥电风扇高富帅递归算法归属感阿呆家附近啊东风大街噶较高的风景郭德纲风刀霜剑公司东风股份等施工水电费井冈山的风景哥电风扇高富帅递归算法归属感");
+        flowTextView.setText(html);
         
         List<SectionListItem> list = new ArrayList<SectionListItem>();
         for(int i =0; i< 20; i++){
@@ -51,14 +76,101 @@ public class MainTab1Fragment extends Fragment {
         }
         
         
-        arrayAdapter = new StandardArrayAdapter(getActivity(), list);
-        sectionAdapter = new SectionListAdapter(inflater, arrayAdapter);
-        listView = (SectionListView)tab1View.findViewById(R.id.section_list_view);
-        listView.setAdapter(sectionAdapter);
+//        arrayAdapter = new StandardArrayAdapter(getActivity(), list);
+//        sectionAdapter = new SectionListAdapter(inflater, arrayAdapter);
+//        listView = (SectionListView)tab1View.findViewById(R.id.section_list_view);
+//        listView.setAdapter(sectionAdapter);
         
         
         
         return tab1View;
+    }
+	
+	private void setAddBtn1() {
+        Button buttonCampaignPlacePre = (Button)tab1View.findViewById(R.id.addxx1);
+        buttonCampaignPlacePre.setOnClickListener(this);
+    }
+    
+    private void setDelBtn1() {
+        Button buttonCampaignPlacePre = (Button)tab1View.findViewById(R.id.delxx1);
+        buttonCampaignPlacePre.setOnClickListener(this);
+    }
+    
+    private void setShowBtn1() {
+        Button buttonCampaignPlacePre = (Button)tab1View.findViewById(R.id.showxx1);
+        buttonCampaignPlacePre.setOnClickListener(this);
+    }
+	
+    private void setAddBtn() {
+        Button buttonCampaignPlacePre = (Button)tab1View.findViewById(R.id.addxx);
+        buttonCampaignPlacePre.setOnClickListener(this);
+    }
+    
+    private void setDelBtn() {
+        Button buttonCampaignPlacePre = (Button)tab1View.findViewById(R.id.delxx);
+        buttonCampaignPlacePre.setOnClickListener(this);
+    }
+    
+    private void setShowBtn() {
+        Button buttonCampaignPlacePre = (Button)tab1View.findViewById(R.id.showxx);
+        buttonCampaignPlacePre.setOnClickListener(this);
+    }
+	
+	@Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.addxx1:
+                increaseFontSize1();
+                
+                break;
+            case R.id.delxx1:
+                decreaseFontSize1();
+                break;
+            case R.id.showxx1:
+                show1();
+                break;
+            case R.id.addxx:
+                increaseFontSize();
+                
+                break;
+            case R.id.delxx:
+                decreaseFontSize();
+                break;
+            case R.id.showxx:
+                show();
+                break;
+        }
+    }
+	
+	private void increaseFontSize1(){
+        float currentFontSize = dateTextView.getTextSize();
+        dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, currentFontSize + 1.0f);
+    }
+
+    private void decreaseFontSize1(){
+        float currentFontSize = dateTextView.getTextSize();
+        dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, currentFontSize - 1.0f);
+    }
+
+    private void show1(){
+        float currentFontSize = dateTextView.getTextSize();
+        Toast.makeText(getActivity(), "" + currentFontSize, Toast.LENGTH_SHORT).show();
+    }
+
+	
+	private void increaseFontSize(){
+        float currentFontSize = flowTextView.getTextsize();
+        flowTextView.setTextSize(currentFontSize + 1.0f);
+    }
+
+    private void decreaseFontSize(){
+        float currentFontSize = flowTextView.getTextsize();
+        flowTextView.setTextSize(currentFontSize - 1.0f);
+    }
+
+    private void show(){
+        float currentFontSize = flowTextView.getTextsize();
+        Toast.makeText(getActivity(), "" + currentFontSize, Toast.LENGTH_SHORT).show();
     }
 	
 	public class StandardArrayAdapter extends ArrayAdapter<SectionListItem> {
@@ -73,11 +185,12 @@ public class MainTab1Fragment extends Fragment {
         }
 
         class ViewHolder {
-            protected TextView example_text_view;
-            protected TextView example_text_view1;
+            protected ImageView thumbnail_view;
+            protected TextView message_view;
+            protected FlowTextView ftv;
         }
 
-        /**
+        /**`
          * convertView -> viewHolder -> UI
          */
         @Override
@@ -92,9 +205,10 @@ public class MainTab1Fragment extends Fragment {
             if (convertView == null) {
                 // 添加UI到convertView
                 convertView = context.getLayoutInflater().inflate(R.layout.section_list_view_each_item, null);
-                viewHolder.example_text_view = (TextView)convertView.findViewById(R.id.example_text_view);
-                viewHolder.example_text_view1 = (TextView)convertView.findViewById(R.id.example_text_view1);
-                viewHolder.example_text_view.setTag(list.get(position).item);//// 保存bean值到UI tag (响应事件从这个UI tag取值)
+                viewHolder.ftv = (FlowTextView)convertView.findViewById(R.id.ftv);
+//                viewHolder.thumbnail_view = (ImageView)convertView.findViewById(R.id.thumbnail_view);
+//                viewHolder.message_view = (TextView)convertView.findViewById(R.id.message_view);
+//                viewHolder.message_view.setTag(list.get(position).item);//// 保存bean值到UI tag (响应事件从这个UI tag取值)
                 convertView.setTag(viewHolder);
                 
                 // 添加事件
@@ -103,9 +217,21 @@ public class MainTab1Fragment extends Fragment {
             }
 
             // 设置bean值到UI
-            viewHolder.example_text_view.setText(((Point)list.get(position).item).getId());
-            viewHolder.example_text_view1.setText(((Point)list.get(position).item).getDepth());
-            viewHolder.example_text_view.setTag(list.get(position).item);//// 保存bean值到UI tag (响应事件从这个UI tag取值)
+            
+//            viewHolder.message_view.setText(((Point)list.get(position).item).getId());
+            
+            String text = "阿呆家附近啊东风大街噶较高的风景郭德纲风刀霜剑公司东风股份等施工水电费井冈山的风景哥电风扇高富帅递归算法归属感";
+
+//            Display display = getActivity().getWindowManager().getDefaultDisplay();
+//            FlowTextHelper.tryFlowText(text, viewHolder.thumbnail_view, viewHolder.message_view, display);
+            
+            Spanned html = Html.fromHtml(text);
+//            flowTextView.setText(html);
+            viewHolder.ftv.setTextSize(25);
+            viewHolder.ftv.invalidate();
+            viewHolder.ftv.setText(html);
+//            viewHolder.example_text_view1.setText(((Point)list.get(position).item).getDepth());
+//            viewHolder.message_view.setTag(list.get(position).item);//// 保存bean值到UI tag (响应事件从这个UI tag取值)
 
             return convertView;
         }
@@ -117,12 +243,12 @@ public class MainTab1Fragment extends Fragment {
          */
         private void addContentLayoutOnClickListener(final ViewHolder viewHolder, View convertView) {
             
-            LinearLayout contentLayout = (LinearLayout)convertView.findViewById(R.id.col1Layout);
+            RelativeLayout contentLayout = (RelativeLayout)convertView.findViewById(R.id.col1Layout);
             contentLayout.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View arg0) {
-                    Point element = (Point)viewHolder.example_text_view.getTag();
+                    Point element = (Point)viewHolder.message_view.getTag();
                     Intent intent = new Intent(context, PlaceDetailActivity.class);
                 }
             });
