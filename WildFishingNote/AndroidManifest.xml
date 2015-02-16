@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainTab1Activity"
+            android:name="com.simple.wildfishingnote.tabs.MainTab1Activity"
             android:label="@string/title_activity_main_tab1"
             android:uiOptions="splitActionBarWhenNarrow" >
         </activity>

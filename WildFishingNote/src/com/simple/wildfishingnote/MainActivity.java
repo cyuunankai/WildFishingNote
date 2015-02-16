@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -14,12 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.simple.wildfishingnote.animation.hover.HoverSwitch;
 import com.simple.wildfishingnote.bean.animation.hover.ImageIntentBean;
 import com.simple.wildfishingnote.bean.animation.hover.ImageSrcIntent;
 import com.simple.wildfishingnote.common.Common;
+import com.simple.wildfishingnote.sectionedlistview.SectionListAdapter;
+import com.simple.wildfishingnote.sectionedlistview.SectionListItem;
+import com.simple.wildfishingnote.sectionedlistview.SectionListView;
 import com.simple.wildfishingnote.tabs.MainTab1Fragment;
 
 public class MainActivity extends ActionBarActivity {
@@ -29,6 +35,9 @@ public class MainActivity extends ActionBarActivity {
     HoverSwitch hoverSwitch = null;
     
 //    private int selectedMenuItemId = 0;
+    
+    
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +50,7 @@ public class MainActivity extends ActionBarActivity {
         
         initMainTab1Fm(savedInstanceState);
 
+        
     }
 
 
@@ -185,5 +195,4 @@ public class MainActivity extends ActionBarActivity {
     	return super.onOptionsItemSelected(item);
     }
 
-	
 }
