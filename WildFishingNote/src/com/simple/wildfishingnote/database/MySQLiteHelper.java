@@ -119,6 +119,21 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       database.execSQL(SQL_CREATE_RELAY_RESULT_STATISTICS);
       database.execSQL(SQL_CREATE_FISH_TYPE);
       
+      String initRodLengthSql = "insert into " + WildFishingContract.RodLengths.TABLE_NAME + "("+WildFishingContract.RodLengths.COLUMN_NAME_NAME +") values ('3.6')";
+      database.execSQL(initRodLengthSql);
+      initRodLengthSql = "insert into " + WildFishingContract.RodLengths.TABLE_NAME + "("+WildFishingContract.RodLengths.COLUMN_NAME_NAME +") values ('4.5')";
+      database.execSQL(initRodLengthSql);
+      
+      String initLureMethodSql = "insert into " + WildFishingContract.LureMethods.TABLE_NAME + "("+WildFishingContract.LureMethods.COLUMN_NAME_NAME +") values ('苞米茬子')";
+      database.execSQL(initLureMethodSql);
+      initLureMethodSql = "insert into " + WildFishingContract.LureMethods.TABLE_NAME + "("+WildFishingContract.LureMethods.COLUMN_NAME_NAME +") values ('小米')";
+      database.execSQL(initLureMethodSql);
+      
+      String initBaitSql = "insert into " + WildFishingContract.Baits.TABLE_NAME + "("+WildFishingContract.Baits.COLUMN_NAME_NAME +") values ('九一八')";
+      database.execSQL(initBaitSql);
+      initBaitSql = "insert into " + WildFishingContract.Baits.TABLE_NAME + "("+WildFishingContract.Baits.COLUMN_NAME_NAME +") values ('野钓7号')";
+      database.execSQL(initBaitSql);
+      
       String initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('鲤鱼')";
       database.execSQL(initFishTypeSql);
       initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('鲫鱼')";

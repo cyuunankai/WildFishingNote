@@ -182,6 +182,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         	hookFlag = "in";
         	hookFlagName = getResources().getString(R.string.in);
         } else if(radioButtonId == R.id.addResultOutRadio){
+            hookFlag = "out";
             hookFlagName = getResources().getString(R.string.out);
         }
         

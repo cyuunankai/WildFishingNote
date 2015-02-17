@@ -3,6 +3,8 @@ package com.simple.wildfishingnote.tabs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -12,7 +14,6 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
-import android.text.style.UnderlineSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +24,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.simple.wildfishingnote.MainActivity;
 import com.simple.wildfishingnote.R;
+import com.simple.wildfishingnote.bean.CampaignSummary;
 import com.simple.wildfishingnote.bean.Point;
 import com.simple.wildfishingnote.campaign.place.PlaceDetailActivity;
+import com.simple.wildfishingnote.database.CampaignDataSource;
 import com.simple.wildfishingnote.flowtextview.FlowTextView;
 import com.simple.wildfishingnote.sectionedlistview.SectionListAdapter;
 import com.simple.wildfishingnote.sectionedlistview.SectionListItem;
@@ -38,35 +42,23 @@ public class MainTab1Fragment extends Fragment {
     private SectionListView listView;
     
     private View tab1View;
+    private CampaignDataSource dataSource;
     
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 	    
         tab1View = inflater.inflate(R.layout.activity_main_tab1, container, false);
+        dataSource = ((MainActivity)getActivity()).getCampaignDataSource();
+        dataSource.open();
         
         List<SectionListItem> list = new ArrayList<SectionListItem>();
-        for(int i =1; i< 20; i++){
-            String section = "2015-01";
-            String date = "2015-01-" + i;
-            String showImageFlag = "1";
-            if(i > 10){
-                section = "2015-02";
-                date = "2015-02-" + i;
-                showImageFlag = "0";
-            }
-            Point p = new Point();
-            p.setId(String.valueOf(i));
-            p.setDepth("title" + i);
-            p.setRodLengthName(date);
-            p.setLureMethodName("哦那都佛啊个网购耳光阿迪浓缩机嘎达给那都嘎达爱唯欧工二娃狗儿阿济格阿公阿二舅公二进宫而奥迪将公安违规阿拉斯蒂芬大驾光临大家阿斯顿飞骄傲就改为违规如果都是垃圾嘎达给解答搜狗价位给饥饿感");
-            p.setRodLengthId(showImageFlag);
-            
-            SectionListItem sli = new SectionListItem(p, section);
+        List<CampaignSummary> csList = dataSource.getAllCampaignSummarys();
+        for(CampaignSummary cs : csList){
+            SectionListItem sli = new SectionListItem(cs, cs.getDate().substring(0, 7));
             list.add(sli);
         }
-        
-        
+
         arrayAdapter = new StandardArrayAdapter(getActivity(), list);
         sectionAdapter = new SectionListAdapter(inflater, arrayAdapter);
         listView = (SectionListView)tab1View.findViewById(R.id.section_list_view);
@@ -125,28 +117,25 @@ public class MainTab1Fragment extends Fragment {
             }
 
             // 设置bean值到UI
-            SpannableString spanString = new SpannableString(((Point)list.get(position).item).getDepth());
+            SpannableString spanString = new SpannableString(((CampaignSummary)list.get(position).item).getTitle());
             spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
             viewHolder.titleTextView.setText(spanString);
             
             viewHolder.dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 8.0f);
-            viewHolder.dateTextView.setText(((Point)list.get(position).item).getRodLengthName());
+            viewHolder.dateTextView.setText(((CampaignSummary)list.get(position).item).getDate());
             
-            String summary = ((Point)list.get(position).item).getLureMethodName();
+            String summary = ((CampaignSummary)list.get(position).item).getSummary();
             Spanned html = Html.fromHtml(summary);
             viewHolder.summaryFlowTextView.setText(html);
             viewHolder.summaryFlowTextView.setTextSize(24.0f);
             
             
             
-            if (((Point)list.get(position).item).getRodLengthId().equals("1")) {
-//                viewHolder.imageView.setVisibility(View.INVISIBLE);
+            if (StringUtils.isNotBlank(((CampaignSummary)list.get(position).item).getImagePath())) {
                 viewHolder.imageView.setImageResource(R.drawable.ic_launcher);
                 viewHolder.imageView.getLayoutParams().width = 120;
                 viewHolder.imageView.getLayoutParams().height = 180;
             } else {
-//                viewHolder.imageView.setVisibility(View.VISIBLE);
-//                viewHolder.imageView.setImageResource(R.drawable.ic_launcher);
                 viewHolder.imageView.getLayoutParams().width = 0;
                 viewHolder.imageView.getLayoutParams().height = 180;
             }

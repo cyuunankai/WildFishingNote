@@ -9,6 +9,11 @@ public class Campaign {
     private String endTime;
     private String summary;
     private String placeId;
+    
+    private List<String> pointIdList;
+    private List<RelayCamapignStatisticsResult> statisticsList;
+    private List<String> picList;
+
     public List<String> getPointIdList() {
         return pointIdList;
     }
@@ -27,9 +32,7 @@ public class Campaign {
     public void setPicList(List<String> picList) {
         this.picList = picList;
     }
-    private List<String> pointIdList;
-    private List<RelayCamapignStatisticsResult> statisticsList;
-    private List<String> picList;
+
     
     public String getPlaceId() {
 		return placeId;

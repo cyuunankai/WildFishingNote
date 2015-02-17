@@ -23,6 +23,7 @@ import com.simple.wildfishingnote.animation.hover.HoverSwitch;
 import com.simple.wildfishingnote.bean.animation.hover.ImageIntentBean;
 import com.simple.wildfishingnote.bean.animation.hover.ImageSrcIntent;
 import com.simple.wildfishingnote.common.Common;
+import com.simple.wildfishingnote.database.CampaignDataSource;
 import com.simple.wildfishingnote.sectionedlistview.SectionListAdapter;
 import com.simple.wildfishingnote.sectionedlistview.SectionListItem;
 import com.simple.wildfishingnote.sectionedlistview.SectionListView;
@@ -33,16 +34,21 @@ public class MainActivity extends ActionBarActivity {
 	private final static int IMAGE = R.drawable.ic_launcher;
     private final static int ROOT_IMAGE = R.drawable.ic_launcher;
     HoverSwitch hoverSwitch = null;
-    
+    private CampaignDataSource dataSourceCampaign;
 //    private int selectedMenuItemId = 0;
     
-    
+    public CampaignDataSource getCampaignDataSource() {
+        return dataSourceCampaign;
+    }
     
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        dataSourceCampaign = new CampaignDataSource(this);
+        dataSourceCampaign.open();
         
         initCustomActionBar();
         
@@ -164,8 +170,10 @@ public class MainActivity extends ActionBarActivity {
 	
 	@Override
 	public void onResume(){
+	    dataSourceCampaign.open();
 		super.onResume();
 //		if (selectedMenuItemId == 0 || selectedMenuItemId == R.id.action_main) {
+		
 			hoverSwitch.execRootImageClick(true);
 //			hoverSwitch.showRoot();
 //		} else {
@@ -173,6 +181,12 @@ public class MainActivity extends ActionBarActivity {
 //		}
 		
 	}
+
+    @Override
+    protected void onPause() {
+      dataSourceCampaign.close();
+      super.onPause();
+    }
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
