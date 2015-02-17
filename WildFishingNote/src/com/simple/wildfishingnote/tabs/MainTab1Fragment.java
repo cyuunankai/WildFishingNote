@@ -29,6 +29,7 @@ import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.CampaignSummary;
 import com.simple.wildfishingnote.bean.Point;
 import com.simple.wildfishingnote.campaign.place.PlaceDetailActivity;
+import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 import com.simple.wildfishingnote.flowtextview.FlowTextView;
 import com.simple.wildfishingnote.sectionedlistview.SectionListAdapter;
@@ -40,6 +41,7 @@ public class MainTab1Fragment extends Fragment {
     private StandardArrayAdapter arrayAdapter;
     private SectionListAdapter sectionAdapter;
     private SectionListView listView;
+    private LayoutInflater mInflater;
     
     private View tab1View;
     private CampaignDataSource dataSource;
@@ -47,11 +49,17 @@ public class MainTab1Fragment extends Fragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-	    
+	    mInflater = inflater;
         tab1View = inflater.inflate(R.layout.activity_main_tab1, container, false);
         dataSource = ((MainActivity)getActivity()).getCampaignDataSource();
         dataSource.open();
         
+        initSectionedListView();
+        
+        return tab1View;
+    }
+
+    private void initSectionedListView() {
         List<SectionListItem> list = new ArrayList<SectionListItem>();
         List<CampaignSummary> csList = dataSource.getAllCampaignSummarys();
         for(CampaignSummary cs : csList){
@@ -60,15 +68,19 @@ public class MainTab1Fragment extends Fragment {
         }
 
         arrayAdapter = new StandardArrayAdapter(getActivity(), list);
-        sectionAdapter = new SectionListAdapter(inflater, arrayAdapter);
+        sectionAdapter = new SectionListAdapter(mInflater, arrayAdapter);
         listView = (SectionListView)tab1View.findViewById(R.id.section_list_view);
         listView.setAdapter(sectionAdapter);
-        
-        
-        
-        return tab1View;
     }
-
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constant.REQUEST_CODE_ADD_CAMPAIGN && resultCode == Activity.RESULT_OK) {
+            dataSource.open();
+            initSectionedListView();
+        }
+        
+    }
 	
 	public class StandardArrayAdapter extends ArrayAdapter<SectionListItem> {
 

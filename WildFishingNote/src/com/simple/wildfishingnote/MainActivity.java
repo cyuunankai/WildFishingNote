@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActionBar;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,18 +16,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.simple.wildfishingnote.animation.hover.HoverSwitch;
 import com.simple.wildfishingnote.bean.animation.hover.ImageIntentBean;
 import com.simple.wildfishingnote.bean.animation.hover.ImageSrcIntent;
 import com.simple.wildfishingnote.common.Common;
+import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
-import com.simple.wildfishingnote.sectionedlistview.SectionListAdapter;
-import com.simple.wildfishingnote.sectionedlistview.SectionListItem;
-import com.simple.wildfishingnote.sectionedlistview.SectionListView;
 import com.simple.wildfishingnote.tabs.MainTab1Fragment;
 
 public class MainActivity extends ActionBarActivity {
@@ -157,7 +154,7 @@ public class MainActivity extends ActionBarActivity {
 						startActivity(intent);
 					} else if ("AddMainActivity".equals(intentName)) {
 						Intent intent = new Intent(getApplicationContext(), AddMainActivity.class);
-						startActivity(intent);
+						startActivityForResult(intent, Constant.REQUEST_CODE_ADD_CAMPAIGN);
 					} else if ("AddMainActivity".equals(intentName)) {
 						Intent intent = new Intent(getApplicationContext(), AddMainActivity.class);
 						startActivity(intent);
@@ -168,6 +165,19 @@ public class MainActivity extends ActionBarActivity {
 		}
 	}
 	
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == Constant.REQUEST_CODE_ADD_CAMPAIGN && resultCode == Activity.RESULT_OK) {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            if (fragments != null) {
+                for (Fragment fragment : fragments) {
+                    fragment.onActivityResult(requestCode, resultCode, data);
+                }
+            }
+//        }
+        
+    }
+		
 	@Override
 	public void onResume(){
 	    dataSourceCampaign.open();

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -138,6 +139,10 @@ public class Tab5Fragment extends Fragment implements OnClickListener {
             case R.id.buttonSaveAll:
                 Campaign campaign = buildCampaign();
                 dataSource.addAllData(campaign);
+                
+                Intent intent = getActivity().getIntent();
+                getActivity().setResult(Activity.RESULT_OK, intent);
+                getActivity().finish();
                 break;
         }
     }
