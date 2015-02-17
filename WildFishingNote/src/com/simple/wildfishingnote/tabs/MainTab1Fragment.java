@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -50,8 +51,6 @@ public class MainTab1Fragment extends Fragment implements OnClickListener {
         tab1View = inflater.inflate(R.layout.activity_main_tab1, container, false);
         
         setAddBtn1();
-        setDelBtn1();
-        setShowBtn1();
         setAddBtn();
         setDelBtn();
         setShowBtn();
@@ -87,17 +86,7 @@ public class MainTab1Fragment extends Fragment implements OnClickListener {
     }
 	
 	private void setAddBtn1() {
-        Button buttonCampaignPlacePre = (Button)tab1View.findViewById(R.id.addxx1);
-        buttonCampaignPlacePre.setOnClickListener(this);
-    }
-    
-    private void setDelBtn1() {
-        Button buttonCampaignPlacePre = (Button)tab1View.findViewById(R.id.delxx1);
-        buttonCampaignPlacePre.setOnClickListener(this);
-    }
-    
-    private void setShowBtn1() {
-        Button buttonCampaignPlacePre = (Button)tab1View.findViewById(R.id.showxx1);
+        Button buttonCampaignPlacePre = (Button)tab1View.findViewById(R.id.set);
         buttonCampaignPlacePre.setOnClickListener(this);
     }
 	
@@ -119,15 +108,9 @@ public class MainTab1Fragment extends Fragment implements OnClickListener {
 	@Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.addxx1:
-                increaseFontSize1();
+            case R.id.set:
+                set();
                 
-                break;
-            case R.id.delxx1:
-                decreaseFontSize1();
-                break;
-            case R.id.showxx1:
-                show1();
                 break;
             case R.id.addxx:
                 increaseFontSize();
@@ -142,21 +125,10 @@ public class MainTab1Fragment extends Fragment implements OnClickListener {
         }
     }
 	
-	private void increaseFontSize1(){
-        float currentFontSize = dateTextView.getTextSize();
-        dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, currentFontSize + 1.0f);
+	private void set(){
+	    EditText et = (EditText) tab1View.findViewById(R.id.setText);
+        dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.valueOf(et.getText().toString()));
     }
-
-    private void decreaseFontSize1(){
-        float currentFontSize = dateTextView.getTextSize();
-        dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, currentFontSize - 1.0f);
-    }
-
-    private void show1(){
-        float currentFontSize = dateTextView.getTextSize();
-        Toast.makeText(getActivity(), "" + currentFontSize, Toast.LENGTH_SHORT).show();
-    }
-
 	
 	private void increaseFontSize(){
         float currentFontSize = flowTextView.getTextsize();

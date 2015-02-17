@@ -29,29 +29,21 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="200dp"
     android:orientation="horizontal" >
-
+<EditText 
+     android:id="@+id/setText"
+    android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.5"
+	                android:text="20.0"
+    />
 <Button
-				    android:id="@+id/addxx1"
-	                android:layout_width="10dp"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="0.3"
-	                android:layout_margin="8dp"
-	                android:text="增加" />
-	
-	            <Button
-	                android:id="@+id/delxx1"
+				    android:id="@+id/set"
 	                android:layout_width="0dp"
 	                android:layout_height="wrap_content"
-	                android:layout_weight="0.3"
+	                android:layout_weight="0.5"
 	                android:layout_margin="8dp"
-	                android:text="减少" />
-	          <Button
-	                android:id="@+id/showxx1"
-	                android:layout_width="0dp"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="0.4"
-	                android:layout_margin="8dp"
-	                android:text="当前" />
+	                android:text="设定" />
+
 </LinearLayout>
 		
 	<LinearLayout
