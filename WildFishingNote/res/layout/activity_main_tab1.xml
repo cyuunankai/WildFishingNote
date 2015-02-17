@@ -1,79 +1,15 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" >
-
-    	<com.simple.wildfishingnote.flowtextview.FlowTextView
-    android:id="@+id/ftv"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/dateTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#008800"
-            android:textSize="10sp"
-            android:text="2015-01-01"/>
-
-
-</com.simple.wildfishingnote.flowtextview.FlowTextView>   
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="200dp"
-    android:orientation="horizontal" >
-<EditText 
-     android:id="@+id/setText"
-    android:layout_width="0dp"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="0.5"
-	                android:text="20.0"
-    />
-<Button
-				    android:id="@+id/set"
-	                android:layout_width="0dp"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="0.5"
-	                android:layout_margin="8dp"
-	                android:text="设定" />
-
-</LinearLayout>
-		
-	<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="300dp"
-    android:orientation="horizontal" >
-
-<Button
-				    android:id="@+id/addxx"
-	                android:layout_width="10dp"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="0.3"
-	                android:layout_margin="8dp"
-	                android:text="增加" />
+<FrameLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:id="@+id/listView"
+	android:orientation="vertical" 
+	android:layout_margin="8dp"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent">
 	
-	            <Button
-	                android:id="@+id/delxx"
-	                android:layout_width="0dp"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="0.3"
-	                android:layout_margin="8dp"
-	                android:text="减少" />
-	          <Button
-	                android:id="@+id/showxx"
-	                android:layout_width="0dp"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="0.4"
-	                android:layout_margin="8dp"
-	                android:text="当前" />
-</LinearLayout>
+	<com.simple.wildfishingnote.sectionedlistview.SectionListView 
+		android:id="@+id/section_list_view" 
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+	</com.simple.wildfishingnote.sectionedlistview.SectionListView>
 	
-</RelativeLayout>
+</FrameLayout>

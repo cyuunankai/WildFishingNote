@@ -1,36 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout 
+<LinearLayout 
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id = "@+id/col1Layout"
 	android:orientation="horizontal"
 	android:layout_width="fill_parent" 
-	android:layout_height="wrap_content" >
-	
-	<RelativeLayout android:id = "@+id/col1Layout"
+	android:layout_height="180dp"
+	android:padding="2dip" >
+
+<LinearLayout 
     android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="100dp">
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="fill_parent">
     
 
+        <TextView
+        android:id="@+id/titleTextView"
+    	android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:textSize="12sp"
+	    android:layout_margin="2dp"
+		/>
+	
+
+    <LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">	
+    
+	<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="138dp">
     <com.simple.wildfishingnote.flowtextview.FlowTextView
-    android:id="@+id/ftv"
+    android:id="@+id/summaryFlowTextView"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:textColor="#FF88C2"
+     >
 
         <TextView
-            android:layout_width="wrap_content"
+        	android:id="@+id/dateTextView"
+            android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_margin="0dp"
             android:padding="0dp"
-            android:textColor="#CCFF99"
-            android:textSize="6sp"
-            android:background="#000000"
-            android:text="2015-01-01"/>
+            android:textColor="#008800"
+            />
 
+	</com.simple.wildfishingnote.flowtextview.FlowTextView>            
+	</RelativeLayout>   
+	
+</LinearLayout>	
+</LinearLayout>	
 
-</com.simple.wildfishingnote.flowtextview.FlowTextView>            
+    
+    <ImageView
+    	android:id="@+id/imageView"
+    	android:layout_width="0dp"
+    	android:layout_height="0dp"
+    	android:padding="2dip"
+    />
 
-	</RelativeLayout>    
-
-</RelativeLayout>
+    
+</LinearLayout>
