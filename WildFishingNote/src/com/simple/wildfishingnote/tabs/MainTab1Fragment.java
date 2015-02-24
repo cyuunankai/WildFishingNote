@@ -149,11 +149,9 @@ public class MainTab1Fragment extends Fragment {
             if (StringUtils.isNotBlank(filePath)) {
             	Bitmap bitmap = BitmapFactory.decodeFile(filePath);
                 viewHolder.imageView.setImageBitmap(bitmap);
-                viewHolder.imageView.getLayoutParams().width = 100;
-                viewHolder.imageView.getLayoutParams().height = 180;
             } else {
                 viewHolder.imageView.getLayoutParams().width = 0;
-                viewHolder.imageView.getLayoutParams().height = 180;
+                viewHolder.imageView.getLayoutParams().height = 200;
             }
             viewHolder.titleTextView.setTag(list.get(position).item);//// 保存bean值到UI tag (响应事件从这个UI tag取值)
 

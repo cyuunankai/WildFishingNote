@@ -57,8 +57,10 @@
     
     <ImageView
     	android:id="@+id/imageView"
-    	android:layout_width="0dp"
-        android:layout_height="0dp"
+    	android:adjustViewBounds="true"
+    	android:scaleType="fitXY"
+    	android:layout_width="100dp"
+        android:layout_height="100dp"
     	android:padding="2dip"
     />
 
