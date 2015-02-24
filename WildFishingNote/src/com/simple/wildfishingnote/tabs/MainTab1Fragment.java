@@ -7,6 +7,8 @@ import org.apache.commons.lang.StringUtils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,10 +17,12 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,7 +31,6 @@ import android.widget.TextView;
 import com.simple.wildfishingnote.MainActivity;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.CampaignSummary;
-import com.simple.wildfishingnote.bean.Point;
 import com.simple.wildfishingnote.campaign.place.PlaceDetailActivity;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
@@ -142,10 +145,11 @@ public class MainTab1Fragment extends Fragment {
             viewHolder.summaryFlowTextView.setTextSize(24.0f);
             
             
-            
-            if (StringUtils.isNotBlank(((CampaignSummary)list.get(position).item).getImagePath())) {
-                viewHolder.imageView.setImageResource(R.drawable.ic_launcher);
-                viewHolder.imageView.getLayoutParams().width = 120;
+            String filePath = ((CampaignSummary)list.get(position).item).getImagePath();
+            if (StringUtils.isNotBlank(filePath)) {
+            	Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+                viewHolder.imageView.setImageBitmap(bitmap);
+                viewHolder.imageView.getLayoutParams().width = 100;
                 viewHolder.imageView.getLayoutParams().height = 180;
             } else {
                 viewHolder.imageView.getLayoutParams().width = 0;
@@ -168,7 +172,7 @@ public class MainTab1Fragment extends Fragment {
 
                 @Override
                 public void onClick(View arg0) {
-                    Point element = (Point)viewHolder.titleTextView.getTag();
+                	CampaignSummary element = (CampaignSummary)viewHolder.titleTextView.getTag();
                     Intent intent = new Intent(context, PlaceDetailActivity.class);
                 }
             });

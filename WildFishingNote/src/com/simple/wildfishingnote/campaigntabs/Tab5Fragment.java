@@ -38,6 +38,7 @@ import com.simple.wildfishingnote.common.Common;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 import com.simple.wildfishingnote.moresimple.NestedListView;
+import com.simple.wildfishingnote.utils.FileUtil;
 
 public class Tab5Fragment extends Fragment implements OnClickListener {
     
@@ -137,6 +138,7 @@ public class Tab5Fragment extends Fragment implements OnClickListener {
                 ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(3);
                 break;
             case R.id.buttonSaveAll:
+            	
                 Campaign campaign = buildCampaign();
                 dataSource.addAllData(campaign);
                 
@@ -160,7 +162,12 @@ public class Tab5Fragment extends Fragment implements OnClickListener {
         Type statisticsListType = new TypeToken<List<RelayCamapignStatisticsResult>>() {}.getType();
         List<RelayCamapignStatisticsResult> statisticsList = new Gson().fromJson(fishResultStatisticsListStr, statisticsListType);
         
+        List<String> sdCardPicList = new ArrayList<String>();
         List<String> picList = Common.getCampaignPrefernceStrList(getActivity(), "campaign_fish_result_pic_list");
+        for(String from : picList){
+        	String to = dealImageFile(from);
+        	sdCardPicList.add(to);
+        }
         
         Campaign campaign = new Campaign();
         campaign.setSummary(summary);
@@ -168,10 +175,24 @@ public class Tab5Fragment extends Fragment implements OnClickListener {
         campaign.setEndTime(endTime);
         campaign.setPlaceId(placeId);
         campaign.setPointIdList(pointIdList);
-        campaign.setPicList(picList);
+        campaign.setPicList(sdCardPicList);
         campaign.setStatisticsList(statisticsList);
         
         return campaign;
+    }
+    
+	
+    /**
+     * 处理图片
+     * @return
+     */
+    private String dealImageFile(String from) {
+        String fileName;
+        
+        String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH;
+        fileName = FileUtil.saveImageToInternalStorage(from, directory);
+        
+        return fileName;
     }
     
     private void setOperationBtnVisibility() {

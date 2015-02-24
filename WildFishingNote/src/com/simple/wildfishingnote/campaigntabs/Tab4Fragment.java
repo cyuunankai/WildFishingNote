@@ -345,6 +345,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
 
             for (String string : all_path) {
                 CustomGallery item = new CustomGallery();
+                item.isSeleted = true;
                 item.sdcardPath = string;
 
                 dataT.add(item);

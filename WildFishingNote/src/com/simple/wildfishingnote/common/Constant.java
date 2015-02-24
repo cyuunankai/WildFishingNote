@@ -5,6 +5,7 @@ public class Constant {
     public final static String SPACE = " ";
     
 	public final static String PLACE_IMAGE_PATH = "/placeImages/";
+	public final static String FISH_RESULT_IMAGE_PATH = "/fishResultImages/";
 	
 	
 	public final static int REQUEST_CODE_PICK_SINGAL_IMAGE = 100;
