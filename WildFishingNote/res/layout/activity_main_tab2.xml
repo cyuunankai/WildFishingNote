@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,9 +9,56 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.simple.wildfishingnote.MainTab2Activity" >
 
-    <TextView
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/startSchduleBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/statistics" />
+        android:layout_marginTop="29dp"
+         bootstrapbutton:bb_icon_left="fa-calendar"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success"
+        android:text="启动schdule" />
+
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/showWeatherBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+         bootstrapbutton:bb_icon_left="fa-calendar"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success"
+        android:text="显示数据" />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/startBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+         bootstrapbutton:bb_icon_left="fa-calendar"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success"
+        android:text="开始日期" />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/endBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="260dp"
+         bootstrapbutton:bb_icon_left="fa-calendar"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success"
+        android:text="结束日期" />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/importBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="360dp"
+         bootstrapbutton:bb_icon_left="fa-calendar"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success"
+        android:text="导入历史数据" />
 
 </RelativeLayout>

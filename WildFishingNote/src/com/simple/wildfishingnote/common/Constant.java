@@ -3,6 +3,7 @@ package com.simple.wildfishingnote.common;
 public class Constant {
     public final static String NEW_LINE = "\n";
     public final static String SPACE = " ";
+    public final static String DASH = "-";
     
 	public final static String PLACE_IMAGE_PATH = "/placeImages/";
 	public final static String FISH_RESULT_IMAGE_PATH = "/fishResultImages/";
@@ -22,4 +23,11 @@ public class Constant {
     
     public final static int ADD_PLACE_ID = 10000;
     public final static int ADD_POINT_ID = 10001;
+    
+    
+    //These keys are only for Demo purpose.
+    //You should replace the key with your own key.
+    //You can obtain your own key after registering on World Weather Online website.
+    public static final String FREE_API_KEY = "2c6cd1603148c8db1d40a83880a94";
+    public static final String PREMIUM_API_KEY = "w9ve379xdu8etugm7e2ftxd6";
 }

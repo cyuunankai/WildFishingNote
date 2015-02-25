@@ -27,7 +27,6 @@ import com.simple.wildfishingnote.bean.RelayCampaignPoint;
 import com.simple.wildfishingnote.bean.RodLength;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.utils.BusinessUtil;
-import com.simple.wildfishingnote.utils.FileUtil;
 
 public class CampaignDataSource {
 

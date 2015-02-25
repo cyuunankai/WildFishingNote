@@ -101,6 +101,36 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             		WildFishingContract.FishType._ID + " INTEGER PRIMARY KEY," +
             		WildFishingContract.FishType.COLUMN_NAME_NAME + TEXT_TYPE +  
             " )";
+    
+    // 天气
+    private static final String SQL_CREATE_WEATHERS =
+            "CREATE TABLE " + WildFishingContract.Weathers.TABLE_NAME + " (" +
+                    WildFishingContract.Weathers._ID + " INTEGER PRIMARY KEY," +
+                    WildFishingContract.Weathers.COLUMN_NAME_DATE + TEXT_TYPE + " UNIQUE" + COMMA_SEP +
+                    WildFishingContract.Weathers.COLUMN_NAME_REGION + TEXT_TYPE + COMMA_SEP +
+                    WildFishingContract.Weathers.COLUMN_NAME_MIN_TEMP_C + TEXT_TYPE + COMMA_SEP +
+                    WildFishingContract.Weathers.COLUMN_NAME_MAX_TEMP_C + TEXT_TYPE + COMMA_SEP +
+                    WildFishingContract.Weathers.COLUMN_NAME_SUNRISE + TEXT_TYPE + COMMA_SEP +
+                    WildFishingContract.Weathers.COLUMN_NAME_SUNSET + TEXT_TYPE +
+                    " )";
+
+    private static final String SQL_CREATE_WEATHERS_HOURLY =
+            "CREATE TABLE " + WildFishingContract.WeathersHourly.TABLE_NAME + " (" +
+                    WildFishingContract.WeathersHourly._ID + " INTEGER PRIMARY KEY," +
+                    WildFishingContract.WeathersHourly.COLUMN_NAME_WEATHER_ID + TEXT_TYPE + COMMA_SEP +
+                    WildFishingContract.WeathersHourly.COLUMN_NAME_TIME + TEXT_TYPE + COMMA_SEP +
+                    WildFishingContract.WeathersHourly.COLUMN_NAME_TEMP_C + TEXT_TYPE + COMMA_SEP +
+                    WildFishingContract.WeathersHourly.COLUMN_NAME_WIND_SPEED_KMPH + TEXT_TYPE + COMMA_SEP +
+                    WildFishingContract.WeathersHourly.COLUMN_NAME_WIND_DIR_DEGREE + TEXT_TYPE + COMMA_SEP +
+                    WildFishingContract.WeathersHourly.COLUMN_NAME_PRESSURE + TEXT_TYPE + COMMA_SEP +
+                    WildFishingContract.WeathersHourly.COLUMN_NAME_CLOUD_COVER + TEXT_TYPE + COMMA_SEP +
+                    WildFishingContract.WeathersHourly.COLUMN_NAME_WEATHER_CODE + TEXT_TYPE + COMMA_SEP + "FOREIGN KEY("
+                    + WildFishingContract.WeathersHourly.COLUMN_NAME_WEATHER_ID
+                    + ") REFERENCES "
+                    + WildFishingContract.Weathers.TABLE_NAME
+                    + "(" + WildFishingContract.Weathers._ID + ")" +
+                    " )";
+
 
     public MySQLiteHelper(Context context) {
       super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -118,6 +148,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       database.execSQL(SQL_CREATE_RESULTS);
       database.execSQL(SQL_CREATE_RELAY_RESULT_STATISTICS);
       database.execSQL(SQL_CREATE_FISH_TYPE);
+      database.execSQL(SQL_CREATE_WEATHERS);
+      database.execSQL(SQL_CREATE_WEATHERS_HOURLY);
       
       String initRodLengthSql = "insert into " + WildFishingContract.RodLengths.TABLE_NAME + "("+WildFishingContract.RodLengths.COLUMN_NAME_NAME +") values ('3.6')";
       database.execSQL(initRodLengthSql);
@@ -155,6 +187,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.RelayCampaignImageResults.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.RelayCamapignStatisticsResults.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.FishType.TABLE_NAME);
+      db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Weathers.TABLE_NAME);
+      db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.WeathersHourly.TABLE_NAME);
       onCreate(db);
     }
 
