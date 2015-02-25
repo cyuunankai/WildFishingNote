@@ -9,12 +9,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.simple.wildfishingnote.MainTab2Activity" >
 
-
-    <com.beardedhen.androidbootstrap.BootstrapButton
+	<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+	<com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/startSchduleBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
         android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
+        android:layout_margin="8dp"
          bootstrapbutton:bb_icon_left="fa-calendar"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success"
@@ -23,19 +27,27 @@
 
     <com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/showWeatherBtn"
-        android:layout_width="wrap_content"
+       android:layout_width="0dp"
+        android:layout_weight="0.5"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_margin="8dp"
          bootstrapbutton:bb_icon_left="fa-calendar"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success"
         android:text="显示数据" />
 
+	</LinearLayout>
+    
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+    
     <com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/startBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="0.35"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
          bootstrapbutton:bb_icon_left="fa-calendar"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success"
@@ -43,9 +55,9 @@
 
     <com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/endBtn"
-        android:layout_width="wrap_content"
+         android:layout_width="0dp"
+        android:layout_weight="0.35"
         android:layout_height="wrap_content"
-        android:layout_marginTop="260dp"
          bootstrapbutton:bb_icon_left="fa-calendar"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success"
@@ -53,12 +65,19 @@
 
     <com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/importBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="0.3"
         android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
          bootstrapbutton:bb_icon_left="fa-calendar"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success"
         android:text="导入历史数据" />
+ </LinearLayout>
+        
+    <ListView 
+		android:id="@+id/weather_list_view" 
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+	</ListView>
 
 </RelativeLayout>

@@ -1,9 +1,9 @@
 package com.simple.wildfishingnote.tabs;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -21,6 +21,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +35,7 @@ import com.simple.wildfishingnote.bean.WeatherAndLocation;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.WeatherDataSource;
 import com.simple.wildfishingnote.datetimepicker.DatePickerFragment;
+import com.simple.wildfishingnote.utils.DateUtil;
 import com.simple.wildfishingnote.utils.StringUtils;
 import com.simple.wildfishingnote.weather.LocalWeather;
 import com.simple.wildfishingnote.weather.LocationSearch;
@@ -76,6 +80,7 @@ public class MainTab2Fragment extends Fragment implements OnClickListener {
 //        registLocationListener();
 
         setDateBtnText();
+        initWeatherListView();
         
         return tab2View;
     }
@@ -105,6 +110,19 @@ public class MainTab2Fragment extends Fragment implements OnClickListener {
         }
     }
 	
+	/**
+     * 初始化天气listview
+     */
+    private void initWeatherListView() {
+        WeatherDataSource dataSource = new WeatherDataSource(getActivity());
+        dataSource.open();
+        List<Weather> list = dataSource.getWeathers();
+        
+        ListView listView = (ListView) tab2View.findViewById(R.id.weather_list_view);
+        WeatherArrayAdapter adapter = new WeatherArrayAdapter(getActivity(), list);
+        listView.setAdapter(adapter);
+    }
+	
 	private void setStartSchduleBtn() {
         BootstrapButton btn = (BootstrapButton)tab2View.findViewById(R.id.startSchduleBtn);
         btn.setOnClickListener(this);
@@ -132,10 +150,10 @@ public class MainTab2Fragment extends Fragment implements OnClickListener {
 
     
 	private void showWeather() {
-        WeatherDataSource dataSource = new WeatherDataSource(getActivity());
-        dataSource.open();
-        Toast.makeText(getActivity(), dataSource.getWeathers(), Toast.LENGTH_SHORT).show();
-        dataSource.close();
+//        WeatherDataSource dataSource = new WeatherDataSource(getActivity());
+//        dataSource.open();
+//        Toast.makeText(getActivity(), dataSource.getWeathers(), Toast.LENGTH_SHORT).show();
+//        dataSource.close();
         
     }
     
@@ -275,12 +293,7 @@ public class MainTab2Fragment extends Fragment implements OnClickListener {
                     "cannot get location  ", Toast.LENGTH_SHORT).show();
         }
     }
-    
-    
-    private String getSystemDate() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        return df.format(new Date());
-    }
+
     
     // 异步任务，获取天气和地区信息
     class RetrieveWeatherTask extends AsyncTask<String, Void, WeatherAndLocation> {
@@ -292,7 +305,7 @@ public class MainTab2Fragment extends Fragment implements OnClickListener {
             
             //get weather
             LocalWeather lw = new LocalWeather(true);
-            String query = (lw.new Params(Constant.FREE_API_KEY)).setQ(locations[0]).setDate(getSystemDate()).getQueryString(LocalWeather.Params.class);
+            String query = (lw.new Params(Constant.FREE_API_KEY)).setQ(locations[0]).setDate(DateUtil.getSystemDate()).getQueryString(LocalWeather.Params.class);
             Weather weatherData = lw.callAPI(query);
             
             //get location
@@ -314,6 +327,95 @@ public class MainTab2Fragment extends Fragment implements OnClickListener {
         }
 
      
+    }
+    
+    public class WeatherArrayAdapter extends ArrayAdapter<Weather> {
+
+        private final List<Weather> list;
+        private final Activity context;
+        protected Object mActionMode;
+
+        public WeatherArrayAdapter(Activity context, List<Weather> list) {
+            super(context, R.layout.weather_list_view_each_item, list);
+            this.context = context;
+            this.list = list;
+        }
+        
+        class ViewHolder {
+            protected TextView dateTextView;
+            protected TextView minTempCTextView;
+            protected TextView maxTempCTextView;
+            protected TextView sunriseTextView;
+            protected TextView sunsetTextView;
+        }
+
+        /**
+         * convertView -> viewHolder -> UI
+         */
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final ViewHolder viewHolder;
+            if (convertView == null) {
+                viewHolder = new ViewHolder();
+            } else {
+                viewHolder = (ViewHolder)convertView.getTag();
+            }
+            
+            if (convertView == null) {
+                // 添加UI到convertView
+                convertView = context.getLayoutInflater().inflate(R.layout.weather_list_view_each_item, null);
+                viewHolder.dateTextView = (TextView)convertView.findViewById(R.id.dateTextView);
+                viewHolder.minTempCTextView = (TextView)convertView.findViewById(R.id.minTempCTextView);
+                viewHolder.maxTempCTextView = (TextView)convertView.findViewById(R.id.maxTempCTextView);
+                viewHolder.sunriseTextView = (TextView)convertView.findViewById(R.id.sunriseTextView);
+                viewHolder.sunsetTextView = (TextView)convertView.findViewById(R.id.sunsetTextView);
+                viewHolder.dateTextView.setTag(list.get(position));//// 保存bean值到UI tag (响应事件从这个UI tag取值)
+                convertView.setTag(viewHolder);
+                
+                // 添加事件
+                //// 内容单击事件->详细页面
+                addContentLayoutOnClickListener(viewHolder, convertView);
+            }
+
+            // 设置bean值到UI
+            viewHolder.dateTextView.setText(list.get(position).getDate());
+            viewHolder.minTempCTextView.setText(list.get(position).getMintempC());
+            viewHolder.maxTempCTextView.setText(list.get(position).getMaxtempC());
+            viewHolder.sunriseTextView.setText(list.get(position).getAstronomy().getSunrise());
+            viewHolder.sunsetTextView.setText(list.get(position).getAstronomy().getSunset());
+            
+            viewHolder.dateTextView.setTag(list.get(position));//// 保存bean值到UI tag (响应事件从这个UI tag取值)
+
+            return convertView;
+        }
+
+        /**
+         * 监听list item单击事件
+         * @param viewHolder
+         * @param contentLayout
+         */
+        private void addContentLayoutOnClickListener(final ViewHolder viewHolder, View convertView) {
+            
+            LinearLayout contentLayout = (LinearLayout)convertView.findViewById(R.id.col1Layout);
+            contentLayout.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    Weather element = (Weather)viewHolder.dateTextView.getTag();
+//                    Intent intent = new Intent(context, PlaceDetailActivity.class);
+//                    intent.putExtra(PlaceDetailActivity.ID, element.getId());
+//                    context.startActivity(intent);
+                }
+            });
+        }
+        
+
+        public int getCount() {
+            return list.size();
+        }
+
+        
+
     }
     
 

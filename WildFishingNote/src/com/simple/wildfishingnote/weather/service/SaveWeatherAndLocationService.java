@@ -139,7 +139,7 @@ public class SaveWeatherAndLocationService extends IntentService {
             dataSource.open();
             dataSource.addWeatherData(wal);
 
-            notificate(dataSource.getWeathers());
+//            notificate(dataSource.getWeathers());
             dataSource.close();
         }
 

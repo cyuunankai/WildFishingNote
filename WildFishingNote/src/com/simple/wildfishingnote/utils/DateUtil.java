@@ -27,6 +27,13 @@ public class DateUtil {
     public static final String DATE_FORMAT_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 
     public static final String DATE_FORMAT_HH_MM_SS = "HH:mm:ss";
+    
+    
+    
+    public static String getSystemDate() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        return df.format(new java.util.Date());
+    }
 
     /**
      * 銈裤偆銉犮偣銈裤兂銉椼倰鏃ヤ粯銇枃瀛楀垪銇鎻�

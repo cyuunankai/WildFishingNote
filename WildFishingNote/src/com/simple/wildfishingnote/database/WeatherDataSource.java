@@ -1,5 +1,6 @@
 package com.simple.wildfishingnote.database;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -8,6 +9,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.simple.wildfishingnote.bean.Astronomy;
+import com.simple.wildfishingnote.bean.Campaign;
 import com.simple.wildfishingnote.bean.Hourly;
 import com.simple.wildfishingnote.bean.LocationData;
 import com.simple.wildfishingnote.bean.Weather;
@@ -17,6 +20,14 @@ public class WeatherDataSource {
 
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
+    
+    private String[] weatherAllColumns = {WildFishingContract.Weathers._ID,
+            WildFishingContract.Weathers.COLUMN_NAME_DATE,
+            WildFishingContract.Weathers.COLUMN_NAME_MIN_TEMP_C,
+            WildFishingContract.Weathers.COLUMN_NAME_MAX_TEMP_C,
+            WildFishingContract.Weathers.COLUMN_NAME_SUNRISE,
+            WildFishingContract.Weathers.COLUMN_NAME_SUNSET,
+            WildFishingContract.Weathers.COLUMN_NAME_REGION};
 
     public WeatherDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -89,27 +100,34 @@ public class WeatherDataSource {
         }
     }
 
-    public String getWeathers() {
-        String[] projection = {
-                WildFishingContract.Weathers._ID,
-                WildFishingContract.Weathers.COLUMN_NAME_DATE
-        };
+    public List<Weather> getWeathers() {
+        List<Weather> retList = new ArrayList<Weather>();
 
-        String sortOrder =
-                WildFishingContract.Weathers._ID + " DESC";
+        Cursor cursor = database.query(WildFishingContract.Campaigns.TABLE_NAME,
+                weatherAllColumns, null, null, null, null, null);
 
-        Cursor c = database.query(
-                WildFishingContract.Weathers.TABLE_NAME, // The table to query
-                projection, // The columns to return
-                null, // The columns for the WHERE clause
-                null, // The values for the WHERE clause
-                null, // don't group the rows
-                null, // don't filter by row groups
-                sortOrder // The sort order
-                );
-
-        c.moveToFirst();
-        return c.getString(0) + " : " + c.getString(1);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Weather obj = cursorToWeather(cursor);
+            retList.add(obj);
+            cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+        return retList;
+    }
+    
+    private Weather cursorToWeather(Cursor cursor) {
+        Weather obj = new Weather();
+        obj.setId(cursor.getString(0));
+        obj.setDate(cursor.getString(1));
+        obj.setMintempC(cursor.getString(2));
+        obj.setMaxtempC(cursor.getString(3));
+        Astronomy astronomy = new Astronomy();
+        astronomy.setSunrise(cursor.getString(4));
+        astronomy.setSunset(cursor.getString(5));
+        obj.setAstronomy(astronomy);
+        return obj;
     }
 
 }
