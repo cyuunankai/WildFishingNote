@@ -76,6 +76,17 @@
     <string name="out">跑鱼</string>
     <string name="add_result_pick_pic">图片</string>
     <string name="statistics">统计</string>
-
+    <string name="date">日期</string>
+    <string name="min_temp_c">最低温</string>
+    <string name="max_temp_c">最高温</string>
+    <string name="sunrise">日出时间</string>
+    <string name="sunset">日落时间</string>
+    <string name="time">时间</string>
+    <string name="temp_c">气温</string>
+    <string name="wind_dir_degree">风向</string>
+    <string name="wind_speed_kmph">风速</string>
+    <string name="pressure">气压</string>
+	<string name="weather_name">天气</string>
+	<string name="cloud_cover">云量</string>
 
 </resources>

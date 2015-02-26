@@ -12,17 +12,21 @@
 	<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    
+	<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal" >
 	<com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/startSchduleBtn"
         android:layout_width="0dp"
         android:layout_weight="0.5"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-         bootstrapbutton:bb_icon_left="fa-calendar"
+        android:layout_margin="2dp"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success"
-        android:text="启动schdule" />
+        android:text="自动取数据" />
 
 
     <com.beardedhen.androidbootstrap.BootstrapButton
@@ -30,8 +34,7 @@
        android:layout_width="0dp"
         android:layout_weight="0.5"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-         bootstrapbutton:bb_icon_left="fa-calendar"
+        android:layout_margin="2dp"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success"
         android:text="显示数据" />
@@ -48,7 +51,7 @@
         android:layout_width="0dp"
         android:layout_weight="0.35"
         android:layout_height="wrap_content"
-         bootstrapbutton:bb_icon_left="fa-calendar"
+        android:layout_margin="2dp"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success"
         android:text="开始日期" />
@@ -58,7 +61,7 @@
          android:layout_width="0dp"
         android:layout_weight="0.35"
         android:layout_height="wrap_content"
-         bootstrapbutton:bb_icon_left="fa-calendar"
+        android:layout_margin="2dp"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success"
         android:text="结束日期" />
@@ -68,16 +71,16 @@
         android:layout_width="0dp"
         android:layout_weight="0.3"
         android:layout_height="wrap_content"
-         bootstrapbutton:bb_icon_left="fa-calendar"
+        android:layout_margin="2dp"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success"
-        android:text="导入历史数据" />
+        android:text="取历史" />
  </LinearLayout>
         
     <ListView 
 		android:id="@+id/weather_list_view" 
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
+		android:layout_height="380dp">
 	</ListView>
-
+</LinearLayout>
 </RelativeLayout>

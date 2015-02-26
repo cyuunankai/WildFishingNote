@@ -4,6 +4,8 @@ public class Constant {
     public final static String NEW_LINE = "\n";
     public final static String SPACE = " ";
     public final static String DASH = "-";
+    public final static String TEMP_C_SYMBOL = "°C";
+    public final static String PA_SYMBOL = "Pa";
     
 	public final static String PLACE_IMAGE_PATH = "/placeImages/";
 	public final static String FISH_RESULT_IMAGE_PATH = "/fishResultImages/";

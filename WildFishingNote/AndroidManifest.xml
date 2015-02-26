@@ -112,14 +112,19 @@
             </intent-filter>
         </activity>
         
+        <activity
+            android:name="com.simple.wildfishingnote.weather.WeatherNoticeActivity" >
+        </activity>
+        
+        <activity
+            android:name="com.simple.wildfishingnote.weather.WeatherDetailActivity" >
+        </activity>
+        
         <receiver android:name="com.simple.wildfishingnote.weather.schdule.AlarmManagerBroadcastReceiver" >
         </receiver>
         <service android:name="com.simple.wildfishingnote.weather.service.SaveWeatherAndLocationService"></service>
         <service android:name="com.simple.wildfishingnote.weather.service.HistoryWeatherService"></service>
 
-        <activity
-            android:name="com.simple.wildfishingnote.weather.WeatherNoticeActivity" >
-        </activity>
     </application>
 
 </manifest>

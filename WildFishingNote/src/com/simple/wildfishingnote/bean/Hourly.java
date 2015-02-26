@@ -1,10 +1,30 @@
 package com.simple.wildfishingnote.bean;
 
 public class Hourly {
+    
+    String id;
+    String weatherId;
+    String pressure;
+    String cloudcover;
+    String weatherCode;
+    String weatherName;
 	String time;
-	String tempC;
+    String tempC;
 	String windspeedKmph;
 	String winddirDegree;
+	
+	public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public String getWeatherId() {
+        return weatherId;
+    }
+    public void setWeatherId(String weatherId) {
+        this.weatherId = weatherId;
+    }
 	public String getTime() {
 		return time;
 	}
@@ -53,8 +73,5 @@ public class Hourly {
 	public void setWeatherName(String weatherName) {
 		this.weatherName = weatherName;
 	}
-	String pressure;
-	String cloudcover;
-	String weatherCode;
-	String weatherName;
+
 }

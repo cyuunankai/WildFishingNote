@@ -64,6 +64,9 @@ public class HistoryWeatherService extends IntentService {
 	            @Override
 	            public void run() {
 	            	registLocationListener();
+//	               for debug
+//	              String qLocation = "41.73,123.47";
+//	              new RetrieveWeatherTask().execute(qLocation);
 	            }
 	        });
 	  }
@@ -125,17 +128,16 @@ public class HistoryWeatherService extends IntentService {
 		    protected List<WeatherAndLocation> doInBackground(String... locations) {
 		    	List<String> dateStrList = null;
 				try {
-					dateStrList = DateUtil.getPeroidDates(startDate, endDate, DateUtil.DATE_FORMAT_YYYY_MM_DD);
+					dateStrList = DateUtil.getPeroidDates(startDate, endDate, DateUtil.DATE_FORMAT_YYYY_MM_DD_HYPHEN);
 				} catch (Exception e) {
 				}
 
 		    	List<WeatherAndLocation> retList = new ArrayList<WeatherAndLocation>();
-		    	
 		    	//get location
 				LocationSearch ls = new LocationSearch(true);
 				String query = (ls.new Params(Constant.FREE_API_KEY)).setQuery(locations[0]).getQueryString(LocationSearch.Params.class);
 				LocationData locationData = ls.callAPI(query);
-		    	
+				
 		    	for(String date : dateStrList){
 			    	WeatherAndLocation wal = new WeatherAndLocation();
 			    	
@@ -149,16 +151,16 @@ public class HistoryWeatherService extends IntentService {
 					
 					retList.add(wal);
 		    	}
-				
 				return retList;
 		    }
 		    
 		    protected void onPostExecute(List<WeatherAndLocation> walList) {
-		    	for(WeatherAndLocation wal : walList){
+		        for(WeatherAndLocation wal : walList){
 			    	WeatherDataSource dataSource = new WeatherDataSource(getApplicationContext());
+			    	dataSource.open();
 			    	dataSource.addWeatherData(wal);
+			    	dataSource.close();
 		    	}
-		    	
 		    	notificate("读取天数为" + walList.size() + "天");
 		    	Log.i("", "");
 		    }
