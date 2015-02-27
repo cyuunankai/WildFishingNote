@@ -1,45 +1,45 @@
 package com.simple.wildfishingnote;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
+import com.simple.wildfishingnote.common.Common;
+import com.simple.wildfishingnote.common.Constant;
+import com.simple.wildfishingnote.utils.DateUtil;
 
 public class CalendarDailogActivity extends FragmentActivity {
 
-	public final static String HISTORY_DATE = "historyDate";
-	
 	private CaldroidFragment caldroidFragment;
 	private CaldroidFragment dialogCaldroidFragment;
 	
-	private void setCustomResourceForDates() {
-		Calendar cal = Calendar.getInstance();
-
-		// Min date is last 7 days
-		cal.add(Calendar.DATE, -18);
-		Date blueDate = cal.getTime();
-
-		// Max date is next 7 days
-		cal = Calendar.getInstance();
-		cal.add(Calendar.DATE, 16);
-		Date greenDate = cal.getTime();
-
-	}
+//	private void setCustomResourceForDates() {
+//		Calendar cal = Calendar.getInstance();
+//
+//		// Min date is last 7 days
+//		cal.add(Calendar.DATE, -18);
+//		Date blueDate = cal.getTime();
+//
+//		// Max date is next 7 days
+//		cal = Calendar.getInstance();
+//		cal.add(Calendar.DATE, 16);
+//		Date greenDate = cal.getTime();
+//
+//	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_calendar_dailog);
-		final SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+		final SimpleDateFormat formatter = new SimpleDateFormat(DateUtil.DATE_FORMAT_YYYY_MM_DD_HYPHEN);
 		
 		// Setup caldroid fragment
 		// **** If you want normal CaldroidFragment, use below line ****
@@ -60,11 +60,16 @@ public class CalendarDailogActivity extends FragmentActivity {
 		// If activity is created from fresh
 		else {
 			Bundle args = new Bundle();
-			Calendar cal = Calendar.getInstance();
-			args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
-			args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
+			String historyDate = Common.getHistoryPrefernceString(getApplicationContext(), "history_date");
+			String[] arr = historyDate.split(Constant.DASH);
+			
+			args.putInt(CaldroidFragment.YEAR, Integer.parseInt(arr[0]));
+			args.putInt(CaldroidFragment.MONTH, Integer.parseInt(arr[1]));
+			
 			args.putBoolean(CaldroidFragment.ENABLE_SWIPE, true);
 			args.putBoolean(CaldroidFragment.SIX_WEEKS_IN_CALENDAR, true);
+			
+			args.putString(CaldroidFragment.SELECTED_DATES, historyDate);
 
 			// Uncomment this to customize startDayOfWeek
 			// args.putInt(CaldroidFragment.START_DAY_OF_WEEK,
@@ -72,7 +77,7 @@ public class CalendarDailogActivity extends FragmentActivity {
 			caldroidFragment.setArguments(args);
 		}
 
-		setCustomResourceForDates();
+//		setCustomResourceForDates();
 
 		// Attach to the activity
 		FragmentTransaction t = getSupportFragmentManager().beginTransaction();
@@ -84,28 +89,31 @@ public class CalendarDailogActivity extends FragmentActivity {
 
 			@Override
 			public void onSelectDate(Date date, View view) {
-				Toast.makeText(getApplicationContext(), formatter.format(date),
-						Toast.LENGTH_SHORT).show();
+//				Toast.makeText(getApplicationContext(), formatter.format(date),
+//						Toast.LENGTH_SHORT).show();
+				
+				String selectedDate = formatter.format(date);
+				Common.setHistoryPrefernce(getApplicationContext(), "history_date", selectedDate);
 				
 				Intent intent = new Intent(getApplicationContext(), AddMainActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				
-				intent.putExtra(HISTORY_DATE, formatter.format(date));
-				getApplicationContext().startActivity(intent);
+				intent.putExtra(AddMainActivity.HISTORY_DATE, selectedDate);
+				startActivityForResult(intent, Constant.REQUEST_CODE_ADD_CAMPAIGN);
 			}
 
 			@Override
 			public void onChangeMonth(int month, int year) {
-				String text = "month: " + month + " year: " + year;
-				Toast.makeText(getApplicationContext(), text,
-						Toast.LENGTH_SHORT).show();
+//				String text = "month: " + month + " year: " + year;
+//				Toast.makeText(getApplicationContext(), text,
+//						Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
 			public void onLongClickDate(Date date, View view) {
-				Toast.makeText(getApplicationContext(),
-						"Long click " + formatter.format(date),
-						Toast.LENGTH_SHORT).show();
+//				Toast.makeText(getApplicationContext(),
+//						"Long click " + formatter.format(date),
+//						Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
@@ -119,6 +127,15 @@ public class CalendarDailogActivity extends FragmentActivity {
 		caldroidFragment.setCaldroidListener(listener);
 
 	}
+	
+	@Override
+    protected void onDestroy() {
+        super.onDestroy();
+        
+        Intent intent = getIntent();
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+    }
 
 	/**
 	 * Save current states of the Caldroid here

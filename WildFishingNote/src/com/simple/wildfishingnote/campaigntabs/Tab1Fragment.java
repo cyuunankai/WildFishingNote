@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.simple.wildfishingnote.AddMainActivity;
-import com.simple.wildfishingnote.CalendarDailogActivity;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.Campaign;
 import com.simple.wildfishingnote.common.Common;
@@ -52,13 +51,16 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
         initViewByDb();
         
         Intent intent = ((AddMainActivity)getActivity()).getIntent();
-        if (intent == null) {
-            return tab1View;
-        }
-        String historyDate = intent.getStringExtra(CalendarDailogActivity.HISTORY_DATE);
+//        if (intent == null) {
+//            return tab1View;
+//        }
+        
+        initHistoryDate(intent);
         
         return tab1View;
     }
+
+    
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -107,6 +109,18 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
                 ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(1);
                 
                 break;
+        }
+    }
+    
+    private void initHistoryDate(Intent intent) {
+        if (intent != null) {
+            String historyDate = intent.getStringExtra(AddMainActivity.HISTORY_DATE);
+            if (org.apache.commons.lang.StringUtils.isNotBlank(historyDate)) {
+                BootstrapButton startDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartDate);
+                startDateBtn.setText(historyDate);
+                BootstrapButton endDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndDate);
+                endDateBtn.setText(historyDate);
+            }
         }
     }
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -52,8 +51,8 @@ public class MainActivity extends ActionBarActivity {
         initHoverSwith();
         
         initMainTab1Fm(savedInstanceState);
-
         
+        Common.initHistoryDate(getApplicationContext());
     }
 
 
@@ -151,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
 				public void onClick(View view) {
 					if ("CalendarDailogActivity".equals(intentName)) {
 						Intent intent = new Intent(getApplicationContext(), CalendarDailogActivity.class);
-						startActivity(intent);
+						startActivityForResult(intent, Constant.REQUEST_CODE_ADD_CAMPAIGN);
 					} else if ("AddMainActivity".equals(intentName)) {
 						Intent intent = new Intent(getApplicationContext(), AddMainActivity.class);
 						startActivityForResult(intent, Constant.REQUEST_CODE_ADD_CAMPAIGN);

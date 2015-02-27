@@ -2,6 +2,7 @@ package com.simple.wildfishingnote.common;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
@@ -18,6 +19,7 @@ import com.simple.wildfishingnote.tabs.MainTab1Fragment;
 import com.simple.wildfishingnote.tabs.MainTab2Fragment;
 import com.simple.wildfishingnote.tabs.MainTab3Fragment;
 import com.simple.wildfishingnote.tabs.MainTab4Fragment;
+import com.simple.wildfishingnote.utils.StringUtils;
 
 public class Common {
 
@@ -106,6 +108,33 @@ public class Common {
         
         editor.putString("btn_click", "false");
         editor.commit();
+    }
+    
+    public static void initHistoryDate(Context context) {
+        
+        SharedPreferences sharedPref = context.getSharedPreferences("myprefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        editor.putString("history_date", year + Constant.DASH + StringUtils.leftPadTwo(month + 1) + Constant.DASH + StringUtils.leftPadTwo(day)); 
+        editor.commit();
+    }
+    
+    public static void setHistoryPrefernce(Context context, String key, String value) {
+        SharedPreferences sharedPref = context.getSharedPreferences("myprefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+    
+    public static String getHistoryPrefernceString(Context context, String key) {
+        
+        SharedPreferences sharedPref = context.getSharedPreferences("myprefs", Context.MODE_PRIVATE);
+        return sharedPref.getString(key, "");
     }
     
     public static void setCampaignPrefernce(Activity activity, String key, String value) {

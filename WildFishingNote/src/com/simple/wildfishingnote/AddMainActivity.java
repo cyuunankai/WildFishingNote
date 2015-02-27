@@ -32,6 +32,7 @@ import com.simple.wildfishingnote.database.CampaignDataSource;
 public class AddMainActivity extends ActionBarActivity {
 	
     public static String CAMPAIGN_ID = "campaign_id";
+    public static String HISTORY_DATE = "history_date";
     
     private MyFragmentStatePagerAdapter mMyFragmentStatePagerAdapter;
     private ViewPager mViewPager;
@@ -57,7 +58,7 @@ public class AddMainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_add_main);
         
         Intent intent = getIntent();
-        String historyDate = intent.getStringExtra(CalendarDailogActivity.HISTORY_DATE);
+//        String historyDate = intent.getStringExtra(HISTORY_DATE);
         String campaginId = intent.getStringExtra(CAMPAIGN_ID);
         
         dataSourceCampaign = new CampaignDataSource(this);
