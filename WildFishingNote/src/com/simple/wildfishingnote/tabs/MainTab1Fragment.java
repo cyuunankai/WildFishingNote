@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.simple.wildfishingnote.AddMainActivity;
 import com.simple.wildfishingnote.MainActivity;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.CampaignSummary;
@@ -76,10 +77,11 @@ public class MainTab1Fragment extends Fragment {
     
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constant.REQUEST_CODE_ADD_CAMPAIGN && resultCode == Activity.RESULT_OK) {
+//        if (requestCode == Constant.REQUEST_CODE_ADD_CAMPAIGN && resultCode == Activity.RESULT_OK) {
             dataSource.open();
             initSectionedListView();
-        }
+//        } else if (requestCode == Constant.REQUEST_CODE_EDIT_CAMPAIGN && resultCode == Activity.RESULT_OK) {
+//        }
         
     }
 	
@@ -169,7 +171,9 @@ public class MainTab1Fragment extends Fragment {
                 @Override
                 public void onClick(View arg0) {
                 	CampaignSummary element = (CampaignSummary)viewHolder.titleTextView.getTag();
-                    Intent intent = new Intent(context, PlaceDetailActivity.class);
+                	Intent intent = new Intent(context, AddMainActivity.class);
+                	intent.putExtra(AddMainActivity.CAMPAIGN_ID, element.getId());
+                    startActivityForResult(intent, Constant.REQUEST_CODE_EDIT_CAMPAIGN);
                 }
             });
         }

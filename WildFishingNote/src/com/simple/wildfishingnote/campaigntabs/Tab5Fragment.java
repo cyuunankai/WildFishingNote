@@ -76,6 +76,28 @@ public class Tab5Fragment extends Fragment implements OnClickListener {
             initViewByPreference();
         }
     }
+    
+    /**
+     * 监听所有onClick事件
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonCampaignWeatherPre:
+                Common.setCampaignPrefernce(getActivity(), "btn_click", "true");
+                ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(3);
+                break;
+            case R.id.buttonSaveAll:
+                
+                Campaign campaign = buildCampaign();
+                dataSource.addAllData(campaign);
+                
+                Intent intent = getActivity().getIntent();
+                getActivity().setResult(Activity.RESULT_OK, intent);
+                getActivity().finish();
+                break;
+        }
+    }
 
     private void initViewByPreference() {
         Campaign campaign = buildCampaign();
@@ -127,27 +149,7 @@ public class Tab5Fragment extends Fragment implements OnClickListener {
         pointTextView.setText(pointsStr);
     }
     
-    /**
-     * 监听所有onClick事件
-     */
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.buttonCampaignWeatherPre:
-                Common.setCampaignPrefernce(getActivity(), "btn_click", "true");
-                ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(3);
-                break;
-            case R.id.buttonSaveAll:
-            	
-                Campaign campaign = buildCampaign();
-                dataSource.addAllData(campaign);
-                
-                Intent intent = getActivity().getIntent();
-                getActivity().setResult(Activity.RESULT_OK, intent);
-                getActivity().finish();
-                break;
-        }
-    }
+ 
     
     private Campaign buildCampaign() {
         String startTime = Common.getCampaignPrefernceString(getActivity(), "campaign_start_time");

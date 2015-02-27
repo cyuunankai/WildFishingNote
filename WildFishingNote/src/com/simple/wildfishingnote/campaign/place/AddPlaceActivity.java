@@ -95,9 +95,9 @@ public class AddPlaceActivity extends ActionBarActivity {
      */
     public void onAddPlaceButtonSaveClickListener(View v) {
         
-        if (checkIsFail()) {
-            return;
-        }
+//        if (checkIsFail()) {
+//            return;
+//        }
         
         Place place = buildPlace();
         Place updatedPlace = savePlace(place);

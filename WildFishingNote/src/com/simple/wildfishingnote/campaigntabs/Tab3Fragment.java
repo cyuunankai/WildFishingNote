@@ -32,6 +32,7 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.gson.Gson;
 import com.simple.wildfishingnote.AddMainActivity;
 import com.simple.wildfishingnote.R;
+import com.simple.wildfishingnote.bean.Campaign;
 import com.simple.wildfishingnote.bean.Point;
 import com.simple.wildfishingnote.campaign.point.AddPointActivity;
 import com.simple.wildfishingnote.campaign.point.PointDetailActivity;
@@ -63,14 +64,25 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
         if (isVisibleToUser) {
             dataSource.open();
             
-            List<String> pointIdList = Common.getCampaignPrefernceStrList(getActivity(), "campaign_point_id_list");
-            initPointListView(pointIdList);
+            initPointListViewByDbOrPreference();
             setAddPointBtn();
             setSavePointBtn();
             setPreBtn();
             setNextBtn();
             setOperationBtnVisibility();
         }
+    }
+
+    private void initPointListViewByDbOrPreference() {
+        List<String> pointIdList = null;
+        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if(mode.equals("edit")){
+            String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
+            pointIdList = dataSource.getPointIdListByCampaignId(campaignId);
+        }else{
+            pointIdList = Common.getCampaignPrefernceStrList(getActivity(), "campaign_point_id_list");
+        }
+        initPointListView(pointIdList);
     }
 
 	/**
@@ -185,6 +197,10 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
     private void addRelayCampaignPoint(List<String> selectedPointIds) {
         String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
         dataSource.updateRelayCampaignPoint(campaignId, selectedPointIds);
+        
+        Intent intent = getActivity().getIntent();
+        getActivity().setResult(Activity.RESULT_OK, intent);
+        getActivity().finish();
     }
     
     /**

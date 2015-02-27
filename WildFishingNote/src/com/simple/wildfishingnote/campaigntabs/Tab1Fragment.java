@@ -2,6 +2,7 @@ package com.simple.wildfishingnote.campaigntabs;
 
 import java.util.Calendar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -42,20 +43,23 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
         setStartTimeBtn();
         setEndDateBtn();
         setEndTimeBtn();
+        setCancelCampaignTimeBtn();
         setSaveCampaignTimeBtn();
         setCampaignTimeNext();
         
         setOperationBtnVisibility();
+        
+        initViewByDb();
         
         Intent intent = ((AddMainActivity)getActivity()).getIntent();
         if (intent == null) {
             return tab1View;
         }
         String historyDate = intent.getStringExtra(CalendarDailogActivity.HISTORY_DATE);
-
+        
         return tab1View;
     }
-    
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
@@ -65,33 +69,7 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
             }
         }
     }
-
-    /**
-     * [钓位画面]点上一步时处理
-     */
-    private void initViewByPreference() {
-        String summary = Common.getCampaignPrefernceString(getActivity(), "campaign_summary");
-        String startTime = Common.getCampaignPrefernceString(getActivity(), "campaign_start_time");
-        String endTime = Common.getCampaignPrefernceString(getActivity(), "campaign_end_time");
-
-        BootstrapButton startDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartDate);
-        BootstrapButton startTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartTime);
-        BootstrapButton endDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndDate);
-        BootstrapButton endTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndTime);
-        BootstrapEditText summaryEditText = (BootstrapEditText)tab1View.findViewById(R.id.tab1_summary);
-        if (summary != null) {
-            summaryEditText.setText(summary);
-        }
-        if (startTime != null) {
-            startDateBtn.setText(startTime.split(Constant.SPACE)[0]);
-            startTimeBtn.setText(startTime.split(Constant.SPACE)[1]);
-        }
-        if (endTime != null) {
-            endDateBtn.setText(endTime.split(Constant.SPACE)[0]);
-            endTimeBtn.setText(endTime.split(Constant.SPACE)[1]);
-        }
-    }
-
+    
     @Override
     public void onClick(View v) {
         BootstrapButton b = (BootstrapButton)v;
@@ -112,6 +90,12 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
                 DialogFragment endTimeFragment = new TimePickerFragment(b);
                 endTimeFragment.show(getActivity().getSupportFragmentManager(), "endTimePicker");
                 break;
+            case R.id.buttonCancelCampaignTime:
+                Intent intent = getActivity().getIntent();
+                getActivity().setResult(Activity.RESULT_OK, intent);
+                getActivity().finish();
+
+                break;
             case R.id.buttonSaveCampaginTime:
                 updateCampaignTime();
 
@@ -123,6 +107,51 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
                 ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(1);
                 
                 break;
+        }
+    }
+
+    /**
+     * [钓位画面]点上一步时处理
+     */
+    private void initViewByPreference() {
+        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if (mode.equals("add")) {
+            String summary = Common.getCampaignPrefernceString(getActivity(), "campaign_summary");
+            String startTime = Common.getCampaignPrefernceString(getActivity(), "campaign_start_time");
+            String endTime = Common.getCampaignPrefernceString(getActivity(), "campaign_end_time");
+
+            initView(summary, startTime, endTime);
+        }
+    }
+
+    private void initView(String summary, String startTime, String endTime) {
+        BootstrapButton startDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartDate);
+        BootstrapButton startTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignStartTime);
+        BootstrapButton endDateBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndDate);
+        BootstrapButton endTimeBtn = (BootstrapButton)tab1View.findViewById(R.id.addCampaignEndTime);
+        BootstrapEditText summaryEditText = (BootstrapEditText)tab1View.findViewById(R.id.tab1_summary);
+        if (summary != null) {
+            summaryEditText.setText(summary);
+        }
+        if (startTime != null) {
+            startDateBtn.setText(startTime.split(Constant.SPACE)[0]);
+            startTimeBtn.setText(startTime.split(Constant.SPACE)[1]);
+        }
+        if (endTime != null) {
+            endDateBtn.setText(endTime.split(Constant.SPACE)[0]);
+            endTimeBtn.setText(endTime.split(Constant.SPACE)[1]);
+        }
+    }
+    
+    private void initViewByDb() {
+        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if (mode.equals("edit")) {
+            String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
+            Campaign obj = dataSource.getCampaignById(campaignId);
+            String summary = obj.getSummary();
+            String startTime = obj.getStartTime();
+            String endTime = obj.getEndTime();
+            initView(summary, startTime, endTime);
         }
     }
 
@@ -142,6 +171,11 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
     private void setCampaignTimeNext() {
         BootstrapButton nextBtn = (BootstrapButton)tab1View.findViewById(R.id.buttonCampaginTimeNext);
         nextBtn.setOnClickListener(this);
+    }
+    
+    private void setCancelCampaignTimeBtn() {
+        BootstrapButton btn = (BootstrapButton)tab1View.findViewById(R.id.buttonCancelCampaignTime);
+        btn.setOnClickListener(this);
     }
 
     private void setSaveCampaignTimeBtn() {
@@ -210,8 +244,11 @@ public class Tab1Fragment extends Fragment implements OnClickListener {
         Campaign campaign = dataSource.getCampaignById(campaignId);
         campaign = setViewValueToBean(campaign);
         campaign.setId(campaignId);
-        
         dataSource.updateCampaign(campaign);
+        
+        Intent intent = getActivity().getIntent();
+        getActivity().setResult(Activity.RESULT_OK, intent);
+        getActivity().finish();
     }
 
     private Campaign setViewValueToBean(Campaign campaign) {

@@ -1,5 +1,7 @@
 package com.simple.wildfishingnote;
 
+import org.apache.commons.lang.StringUtils;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Context;
@@ -29,6 +31,8 @@ import com.simple.wildfishingnote.database.CampaignDataSource;
 
 public class AddMainActivity extends ActionBarActivity {
 	
+    public static String CAMPAIGN_ID = "campaign_id";
+    
     private MyFragmentStatePagerAdapter mMyFragmentStatePagerAdapter;
     private ViewPager mViewPager;
     private ActionBar bar;
@@ -54,11 +58,12 @@ public class AddMainActivity extends ActionBarActivity {
         
         Intent intent = getIntent();
         String historyDate = intent.getStringExtra(CalendarDailogActivity.HISTORY_DATE);
+        String campaginId = intent.getStringExtra(CAMPAIGN_ID);
         
         dataSourceCampaign = new CampaignDataSource(this);
         dataSourceCampaign.open();
         
-        initPreference();
+        initPreference(campaginId);
         initViewPager();
         initActionBar(savedInstanceState);
     }
@@ -93,11 +98,16 @@ public class AddMainActivity extends ActionBarActivity {
         }
     }
 
-    private void initPreference() {
+    private void initPreference(String campaginId) {
         Common.initCampaignPrefernce(this);
-        Common.setCampaignPrefernce(this, "campaign_operation_mode", "add");
+        if (StringUtils.isNotBlank(campaginId)) {
+            Common.setCampaignPrefernce(this, "campaign_operation_mode", "edit");
+            Common.setCampaignPrefernce(this, "campaign_id", campaginId);
+        } else {
+            Common.setCampaignPrefernce(this, "campaign_operation_mode", "add");
+        }
         
-        // 编辑用
+        // 新规时，编辑用
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         mode = sharedPref.getString("campaign_operation_mode", "");
         mHandler = new Handler();
@@ -123,7 +133,10 @@ public class AddMainActivity extends ActionBarActivity {
         bar.addTab(bar.newTab().setText(R.string.place).setTabListener(tabListener));
         bar.addTab(bar.newTab().setText(R.string.point).setTabListener(tabListener));
         bar.addTab(bar.newTab().setText(R.string.results).setTabListener(tabListener));
-        bar.addTab(bar.newTab().setText(R.string.confirm).setTabListener(tabListener));
+        String mode = Common.getCampaignPrefernceString(this, "campaign_operation_mode");
+        if (mode.equals("add")) {
+            bar.addTab(bar.newTab().setText(R.string.confirm).setTabListener(tabListener));
+        }
     }
     
     /**
@@ -225,7 +238,12 @@ public class AddMainActivity extends ActionBarActivity {
         @Override
         public int getCount() {
             // tab数量
-            return 5;
+            int tabCount = 5;
+            String mode = sharedPref.getString("campaign_operation_mode", "");
+            if(mode.equals("edit")) {
+                tabCount = 4;
+            }
+            return tabCount;
         }
 
     }

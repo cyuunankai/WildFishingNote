@@ -63,6 +63,14 @@ public class CampaignDataSource {
     private String[] baitAllColumns = { WildFishingContract.Baits._ID,
 			WildFishingContract.Baits.COLUMN_NAME_NAME,
 			WildFishingContract.Baits.COLUMN_NAME_DETAIL };
+    
+    private String[] relayCamapignStatisticsResultsAllColumns = { WildFishingContract.RelayCamapignStatisticsResults._ID,
+            WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_CAMPAIGN_ID,
+            WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_POINT_ID,
+            WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_FISH_TYPE_ID,
+            WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_WEIGHT,
+            WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_COUNT,
+            WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_HOOK_FLAG };
 
     public CampaignDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -287,6 +295,7 @@ public class CampaignDataSource {
         campaign.setStartTime(cursor.getString(1));
         campaign.setEndTime(cursor.getString(2));
         campaign.setSummary(cursor.getString(3));
+        campaign.setPlaceId(cursor.getString(4));
         return campaign;
     }
     
@@ -931,6 +940,75 @@ public class CampaignDataSource {
             
             database.insert(WildFishingContract.RelayCamapignStatisticsResults.TABLE_NAME, null,values);
         }
+    }
+	
+    public List<RelayCamapignStatisticsResult> getRelayCamapignStatisticsResultList(String campaignId) {
+        List<RelayCamapignStatisticsResult> retList = new ArrayList<RelayCamapignStatisticsResult>();
+        
+        StringBuffer  sb = new StringBuffer();
+        sb.append("SELECT rcsr._id,rcsr.campaign_id, ");
+        sb.append(" rcsr.weight,rcsr.count, ");
+        sb.append(" rcsr.hook_flag,rl.name AS rod_length_name,p.depth, ");
+        sb.append(" ft.name AS fish_type_name,rcsr.point_id, rcsr.fish_type_id ");
+        sb.append("FROM relay_campaign_statistics_results rcsr  ");
+        sb.append("INNER JOIN points p ON rcsr.point_id=p._id ");
+        sb.append("INNER JOIN rod_lengths rl ON p.rod_length_id=rl._id ");
+        sb.append("INNER JOIN fish_types ft ON rcsr.fish_type_id=ft._id ");
+        sb.append(" WHERE rcsr.campaign_id=? ");
+        sb.append(" order by rcsr._id ");
+
+        
+        Cursor c = database.rawQuery(sb.toString(), new String[]{campaignId});
+
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            RelayCamapignStatisticsResult obj = cursorToRelayCamapignStatisticsResult(c);
+            retList.add(obj);
+
+            c.moveToNext();
+        }
+        c.close();
+        
+        return retList;
+    }
+    
+    public void deleteRelayCamapignStatisticsResult(String campaignId) {
+
+        String selection = WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_CAMPAIGN_ID + " = ? ";
+        String[] selelectionArgs = { campaignId };
+
+        database.delete(WildFishingContract.RelayCamapignStatisticsResults.TABLE_NAME, selection,
+                selelectionArgs);
+    }
+    
+    public void updateRelayCamapignStatisticsResult(String campaignId, List<RelayCamapignStatisticsResult> rcsrList) {
+
+        database.beginTransaction();
+        try {
+            deleteRelayCamapignStatisticsResult(campaignId);
+            addRelayCamapignStatisticsResults(campaignId, rcsrList);
+            database.setTransactionSuccessful();
+        } catch (Exception ex) {
+
+        } finally {
+            database.endTransaction();
+        }
+    }
+    
+    private RelayCamapignStatisticsResult cursorToRelayCamapignStatisticsResult(Cursor c) {
+        RelayCamapignStatisticsResult obj = new RelayCamapignStatisticsResult();
+        obj.setId(c.getString(0));
+        obj.setCampaignId(c.getString(1));
+        obj.setWeight(c.getString(2));
+        obj.setCount(c.getString(3));
+        obj.setHookFlag(c.getString(4));
+        obj.setHookFlagName(c.getString(4).equals("in") ? "入护" : "跑鱼");
+        obj.setPointName("竿长" + c.getString(5) + "米" + " - 水深" + c.getString(6) + "米");
+        obj.setFishTypeName(c.getString(7));
+        obj.setPointId(c.getString(8));
+        obj.setFishTypeId(c.getString(9));
+        
+        return obj;
     }
 	
 	// 鱼种

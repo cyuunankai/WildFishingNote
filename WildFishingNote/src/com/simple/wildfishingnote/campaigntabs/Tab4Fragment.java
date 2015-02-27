@@ -92,6 +92,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
             initFishTypeSpinner();
             initRadioGroup();
             setAddBtn();
+            setSaveResultBtn();
             setPreBtn();
             setNextBtn();
             setOperationBtnVisibility();
@@ -106,17 +107,28 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
     }
 
     private void initListView() {
-        String fishResultStatisticsListStr = Common.getCampaignPrefernceString(getActivity(), "campaign_fish_result_statistics_list");
-        if (!"".equals(fishResultStatisticsListStr)) {
-            Type statisticsListType = new TypeToken<List<RelayCamapignStatisticsResult>>() {}.getType();
-            statisticsList = new Gson().fromJson(fishResultStatisticsListStr, statisticsListType);
+        
+        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if (mode.equals("edit")) {
+            String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
+            statisticsList = dataSource.getRelayCamapignStatisticsResultList(campaignId);
         } else {
-            statisticsList = new ArrayList<RelayCamapignStatisticsResult>();
+            String fishResultStatisticsListStr = Common.getCampaignPrefernceString(getActivity(), "campaign_fish_result_statistics_list");
+            if (!"".equals(fishResultStatisticsListStr)) {
+                Type statisticsListType = new TypeToken<List<RelayCamapignStatisticsResult>>() {}.getType();
+                statisticsList = new Gson().fromJson(fishResultStatisticsListStr, statisticsListType);
+            } else {
+                statisticsList = new ArrayList<RelayCamapignStatisticsResult>();
+            }
         }
+        
+        
 
         ListView listView = (ListView)tab4View.findViewById(R.id.listViewResult);
-        View header = mInflater.inflate(R.layout.activity_fish_result_listview_header, null);
-        listView.addHeaderView(header);
+        if (listView.getHeaderViewsCount() == 0) {
+            View header = mInflater.inflate(R.layout.activity_fish_result_listview_header, null);
+            listView.addHeaderView(header);
+        }
         arrayAdapter = new StatisticsArrayAdapter(getActivity(), statisticsList);
         listView.setAdapter(arrayAdapter);
     }
@@ -130,6 +142,10 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
             case R.id.addResultAddBtn:
             	refreshStatisticsListView();
             	
+                break;
+            case R.id.buttonSaveResult:
+                update();
+                
                 break;
             case R.id.buttonCampaignResultPre:
                 Common.setCampaignPrefernce(getActivity(), "btn_click", "true");
@@ -147,6 +163,15 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
                 ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(4);
                 break;
         }
+    }
+
+    private void update() {
+        String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
+        dataSource.updateRelayCamapignStatisticsResult(campaignId, statisticsList);
+        
+        Intent intent = getActivity().getIntent();
+        getActivity().setResult(Activity.RESULT_OK, intent);
+        getActivity().finish();
     }
 	
 	private void setOperationBtnVisibility() {
@@ -251,6 +276,14 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
     }
     
     /**
+     * 注册[保存]按钮事件
+     */
+    private void setSaveResultBtn() {
+        BootstrapButton btn = (BootstrapButton)tab4View.findViewById(R.id.buttonSaveResult);
+        btn.setOnClickListener(this);
+    }
+    
+    /**
      * 注册[上一步]按钮事件
      */
     private void setPreBtn() {
@@ -274,7 +307,15 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
     public void initPointSpinner() {
         dataSource.open();
         
-        List<String> pointIds = Common.getCampaignPrefernceStrList(getActivity(), "campaign_point_id_list");
+        List<String> pointIds = null;
+        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if(mode.equals("edit")){
+            String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
+            pointIds = dataSource.getPointIdListByCampaignId(campaignId);
+        }else{
+            pointIds = Common.getCampaignPrefernceStrList(getActivity(), "campaign_point_id_list");
+        }
+        
         List<Point> list = dataSource.getPointsByIds(pointIds);
         
         Point[] arr = list.toArray(new Point[list.size()]);

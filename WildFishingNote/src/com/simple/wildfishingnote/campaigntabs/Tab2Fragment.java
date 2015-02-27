@@ -60,17 +60,30 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
         if (isVisibleToUser) {
             dataSource.open();
             
-            String placeId = Common.getCampaignPrefernceString(getActivity(), "campaign_place_id");
-            if ("".equals(placeId)) {
-                placeId = null;
-            }
-            initPlaceListView(placeId);
+            initPlaceListViewByDbOrPreference();
             setAddPlaceBtn();
             setSavePlaceBtn();
             setPreBtn();
             setNextBtn();
             setOperationBtnVisibility();
         }
+    }
+
+    private void initPlaceListViewByDbOrPreference() {
+        String placeId = null;
+        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if(mode.equals("edit")){
+            String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
+            Campaign campaign = dataSource.getCampaignById(campaignId);
+            placeId = campaign.getPlaceId();
+        }else{
+            placeId = Common.getCampaignPrefernceString(getActivity(), "campaign_place_id");
+            if ("".equals(placeId)) {
+                placeId = null;
+            }
+        }
+
+        initPlaceListView(placeId);
     }
 	
 
@@ -178,6 +191,10 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
         Campaign campaign = dataSource.getCampaignById(campaignId);
         campaign.setPlaceId(selectedPlaceId);
         dataSource.updateCampaign(campaign);
+        
+        Intent intent = getActivity().getIntent();
+        getActivity().setResult(Activity.RESULT_OK, intent);
+        getActivity().finish();
     }
 	
 	
