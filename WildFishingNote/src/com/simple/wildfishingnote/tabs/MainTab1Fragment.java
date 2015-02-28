@@ -30,7 +30,6 @@ import com.simple.wildfishingnote.AddMainActivity;
 import com.simple.wildfishingnote.MainActivity;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.CampaignSummary;
-import com.simple.wildfishingnote.campaign.place.PlaceDetailActivity;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 import com.simple.wildfishingnote.flowtextview.FlowTextView;
@@ -144,8 +143,8 @@ public class MainTab1Fragment extends Fragment {
             viewHolder.summaryFlowTextView.setText(html);
             viewHolder.summaryFlowTextView.setTextSize(24.0f);
             
-            
-            String filePath = ((CampaignSummary)list.get(position).item).getImagePath();
+            String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH;
+            String filePath = directory + ((CampaignSummary)list.get(position).item).getImagePath();
             if (StringUtils.isNotBlank(filePath)) {
             	Bitmap bitmap = BitmapFactory.decodeFile(filePath);
                 viewHolder.imageView.setImageBitmap(bitmap);

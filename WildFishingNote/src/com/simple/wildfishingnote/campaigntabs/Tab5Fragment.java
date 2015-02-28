@@ -248,10 +248,12 @@ public class Tab5Fragment extends Fragment implements OnClickListener {
         galleryAdapter.setMultiplePick(false);
         gridGallery.setAdapter(galleryAdapter);
 
+        String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH;
         ArrayList<CustomGallery> dataT = new ArrayList<CustomGallery>();
-        for (String string : picList) {
+        
+        for (String fileName : picList) {
             CustomGallery item = new CustomGallery();
-            item.sdcardPath = string;
+            item.sdcardPath = directory + fileName;
 
             dataT.add(item);
         }
