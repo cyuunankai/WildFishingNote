@@ -3,7 +3,10 @@ package com.simple.wildfishingnote.tabs;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.channels.FileChannel;
+
+import org.apache.commons.io.FileUtils;
 
 import android.os.Bundle;
 import android.os.Environment;
@@ -99,6 +102,16 @@ public class MainTab4Fragment extends Fragment implements OnClickListener {
             Toast.makeText(getActivity(), "Backup Failed!", Toast.LENGTH_SHORT)
                     .show();
 
+        }
+    }
+    
+    private void backupImageFiles() {
+        File source = new File("H:\\work-temp\\file");
+        File dest = new File("H:\\work-temp\\file2");
+        try {
+            FileUtils.copyDirectory(source, dest);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 	
