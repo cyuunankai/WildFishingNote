@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,5 +13,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/article" />
+        
+    <LinearLayout
+    android:id="@+id/buttonsLayoutCampaignTimeEdit"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal" >
+
+<com.beardedhen.androidbootstrap.BootstrapButton
+				    android:id="@+id/buttonBackUp"
+	                android:layout_width="10dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.5"
+	                android:layout_margin="8dp"
+	                android:text="备份"
+	                bootstrapbutton:bb_icon_left="fa-undo"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
+	
+	            <com.beardedhen.androidbootstrap.BootstrapButton
+	                android:id="@+id/buttonRestore"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.5"
+	                android:layout_margin="8dp"
+	                android:text="恢复"
+	                bootstrapbutton:bb_icon_left="fa-floppy-o"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
+</LinearLayout>
 
 </RelativeLayout>

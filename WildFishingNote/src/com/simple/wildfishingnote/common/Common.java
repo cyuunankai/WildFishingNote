@@ -1,13 +1,21 @@
 package com.simple.wildfishingnote.common;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
@@ -15,10 +23,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.animation.hover.HoverSwitch;
+import com.simple.wildfishingnote.database.MySQLiteHelper;
 import com.simple.wildfishingnote.tabs.MainTab1Fragment;
 import com.simple.wildfishingnote.tabs.MainTab2Fragment;
 import com.simple.wildfishingnote.tabs.MainTab3Fragment;
 import com.simple.wildfishingnote.tabs.MainTab4Fragment;
+import com.simple.wildfishingnote.utils.Msg;
 import com.simple.wildfishingnote.utils.StringUtils;
 
 public class Common {
@@ -164,6 +174,5 @@ public class Common {
         
         return list;
     }
-
     
 }

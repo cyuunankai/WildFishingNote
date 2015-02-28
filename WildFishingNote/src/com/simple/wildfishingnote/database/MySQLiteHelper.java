@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "WildFishingDatabase.db";
+    public static final String DATABASE_NAME = "WildFishingDatabase.db";
     private static final int DATABASE_VERSION = 1;
     
     private static final String TEXT_TYPE = " TEXT";
