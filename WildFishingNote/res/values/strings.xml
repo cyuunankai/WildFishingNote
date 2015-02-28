@@ -55,7 +55,9 @@
     <string name="bait">饵料:</string>
     <string name="depth">水深:</string>
     <string name="edit">编辑</string>
-    <string name="title_activity_show_all_rod_length">ShowAllRodLengthActivity</string>
+    <string name="title_activity_show_all_rod_length">维护竿长</string>
+    <string name="title_activity_show_all_lure_method">维护打窝方法</string>
+    <string name="title_activity_show_all_bait">维护饵料</string>
     <string name="back">返回</string>
     <string name="rod_length_and_lure_method_and_bait_edit">竿长、打窝、饵料维护区</string>
     <string name="edit_rod_length">编辑竿长</string>

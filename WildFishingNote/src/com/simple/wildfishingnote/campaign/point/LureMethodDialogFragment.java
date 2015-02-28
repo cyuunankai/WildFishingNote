@@ -1,5 +1,7 @@
 package com.simple.wildfishingnote.campaign.point;
 
+import org.apache.commons.lang.StringUtils;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -19,7 +21,6 @@ public class LureMethodDialogFragment extends DialogFragment {
      * Each method passes the DialogFragment in case the host needs to query it. */
     public interface NoticeDialogListener {
         public void onLMDialogPositiveClick(DialogFragment dialog, String name, String detail);
-        public void onLMDialogNegativeClick(DialogFragment dialog);
     }
     
     // Use this instance of the interface to deliver action events
@@ -40,6 +41,13 @@ public class LureMethodDialogFragment extends DialogFragment {
         }
     }
 
+    private String name;
+    private String detail;
+
+    public LureMethodDialogFragment(String _name, String _detail) {
+        this.name = _name;
+        this.detail = _detail;
+    }
 
 	
 	@Override
@@ -48,6 +56,16 @@ public class LureMethodDialogFragment extends DialogFragment {
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View v = inflater.inflate(R.layout.dialog_lure_method, null);
+        
+        if (StringUtils.isNotBlank(this.name)) {
+            BootstrapEditText et = (BootstrapEditText)v.findViewById(R.id.lureMethodName);
+            et.setText(this.name);
+        }
+        
+        if (StringUtils.isNotBlank(this.detail)) {
+            BootstrapEditText et = (BootstrapEditText)v.findViewById(R.id.lureMethodDetail);
+            et.setText(this.detail);
+        }
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(v)

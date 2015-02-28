@@ -1,5 +1,7 @@
 package com.simple.wildfishingnote.campaign.point;
 
+import org.apache.commons.lang.StringUtils;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -46,7 +48,7 @@ public class RodLengthDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View v = inflater.inflate(R.layout.dialog_rod_length, null);
         
-        if(!"".equals(this.name)){
+        if (StringUtils.isNotBlank(this.name)) {
             BootstrapEditText et = (BootstrapEditText)v.findViewById(R.id.rodLengthName);
             et.setText(this.name);
         }

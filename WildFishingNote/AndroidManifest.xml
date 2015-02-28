@@ -101,6 +101,14 @@
             android:name=".campaign.point.ShowAllRodLengthActivity"
             android:label="@string/title_activity_show_all_rod_length" >
         </activity>
+        <activity
+            android:name=".campaign.point.ShowAllLureMethodActivity"
+            android:label="@string/title_activity_show_all_lure_method" >
+        </activity>
+        <activity
+            android:name=".campaign.point.ShowAllBaitActivity"
+            android:label="@string/title_activity_show_all_bait" >
+        </activity>
         
         
         <activity android:name="com.luminous.pick.CustomGalleryActivity" >

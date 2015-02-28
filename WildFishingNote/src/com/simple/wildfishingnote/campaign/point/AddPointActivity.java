@@ -86,39 +86,18 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // 查看竿长返回
+        
         if (requestCode == Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH && resultCode == Activity.RESULT_OK) {
+            // 查看竿长返回
             initRodLengthSpinner();
+        } else if (requestCode == Constant.REQUEST_CODE_SHOW_ALL_LURE_METHOD && resultCode == Activity.RESULT_OK) {
+            // 查看打窝方法返回
+            initLureMethodSpinner();
+        } else if (requestCode == Constant.REQUEST_CODE_SHOW_ALL_BAIT && resultCode == Activity.RESULT_OK) {
+            // 查看饵料返回
+            initBaitSpinner();
         }
     }
-    
-   
-//    /**
-//     * [添加竿长]按钮按下
-//     * @param v
-//     */
-//    public void addPointShowAddRodLengthBtnClick(View v){
-//        RodLengthDialogFragment dialog = new RodLengthDialogFragment("");
-//        dialog.show(getSupportFragmentManager(), "rodLengthDialog");
-//    }
-//    
-//    /**
-//     * [添加打窝]按钮按下
-//     * @param v
-//     */
-//    public void addPointShowAddLureMethodBtnClick(View v){
-//        LureMethodDialogFragment dialog = new LureMethodDialogFragment();
-//        dialog.show(getSupportFragmentManager(), "lureMethodDialog");
-//    }
-//    
-//    /**
-//     * [添加饵料]按钮按下
-//     * @param v
-//     */
-//    public void addPointShowAddBaitBtnClick(View v){
-//        BaitDialogFragment dialog = new BaitDialogFragment();
-//        dialog.show(getSupportFragmentManager(), "baitDialog");
-//    }
     
     /**
      * 【添加竿长】画面[OK]按钮按下
@@ -152,11 +131,6 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
         
         hoverSwitch.execRootImageClick(true);
     }
-
-    @Override
-    public void onLMDialogNegativeClick(DialogFragment dialog) {
-        // User touched the dialog's negative button
-    }
     
     /**
      *  【添加饵料】画面[OK]按钮按下
@@ -173,11 +147,6 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
         setBaitSpinnerSelection(newBait.getId());
         
         hoverSwitch.execRootImageClick(true);
-    }
-
-    @Override
-    public void onBaitDialogNegativeClick(DialogFragment dialog) {
-        // User touched the dialog's negative button
     }
     
     /**
@@ -254,6 +223,7 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
     }
     
     private void initLureMethodSpinner() {        
+        dataSource.open();
         List<LureMethod> list = dataSource.getAllLureMethods();
         
         LureMethod[] arr = convertLureMethodListToArr(list);
@@ -297,6 +267,8 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
     }
 
     private void initBaitSpinner() {
+        dataSource.open();
+        
         List<Bait> list = dataSource.getAllBaits();
         
         Bait[] arr = convertBaitListToArr(list);
@@ -455,13 +427,13 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
  		imageSrcIntent = new ImageSrcIntent();
  		imageSrcIntent.setItemButtonSrc(IMAGE);
  		imageSrcIntent.setItemTextSrc(IMAGE);
- 		imageSrcIntent.setInvokeIntentOnClick("ShowAllRodLengthActivity");
+ 		imageSrcIntent.setInvokeIntentOnClick("ShowAllBaitActivity");
  		imageSrcIntentList.add(imageSrcIntent);
  		
  		imageSrcIntent = new ImageSrcIntent();
  		imageSrcIntent.setItemButtonSrc(IMAGE);
  		imageSrcIntent.setItemTextSrc(IMAGE);
- 		imageSrcIntent.setInvokeIntentOnClick("ShowAllRodLengthActivity");
+ 		imageSrcIntent.setInvokeIntentOnClick("ShowAllLureMethodActivity");
  		imageSrcIntentList.add(imageSrcIntent);
  		
  		imageSrcIntent = new ImageSrcIntent();
@@ -488,20 +460,20 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
  						RodLengthDialogFragment dialog = new RodLengthDialogFragment("");
  				        dialog.show(getSupportFragmentManager(), "rodLengthDialog");
  					} else if ("LureMethodDialogFragment".equals(intentName)) {
- 						LureMethodDialogFragment dialog = new LureMethodDialogFragment();
+ 						LureMethodDialogFragment dialog = new LureMethodDialogFragment("","");
  				        dialog.show(getSupportFragmentManager(), "lureMethodDialog");
  					} else if ("BaitDialogFragment".equals(intentName)) {
- 						BaitDialogFragment dialog = new BaitDialogFragment();
+ 						BaitDialogFragment dialog = new BaitDialogFragment("", "");
  				        dialog.show(getSupportFragmentManager(), "baitDialog");
  					} else if ("ShowAllRodLengthActivity".equals(intentName)){
  						Intent intent = new Intent(getApplicationContext(), ShowAllRodLengthActivity.class);
  				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
- 					} else if ("ShowAllRodLengthActivity".equals(intentName)){
- 						Intent intent = new Intent(getApplicationContext(), ShowAllRodLengthActivity.class);
- 				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
- 					} else if ("ShowAllRodLengthActivity".equals(intentName)){
- 						Intent intent = new Intent(getApplicationContext(), ShowAllRodLengthActivity.class);
- 				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
+ 					} else if ("ShowAllLureMethodActivity".equals(intentName)){
+ 						Intent intent = new Intent(getApplicationContext(), ShowAllLureMethodActivity.class);
+ 				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_LURE_METHOD);
+ 					} else if ("ShowAllBaitActivity".equals(intentName)){
+ 						Intent intent = new Intent(getApplicationContext(), ShowAllBaitActivity.class);
+ 				        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_BAIT);
  					}
  					
  				}

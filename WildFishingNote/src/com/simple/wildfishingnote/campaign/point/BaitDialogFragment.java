@@ -1,5 +1,7 @@
 package com.simple.wildfishingnote.campaign.point;
 
+import org.apache.commons.lang.StringUtils;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -19,7 +21,6 @@ public class BaitDialogFragment extends DialogFragment {
      * Each method passes the DialogFragment in case the host needs to query it. */
     public interface NoticeDialogListener {
         public void onBaitDialogPositiveClick(DialogFragment dialog, String name, String detail);
-        public void onBaitDialogNegativeClick(DialogFragment dialog);
     }
     
     // Use this instance of the interface to deliver action events
@@ -40,7 +41,13 @@ public class BaitDialogFragment extends DialogFragment {
         }
     }
 
+    private String name;
+    private String detail;
 
+    public BaitDialogFragment(String _name, String _detail) {
+        this.name = _name;
+        this.detail = _detail;
+    }
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -48,6 +55,17 @@ public class BaitDialogFragment extends DialogFragment {
 	    // Get the layout inflater
 	    LayoutInflater inflater = getActivity().getLayoutInflater();
 	    final View v = inflater.inflate(R.layout.dialog_bait, null);
+	    
+        if (StringUtils.isNotBlank(this.name)) {
+            BootstrapEditText et = (BootstrapEditText)v.findViewById(R.id.baitName);
+            et.setText(this.name);
+        }
+        
+        if (StringUtils.isNotBlank(this.detail)) {
+            BootstrapEditText et = (BootstrapEditText)v.findViewById(R.id.baitDetail);
+            et.setText(this.detail);
+        }
+	    
 	    // Inflate and set the layout for the dialog
 	    // Pass null as the parent view because its going in the dialog layout
 	    builder.setView(v)

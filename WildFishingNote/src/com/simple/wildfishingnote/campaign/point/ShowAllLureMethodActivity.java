@@ -21,38 +21,38 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
 import com.simple.wildfishingnote.R;
-import com.simple.wildfishingnote.bean.RodLength;
+import com.simple.wildfishingnote.bean.LureMethod;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 
-public class ShowAllRodLengthActivity extends ActionBarActivity implements RodLengthDialogFragment.NoticeDialogListener {
+public class ShowAllLureMethodActivity extends ActionBarActivity implements LureMethodDialogFragment.NoticeDialogListener {
 
     private CampaignDataSource dataSource;
-    private RodLengthArrayAdapter adapter;
-    private String globalRodLengthId;
+    private LureMethodArrayAdapter adapter;
+    private String globalLureMethodId;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_all_rod_length);
+        setContentView(R.layout.activity_show_all_lure_method);
         
         dataSource = new CampaignDataSource(this);
         dataSource.open();
         
-        initRodLengthListView();
+        initLureMethodListView();
     }
     
     /**
-     * 【竿长dialog】画面[OK]按钮按下（添加/更新）
+     * 【打窝方法dialog】画面[OK]按钮按下（添加/更新）
      */
     @Override
-	public void onRLDialogPositiveClick(DialogFragment dialog, String rodLength) {
-		if ("".equals(globalRodLengthId)) {
-			addRodLength(rodLength);
+	public void onLMDialogPositiveClick(DialogFragment dialog, String name, String detail) {
+		if ("".equals(globalLureMethodId)) {
+			addLureMethod(name, detail);
 		} else {
-			updateRodLength(rodLength);
+		    updateLureMethod(name, detail);
 		}
 
-		initRodLengthListView();
+		initLureMethodListView();
 	}
 
 	
@@ -60,11 +60,11 @@ public class ShowAllRodLengthActivity extends ActionBarActivity implements RodLe
     /**
      * [添加]按钮按下
      */
-    public void buttonAddRodLengthClick(View v){
-    	globalRodLengthId = "";
+    public void buttonAddLureMethodClick(View v){
+    	globalLureMethodId = "";
     	
-    	RodLengthDialogFragment dialog = new RodLengthDialogFragment("");
-        dialog.show(getSupportFragmentManager(), "rodLengthDialog");
+    	LureMethodDialogFragment dialog = new LureMethodDialogFragment("", "");
+        dialog.show(getSupportFragmentManager(), "lureMethodDialog");
     }
     
     /**
@@ -87,51 +87,53 @@ public class ShowAllRodLengthActivity extends ActionBarActivity implements RodLe
     }
 
     /**
-     * 初始化竿长listview
+     * 初始化打窝方法listview
      */
-    private void initRodLengthListView() {
-        List<RodLength> list = dataSource.getAllRodLengths();
+    private void initLureMethodListView() {
+        List<LureMethod> list = dataSource.getAllLureMethods();
         
-        ListView listView = (ListView) findViewById(R.id.listViewRodLength);
-        adapter = new RodLengthArrayAdapter(this, list);
+        ListView listView = (ListView) findViewById(R.id.listViewLureMethod);
+        adapter = new LureMethodArrayAdapter(this, list);
         listView.setAdapter(adapter);
     }
     
     /**
-     * 添加竿长
+     * 添加打窝方法
      */
-    private void addRodLength(String rodLength) {
-		RodLength rl = new RodLength();
-        rl.setName(rodLength);
-        dataSource.addRodLength(rl);
+    private void addLureMethod(String name, String detail) {
+		LureMethod obj = new LureMethod();
+        obj.setName(name);
+        obj.setDetail(detail);
+        dataSource.addLureMethod(obj);
 	}
 
     /**
-     * 更新竿长
+     * 更新打窝方法
      */
-    private void updateRodLength(String rodLength) {
-        RodLength rl = new RodLength();
-        rl.setId(globalRodLengthId);
-        rl.setName(rodLength);
-        dataSource.updateRodLength(rl);
+    private void updateLureMethod(String name, String detail) {
+        LureMethod obj = new LureMethod();
+        obj.setName(name);
+        obj.setDetail(detail);
+        obj.setId(globalLureMethodId);
+        dataSource.updateLureMethod(obj);
     }
     
     
     
-    public class RodLengthArrayAdapter extends ArrayAdapter<RodLength> {
+    public class LureMethodArrayAdapter extends ArrayAdapter<LureMethod> {
 
-        private final List<RodLength> list;
+        private final List<LureMethod> list;
         private final Activity context;
         protected Object mActionMode;
 
-        public RodLengthArrayAdapter(Activity context, List<RodLength> list) {
-            super(context, R.layout.activity_rod_length_listview_each_item, list);
+        public LureMethodArrayAdapter(Activity context, List<LureMethod> list) {
+            super(context, R.layout.activity_lure_method_listview_each_item, list);
             this.context = context;
             this.list = list;
         }
 
         class ViewHolder {
-            protected TextView textRodLengthTitle;
+            protected TextView textLureMethodTitle;
         }
 
         /**
@@ -148,9 +150,9 @@ public class ShowAllRodLengthActivity extends ActionBarActivity implements RodLe
             
             if (convertView == null) {
                 // 添加UI到convertView
-                convertView = context.getLayoutInflater().inflate(R.layout.activity_rod_length_listview_each_item, null);
-                viewHolder.textRodLengthTitle = (TextView)convertView.findViewById(R.id.textViewRodLengthTitle);
-                viewHolder.textRodLengthTitle.setTag(list.get(position));//// 保存bean值到UI tag (响应事件从这个UI tag取值)
+                convertView = context.getLayoutInflater().inflate(R.layout.activity_lure_method_listview_each_item, null);
+                viewHolder.textLureMethodTitle = (TextView)convertView.findViewById(R.id.textViewLureMethodTitle);
+                viewHolder.textLureMethodTitle.setTag(list.get(position));//// 保存bean值到UI tag (响应事件从这个UI tag取值)
                 convertView.setTag(viewHolder);
                 
                 // 添加事件
@@ -159,7 +161,7 @@ public class ShowAllRodLengthActivity extends ActionBarActivity implements RodLe
             }
 
             // 设置bean值到UI
-            viewHolder.textRodLengthTitle.setText(list.get(position).getName() + "米");
+            viewHolder.textLureMethodTitle.setText(list.get(position).getName());
 
             return convertView;
         }
@@ -177,20 +179,20 @@ public class ShowAllRodLengthActivity extends ActionBarActivity implements RodLe
                 @Override
                 public boolean onLongClick(View paramView) {
 
-                    final RodLength element = (RodLength)viewHolder.textRodLengthTitle.getTag();
+                    final LureMethod element = (LureMethod)viewHolder.textLureMethodTitle.getTag();
 
                     PopupMenu popup = new PopupMenu(context, paramView);
                     popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            final String rodLengthId = element.getId();
+                            final String lureMethodId = element.getId();
                             switch (item.getItemId()) {
                                 case R.id.edit:
-                                	editRodLength(rodLengthId);
+                                	editLureMethod(lureMethodId);
                                     return true;
                                 case R.id.delete:
-                                    deleteRodLength(rodLengthId);
+                                    deleteLureMethod(lureMethodId);
                                     return true;
                                 default:
                                     return false;
@@ -211,30 +213,30 @@ public class ShowAllRodLengthActivity extends ActionBarActivity implements RodLe
         }
         
         /**
-         * 编辑竿长
+         * 编辑打窝方法
          */
-        private void editRodLength(final String rodLengthId) {
-        	globalRodLengthId = rodLengthId;
-        	RodLength rl = dataSource.getRodLengthById(rodLengthId);
-        	RodLengthDialogFragment dialog = new RodLengthDialogFragment(rl.getName());
-            dialog.show(getSupportFragmentManager(), "rodLengthDialog");
+        private void editLureMethod(final String lureMethodId) {
+        	globalLureMethodId = lureMethodId;
+        	LureMethod obj = dataSource.getLureMethodById(lureMethodId);
+        	LureMethodDialogFragment dialog = new LureMethodDialogFragment(obj.getName(), obj.getDetail());
+            dialog.show(getSupportFragmentManager(), "lureMethodDialog");
         }
         
         /**
-         * 删除竿长
+         * 删除打窝方法
          */
-        private void deleteRodLength(final String rodLengthId) {
+        private void deleteLureMethod(final String lureMethodId) {
             AlertDialog.Builder adb = new AlertDialog.Builder(context);
             adb.setTitle("删除?");
-            adb.setMessage("确定删除竿长");
+            adb.setMessage("确定删除打窝方法");
             adb.setNegativeButton(R.string.cancel, null);
             adb.setPositiveButton(R.string.confirm, new AlertDialog.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    dataSource.deleteRodLength(rodLengthId);
+                    dataSource.deleteLureMethod(lureMethodId);
                     
                     int deleteIndex = 0;
                     for (int i = 0; i < list.size(); i++) {
-                        if (rodLengthId.equals(list.get(i).getId())) {
+                        if (lureMethodId.equals(list.get(i).getId())) {
                             deleteIndex = i;
                             break;
                         }
