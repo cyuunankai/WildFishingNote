@@ -50,6 +50,7 @@ import com.simple.wildfishingnote.bean.RelayCamapignStatisticsResult;
 import com.simple.wildfishingnote.common.Common;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
+import com.simple.wildfishingnote.utils.FileUtil;
 
 public class Tab4Fragment extends Fragment implements OnClickListener {
     
@@ -102,6 +103,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
             // 图片
             initImageLoader();
             initMultiPickBtn();
+            initImage();
 
         }
     }
@@ -167,11 +169,31 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
 
     private void update() {
         String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
-        dataSource.updateRelayCamapignStatisticsResult(campaignId, statisticsList);
+        
+        List<String> picList = new ArrayList<String>();
+        ArrayList<CustomGallery> allT = galleryAdapter.getSelected();
+        for (CustomGallery cg : allT) {
+        	String to = dealImageFile(cg.sdcardPath);
+            picList.add(to);
+        }
+        dataSource.updateRelayCamapignStatisticsAndImageResult(campaignId, statisticsList, picList);
         
         Intent intent = getActivity().getIntent();
         getActivity().setResult(Activity.RESULT_OK, intent);
         getActivity().finish();
+    }
+    
+    /**
+     * 处理图片
+     * @return
+     */
+    private String dealImageFile(String from) {
+        String fileName;
+        
+        String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH;
+        fileName = FileUtil.saveImageToInternalStorage(from, directory);
+        
+        return fileName;
     }
 	
 	private void setOperationBtnVisibility() {
@@ -353,6 +375,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(config);
     }
+    
 
     private void initMultiPickBtn() {
 
@@ -373,6 +396,27 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
             }
         });
 
+    }
+    
+    private void initImage() {
+    	String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if (mode.equals("edit")) {
+            String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
+            List<String> picList = dataSource.getFishResultPicList(campaignId);
+            
+            String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH;
+            ArrayList<CustomGallery> dataT = new ArrayList<CustomGallery>();
+            
+            for (String fileName : picList) {
+                CustomGallery item = new CustomGallery();
+                item.isSeleted = true;
+                item.sdcardPath = directory + fileName;
+
+                dataT.add(item);
+            }
+
+            galleryAdapter.addAll(dataT);
+        } 
     }
 
     @Override

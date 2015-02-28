@@ -64,6 +64,10 @@ public class CampaignDataSource {
 			WildFishingContract.Baits.COLUMN_NAME_NAME,
 			WildFishingContract.Baits.COLUMN_NAME_DETAIL };
     
+    private String[] relayCampaignImageResultsAllColumns = { WildFishingContract.RelayCampaignImageResults._ID,
+            WildFishingContract.RelayCampaignImageResults.COLUMN_NAME_CAMPAIGN_ID,
+            WildFishingContract.RelayCampaignImageResults.COLUMN_NAME_FILE_PATH };
+    
     private String[] relayCamapignStatisticsResultsAllColumns = { WildFishingContract.RelayCamapignStatisticsResults._ID,
             WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_CAMPAIGN_ID,
             WildFishingContract.RelayCamapignStatisticsResults.COLUMN_NAME_POINT_ID,
@@ -924,6 +928,47 @@ public class CampaignDataSource {
 	    }
 	}
 	
+	public List<String> getFishResultPicList(String campaignId) {
+        List<String> retList = new ArrayList<String>();
+
+        Cursor c = database.query(WildFishingContract.RelayCampaignImageResults.TABLE_NAME,
+        		relayCampaignImageResultsAllColumns, // The columns to return
+        		WildFishingContract.RelayCampaignImageResults.COLUMN_NAME_CAMPAIGN_ID + " = " + campaignId , // The columns for the WHERE clause
+        		null, // The values for the WHERE clause
+                null, // don't group the rows
+                null, // don't filter by row groups
+                null // The sort order
+                );
+
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+        	RelayCampaignImageResult obj = cursorToRelayCampaignImageResults(c);
+            retList.add(obj.getFilePath());
+
+            c.moveToNext();
+        }
+        c.close();
+
+        return retList;
+    }
+	
+	private RelayCampaignImageResult cursorToRelayCampaignImageResults(Cursor c) {
+		RelayCampaignImageResult obj = new RelayCampaignImageResult();
+		obj.setId(c.getString(0));
+		obj.setCampaignId(c.getString(1));
+		obj.setFilePath(c.getString(2));
+		return obj;
+	}
+	
+	public void deleteRelayCampaignImageResult(String campaignId) {
+
+        String selection = WildFishingContract.RelayCampaignImageResults.COLUMN_NAME_CAMPAIGN_ID + " = ? ";
+        String[] selelectionArgs = { campaignId };
+
+        database.delete(WildFishingContract.RelayCampaignImageResults.TABLE_NAME, selection,
+                selelectionArgs);
+    }
+	
 	/**
      * 添加活动渔获统计关系
      */
@@ -981,12 +1026,16 @@ public class CampaignDataSource {
                 selelectionArgs);
     }
     
-    public void updateRelayCamapignStatisticsResult(String campaignId, List<RelayCamapignStatisticsResult> rcsrList) {
+    public void updateRelayCamapignStatisticsAndImageResult(String campaignId, List<RelayCamapignStatisticsResult> rcsrList, List<String> picList) {
 
         database.beginTransaction();
         try {
             deleteRelayCamapignStatisticsResult(campaignId);
             addRelayCamapignStatisticsResults(campaignId, rcsrList);
+            
+            deleteRelayCampaignImageResult(campaignId);
+            addRelayCampaignImageResult(campaignId, picList);
+            
             database.setTransactionSuccessful();
         } catch (Exception ex) {
 

@@ -155,20 +155,52 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       database.execSQL(initRodLengthSql);
       initRodLengthSql = "insert into " + WildFishingContract.RodLengths.TABLE_NAME + "("+WildFishingContract.RodLengths.COLUMN_NAME_NAME +") values ('4.5')";
       database.execSQL(initRodLengthSql);
+      initRodLengthSql = "insert into " + WildFishingContract.RodLengths.TABLE_NAME + "("+WildFishingContract.RodLengths.COLUMN_NAME_NAME +") values ('5.4')";
+      database.execSQL(initRodLengthSql);
+      initRodLengthSql = "insert into " + WildFishingContract.RodLengths.TABLE_NAME + "("+WildFishingContract.RodLengths.COLUMN_NAME_NAME +") values ('6.3')";
+      database.execSQL(initRodLengthSql);
+      initRodLengthSql = "insert into " + WildFishingContract.RodLengths.TABLE_NAME + "("+WildFishingContract.RodLengths.COLUMN_NAME_NAME +") values ('7.2')";
+      database.execSQL(initRodLengthSql);
       
-      String initLureMethodSql = "insert into " + WildFishingContract.LureMethods.TABLE_NAME + "("+WildFishingContract.LureMethods.COLUMN_NAME_NAME +") values ('苞米茬子')";
+      String initLureMethodSql = "insert into " + WildFishingContract.LureMethods.TABLE_NAME + "("+WildFishingContract.LureMethods.COLUMN_NAME_NAME +") values ('老鬼诱鱼香精+酒泡苞米茬子')";
       database.execSQL(initLureMethodSql);
-      initLureMethodSql = "insert into " + WildFishingContract.LureMethods.TABLE_NAME + "("+WildFishingContract.LureMethods.COLUMN_NAME_NAME +") values ('小米')";
+      initLureMethodSql = "insert into " + WildFishingContract.LureMethods.TABLE_NAME + "("+WildFishingContract.LureMethods.COLUMN_NAME_NAME +") values ('牛B颗粒(红虫蚯蚓)')";
+      database.execSQL(initLureMethodSql);
+      initLureMethodSql = "insert into " + WildFishingContract.LureMethods.TABLE_NAME + "("+WildFishingContract.LureMethods.COLUMN_NAME_NAME +") values ('牛B颗粒(红虫蚯蚓)+蒸玉米面+牛B鲤+曲酒泡玉米(20粒)')";
       database.execSQL(initLureMethodSql);
       
-      String initBaitSql = "insert into " + WildFishingContract.Baits.TABLE_NAME + "("+WildFishingContract.Baits.COLUMN_NAME_NAME +") values ('九一八')";
+      String initBaitSql = "insert into " + WildFishingContract.Baits.TABLE_NAME + "("+WildFishingContract.Baits.COLUMN_NAME_NAME +") values ('火鲤+老鬼2#鲤+101薯香膏')";
       database.execSQL(initBaitSql);
-      initBaitSql = "insert into " + WildFishingContract.Baits.TABLE_NAME + "("+WildFishingContract.Baits.COLUMN_NAME_NAME +") values ('野钓7号')";
+      initBaitSql = "insert into " + WildFishingContract.Baits.TABLE_NAME + "("+WildFishingContract.Baits.COLUMN_NAME_NAME +") values ('老鬼野钓九一八')";
+      database.execSQL(initBaitSql);
+      initBaitSql = "insert into " + WildFishingContract.Baits.TABLE_NAME + "("+WildFishingContract.Baits.COLUMN_NAME_NAME +") values ('下钩(牛B鲤+曲酒泡玉米) 上钩(火鲤+老鬼2#鲤+101薯香膏)')";
       database.execSQL(initBaitSql);
       
-      String initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('鲤鱼')";
+      String initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('鲫鱼')";
       database.execSQL(initFishTypeSql);
-      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('鲫鱼')";
+      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('鲤鱼')";
+      database.execSQL(initFishTypeSql);
+      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('草鱼')";
+      database.execSQL(initFishTypeSql);
+      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('青鱼')";
+      database.execSQL(initFishTypeSql);
+      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('鲢鱼')";
+      database.execSQL(initFishTypeSql);
+      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('白条')";
+      database.execSQL(initFishTypeSql);
+      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('葫芦片子')";
+      database.execSQL(initFishTypeSql);
+      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('船钉子')";
+      database.execSQL(initFishTypeSql);
+      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('船钉子')";
+      database.execSQL(initFishTypeSql);
+      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('狗鱼')";
+      database.execSQL(initFishTypeSql);
+      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('老头鱼')";
+      database.execSQL(initFishTypeSql);
+      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('黑鱼')";
+      database.execSQL(initFishTypeSql);
+      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('其它')";
       database.execSQL(initFishTypeSql);
     }
 
