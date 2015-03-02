@@ -36,7 +36,6 @@ import com.simple.wildfishingnote.flowtextview.FlowTextView;
 import com.simple.wildfishingnote.sectionedlistview.SectionListAdapter;
 import com.simple.wildfishingnote.sectionedlistview.SectionListItem;
 import com.simple.wildfishingnote.sectionedlistview.SectionListView;
-import com.simple.wildfishingnote.utils.Msg;
 
 public class MainTab1Fragment extends Fragment {
 

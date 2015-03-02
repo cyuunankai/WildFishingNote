@@ -76,11 +76,23 @@
 	                bootstrapbutton:bb_type="success"
         android:text="取历史" />
  </LinearLayout>
-        
-    <ListView 
+
+<include layout="@layout/weather_list_view_header"/>
+<FrameLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:id="@+id/listView"
+	android:orientation="vertical" 
+	android:layout_margin="8dp"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent">    
+	
+	<com.simple.wildfishingnote.sectionedlistview.SectionListView 
 		android:id="@+id/weather_list_view" 
 		android:layout_width="fill_parent"
 		android:layout_height="380dp">
-	</ListView>
+	</com.simple.wildfishingnote.sectionedlistview.SectionListView>
+</FrameLayout>
+
 </LinearLayout>
+
 </RelativeLayout>

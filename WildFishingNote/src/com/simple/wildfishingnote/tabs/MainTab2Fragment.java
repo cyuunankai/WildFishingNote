@@ -1,5 +1,6 @@
 package com.simple.wildfishingnote.tabs;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -17,7 +18,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
@@ -26,6 +26,9 @@ import com.simple.wildfishingnote.bean.Weather;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.WeatherDataSource;
 import com.simple.wildfishingnote.datetimepicker.DatePickerFragment;
+import com.simple.wildfishingnote.sectionedlistview.SectionListAdapter;
+import com.simple.wildfishingnote.sectionedlistview.SectionListItem;
+import com.simple.wildfishingnote.sectionedlistview.SectionListView;
 import com.simple.wildfishingnote.utils.StringUtils;
 import com.simple.wildfishingnote.weather.WeatherDetailActivity;
 import com.simple.wildfishingnote.weather.schdule.AlarmManagerBroadcastReceiver;
@@ -103,15 +106,19 @@ public class MainTab2Fragment extends Fragment implements OnClickListener {
     private void initWeatherListView() {
         WeatherDataSource dataSource = new WeatherDataSource(getActivity());
         dataSource.open();
-        List<Weather> list = dataSource.getWeathers();
         
-        ListView listView = (ListView) tab2View.findViewById(R.id.weather_list_view);
-        if (listView.getHeaderViewsCount() == 0) {
-            View header = mInflater.inflate(R.layout.weather_list_view_header, null);
-            listView.addHeaderView(header);
+        List<SectionListItem> list = new ArrayList<SectionListItem>();
+        List<Weather> weatherList = dataSource.getWeathers();
+        for(Weather obj : weatherList){
+            SectionListItem sli = new SectionListItem(obj, obj.getDate().substring(0, 7));
+            list.add(sli);
         }
-        WeatherArrayAdapter adapter = new WeatherArrayAdapter(getActivity(), list);
-        listView.setAdapter(adapter);
+
+        WeatherArrayAdapter arrayAdapter = new WeatherArrayAdapter(getActivity(), list);
+        SectionListAdapter sectionAdapter = new SectionListAdapter(mInflater, arrayAdapter);
+        SectionListView listView = (SectionListView)tab2View.findViewById(R.id.weather_list_view);
+        listView.setAdapter(sectionAdapter);
+        
     }
 	
 	private void setStartSchduleBtn() {
@@ -184,13 +191,13 @@ public class MainTab2Fragment extends Fragment implements OnClickListener {
     
 
     
-    public class WeatherArrayAdapter extends ArrayAdapter<Weather> {
+    public class WeatherArrayAdapter extends ArrayAdapter<SectionListItem> {
 
-        private final List<Weather> list;
+        private final List<SectionListItem> list;
         private final Activity context;
         protected Object mActionMode;
 
-        public WeatherArrayAdapter(Activity context, List<Weather> list) {
+        public WeatherArrayAdapter(Activity context, List<SectionListItem> list) {
             super(context, R.layout.weather_list_view_each_item, list);
             this.context = context;
             this.list = list;
@@ -224,7 +231,7 @@ public class MainTab2Fragment extends Fragment implements OnClickListener {
                 viewHolder.maxTempCTextView = (TextView)convertView.findViewById(R.id.maxTempCTextView);
                 viewHolder.sunriseTextView = (TextView)convertView.findViewById(R.id.sunriseTextView);
                 viewHolder.sunsetTextView = (TextView)convertView.findViewById(R.id.sunsetTextView);
-                viewHolder.dateTextView.setTag(list.get(position));//// 保存bean值到UI tag (响应事件从这个UI tag取值)
+                viewHolder.dateTextView.setTag((Weather)list.get(position).item);//// 保存bean值到UI tag (响应事件从这个UI tag取值)
                 convertView.setTag(viewHolder);
                 
                 // 添加事件
@@ -233,13 +240,14 @@ public class MainTab2Fragment extends Fragment implements OnClickListener {
             }
 
             // 设置bean值到UI
-            viewHolder.dateTextView.setText(list.get(position).getDate());
-            viewHolder.minTempCTextView.setText(list.get(position).getMintempC() + Constant.TEMP_C_SYMBOL);
-            viewHolder.maxTempCTextView.setText(list.get(position).getMaxtempC() + Constant.TEMP_C_SYMBOL);
-            viewHolder.sunriseTextView.setText(list.get(position).getAstronomy().getSunrise());
-            viewHolder.sunsetTextView.setText(list.get(position).getAstronomy().getSunset());
+            Weather obj = (Weather)list.get(position).item;
+            viewHolder.dateTextView.setText(obj.getDate());
+            viewHolder.minTempCTextView.setText(obj.getMintempC() + Constant.TEMP_C_SYMBOL);
+            viewHolder.maxTempCTextView.setText(obj.getMaxtempC() + Constant.TEMP_C_SYMBOL);
+            viewHolder.sunriseTextView.setText(obj.getAstronomy().getSunrise());
+            viewHolder.sunsetTextView.setText(obj.getAstronomy().getSunset());
             
-            viewHolder.dateTextView.setTag(list.get(position));//// 保存bean值到UI tag (响应事件从这个UI tag取值)
+            viewHolder.dateTextView.setTag(obj);//// 保存bean值到UI tag (响应事件从这个UI tag取值)
 
             return convertView;
         }
