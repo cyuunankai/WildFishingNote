@@ -67,6 +67,23 @@
         android:text="按年详细" />
 
  </LinearLayout>
+ 
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+    
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btnByYearDetail1"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success"
+        android:text="按年详细1" />
+
+ </LinearLayout>
 
  </LinearLayout>
 

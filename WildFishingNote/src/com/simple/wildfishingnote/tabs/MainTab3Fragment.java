@@ -13,6 +13,7 @@ import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.chart.ChartByMonthActivity;
 import com.simple.wildfishingnote.chart.ChartByYearActivity;
 import com.simple.wildfishingnote.chart.ChartByYearDetailActivity;
+import com.simple.wildfishingnote.chart.fragments.SimpleChartDemo;
 
 public class MainTab3Fragment extends Fragment implements OnClickListener {
     
@@ -43,6 +44,10 @@ public class MainTab3Fragment extends Fragment implements OnClickListener {
                 Intent intentChartByYearDetail = new Intent(getActivity(), ChartByYearDetailActivity.class);
                 getActivity().startActivity(intentChartByYearDetail);
                 break;
+            case R.id.btnByYearDetail1:
+                Intent intentChartByYearDetail1 = new Intent(getActivity(), SimpleChartDemo.class);
+                getActivity().startActivity(intentChartByYearDetail1);
+                break;
         }
     }
     
@@ -55,6 +60,9 @@ public class MainTab3Fragment extends Fragment implements OnClickListener {
         
         BootstrapButton btnByYearDetail = (BootstrapButton) tab3View.findViewById(R.id.btnByYearDetail);
         btnByYearDetail.setOnClickListener(this);
+        
+        BootstrapButton btnByYearDetail1 = (BootstrapButton) tab3View.findViewById(R.id.btnByYearDetail1);
+        btnByYearDetail1.setOnClickListener(this);
     }
 
 }
