@@ -125,14 +125,14 @@
             android:name="com.simple.wildfishingnote.weather.WeatherNoticeActivity" >
         </activity>
         
-        <activity
-            android:name="com.simple.wildfishingnote.weather.WeatherDetailActivity" >
-        </activity>
+        <activity android:name="com.simple.wildfishingnote.weather.WeatherDetailActivity" />
+        <activity android:name="com.simple.wildfishingnote.chart.ChartByYearActivity" android:screenOrientation="landscape"/>
+        <activity android:name="com.simple.wildfishingnote.chart.ChartByMonthActivity" />
+        <activity android:name="com.simple.wildfishingnote.chart.ChartByYearDetailActivity" android:screenOrientation="landscape"/>
         
-        <receiver android:name="com.simple.wildfishingnote.weather.schdule.AlarmManagerBroadcastReceiver" >
-        </receiver>
-        <service android:name="com.simple.wildfishingnote.weather.service.SaveWeatherAndLocationService"></service>
-        <service android:name="com.simple.wildfishingnote.weather.service.HistoryWeatherService"></service>
+        <receiver android:name="com.simple.wildfishingnote.weather.schdule.AlarmManagerBroadcastReceiver" />
+        <service android:name="com.simple.wildfishingnote.weather.service.SaveWeatherAndLocationService"/>
+        <service android:name="com.simple.wildfishingnote.weather.service.HistoryWeatherService"/>
 
     </application>
 

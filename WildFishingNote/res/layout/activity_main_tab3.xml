@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,5 +13,61 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/guide" />
+        
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    
+	<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+	<com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btnByYear"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success"
+        android:text="按年" />
+
+	</LinearLayout>
+    
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+    
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btnByMonth"
+        android:layout_width="0dp"
+        android:layout_weight="0.35"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success"
+        android:text="按月" />
+
+ </LinearLayout>
+ <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+    
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btnByYearDetail"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success"
+        android:text="按年详细" />
+
+ </LinearLayout>
+
+ </LinearLayout>
 
 </RelativeLayout>
