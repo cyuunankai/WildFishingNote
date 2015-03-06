@@ -84,7 +84,7 @@ public abstract class SimpleFragment extends Fragment {
 
         ArrayList<Entry> entries = new ArrayList<Entry>();
         for (int i = 0; i < daysInMonth.length; i++) {
-            String key = yearMonth + Constant.DASH + StringUtils.leftPad(daysInMonth[i], 2);
+            String key = yearMonth + Constant.DASH + com.simple.wildfishingnote.utils.StringUtils.leftPadTwo(Integer.parseInt(daysInMonth[i]));
             String[] tempcArr = dateTempHash.get(key);
             if (tempcArr != null){
                 int minTempc = Integer.parseInt(tempcArr[0]);

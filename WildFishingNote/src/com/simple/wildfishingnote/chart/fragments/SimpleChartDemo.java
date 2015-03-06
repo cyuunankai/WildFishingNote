@@ -109,6 +109,27 @@ public class SimpleChartDemo extends ChartBase {
             case 4:
                 f = Month5Fragment.newInstance();
                 break;
+            case 5:
+                f = Month6Fragment.newInstance();
+                break;
+            case 6:
+                f = Month7Fragment.newInstance();
+                break;
+            case 7:
+                f = Month8Fragment.newInstance();
+                break;
+            case 8:
+                f = Month9Fragment.newInstance();
+                break;
+            case 9:
+                f = Month10Fragment.newInstance();
+                break;
+            case 10:
+                f = Month11Fragment.newInstance();
+                break;
+            case 11:
+                f = Month12Fragment.newInstance();
+                break;
             }
 
             return f;
@@ -116,7 +137,7 @@ public class SimpleChartDemo extends ChartBase {
 
         @Override
         public int getCount() {
-            return 5;
+            return 12;
         }       
     }
     
