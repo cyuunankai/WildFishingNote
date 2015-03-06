@@ -141,9 +141,11 @@ public class HistoryWeatherService extends IntentService {
 		    	for(String date : dateStrList){
 			    	WeatherAndLocation wal = new WeatherAndLocation();
 			    	
-			    	//get weather
+			    	//get history weather
 			    	HistoryWeather lw = new HistoryWeather(true);
 					query = (lw.new Params(Constant.FREE_API_KEY)).setQ(locations[0]).setDate(date).getQueryString(HistoryWeather.Params.class);
+//			    	HistoryWeather lw = new HistoryWeather(false);
+//					query = (lw.new Params(Constant.PREMIUM_API_KEY)).setQ(locations[0]).setDate(date).getQueryString(HistoryWeather.Params.class);
 					Weather weatherData = lw.callAPI(query);
 					
 					wal.setWeatherData(weatherData);

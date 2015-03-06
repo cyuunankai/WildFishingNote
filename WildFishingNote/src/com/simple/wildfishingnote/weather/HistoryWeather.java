@@ -14,7 +14,7 @@ import com.simple.wildfishingnote.bean.Weather;
 
 public class HistoryWeather extends WwoApi {
 	public static final String FREE_API_ENDPOINT = "http://api.worldweatheronline.com/free/v2/past-weather.ashx";
-	public static final String PREMIUM_API_ENDPOINT = "http://api.worldweatheronline.com/premium/v1/premium-weather-V2.ashx";
+	public static final String PREMIUM_API_ENDPOINT = "http://api.worldweatheronline.com/premium/v1/past-weather.ashx";
 
 	public HistoryWeather(boolean freeAPI) {
 		super(freeAPI);
