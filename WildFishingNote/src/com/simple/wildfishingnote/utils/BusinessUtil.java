@@ -39,7 +39,7 @@ public class BusinessUtil {
     
     public static String getFishWeight(HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash, CampaignSummary cc) {
         int weight = 0;
-        for(RelayCamapignStatisticsResult rcsr : statisticsHash.get(cc.getId())){
+        for(RelayCamapignStatisticsResult rcsr : statisticsHash.get(cc.getDate())){
             weight = weight + (Integer.parseInt(rcsr.getWeight()) * Integer.parseInt(rcsr.getCount()));
         }
         DecimalFormat df = new DecimalFormat("##.#");

@@ -89,23 +89,24 @@ public abstract class SimpleFragment extends Fragment {
             if (tempcArr != null){
                 int minTempc = Integer.parseInt(tempcArr[0]);
                 int maxTempc = Integer.parseInt(tempcArr[1]);
-                entries.add(new BarEntry(minTempc, i));
-                entries.add(new BarEntry(maxTempc, i));
+				if (i % 2 == 0) {
+					entries.add(new BarEntry(minTempc, i));
+				} else {
+					entries.add(new BarEntry(maxTempc, i));
+				}
             }
             
         }
 //        entries.add(new BarEntry(5, 0));
-//        entries.add(new BarEntry(8, 0));
 //        entries.add(new BarEntry(8, 1));
-//        entries.add(new BarEntry(15, 1));
 //        entries.add(new BarEntry(6, 2));
 //        entries.add(new BarEntry(10, 3));
 //        entries.add(new BarEntry(5, 4));
-////        entries.add(new BarEntry(9, 5));
-////        entries.add(new BarEntry(10, 6));
-////        entries.add(new BarEntry(15, 7));
-////        entries.add(new BarEntry(10, 8));
-////        entries.add(new BarEntry(20, 9));
+//        entries.add(new BarEntry(9, 5));
+//        entries.add(new BarEntry(10, 6));
+//        entries.add(new BarEntry(15, 7));
+//        entries.add(new BarEntry(10, 8));
+//        entries.add(new BarEntry(20, 9));
 //        entries.add(new BarEntry(7, 10));
 //        entries.add(new BarEntry(13, 11));
 //        entries.add(new BarEntry(6, 12));
@@ -121,9 +122,9 @@ public abstract class SimpleFragment extends Fragment {
 //        entries.add(new BarEntry(15, 22));
 //        entries.add(new BarEntry(10, 23));
 //        entries.add(new BarEntry(20, 24));
-////        entries.add(new BarEntry(7, 25));
-////        entries.add(new BarEntry(13, 26));
-////        entries.add(new BarEntry(6, 27));
+//        entries.add(new BarEntry(7, 25));
+//        entries.add(new BarEntry(13, 26));
+//        entries.add(new BarEntry(6, 27));
 //        entries.add(new BarEntry(12, 28));
 //        entries.add(new BarEntry(9, 29));
 //        entries.add(new BarEntry(12, 30));

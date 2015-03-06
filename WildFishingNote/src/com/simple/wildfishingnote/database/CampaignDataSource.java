@@ -1108,7 +1108,7 @@ public class CampaignDataSource {
     public HashMap<String, String> getFishWeightPerDay(String year) {
         HashMap<String, String> ret = new HashMap<String, String>();
         
-        HashMap<String, CampaignSummary> campaignIdHash = new HashMap<String, CampaignSummary>();
+        HashMap<String, CampaignSummary> dateHash = new HashMap<String, CampaignSummary>();
         HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash = new HashMap<String, List<RelayCamapignStatisticsResult>>();
         
         StringBuffer  sb = new StringBuffer();
@@ -1134,15 +1134,15 @@ public class CampaignDataSource {
             String count = c.getString(3);
             String hookFlag = c.getString(4);
             
-            if(!campaignIdHash.containsKey(campaignId)){
+            if(!dateHash.containsKey(date)){
                 obj = new CampaignSummary();
-                obj.setId(campaignId);
+//                obj.setId(campaignId);
                 obj.setDate(date);
-                campaignIdHash.put(campaignId, obj);
+                dateHash.put(date, obj);
             }
             
-            if(statisticsHash.containsKey(campaignId)){
-                rcsrList = statisticsHash.get(campaignId);
+            if(statisticsHash.containsKey(date)){
+                rcsrList = statisticsHash.get(date);
                 rcsr = new RelayCamapignStatisticsResult();
                 rcsr.setWeight(weight);
                 rcsr.setCount(count);
@@ -1158,16 +1158,16 @@ public class CampaignDataSource {
                 rcsr.setHookFlag(hookFlag);
                 rcsrList.add(rcsr);
                 
-                statisticsHash.put(campaignId, rcsrList);
+                statisticsHash.put(date, rcsrList);
             }
 
             c.moveToNext();
         }
         c.close();
         
-        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(campaignIdHash.values());
+        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
         for(CampaignSummary cc : tempList){
-            if (statisticsHash.containsKey(cc.getId())) {
+            if (statisticsHash.containsKey(cc.getDate())) {
                 String weight = BusinessUtil.getFishWeight(statisticsHash, cc);
                 ret.put(cc.getDate(), weight);
             } 
