@@ -15,7 +15,6 @@ import com.simple.wildfishingnote.bean.Hourly;
 import com.simple.wildfishingnote.bean.LocationData;
 import com.simple.wildfishingnote.bean.Weather;
 import com.simple.wildfishingnote.bean.WeatherAndLocation;
-import com.simple.wildfishingnote.database.WildFishingContract.WeathersHourly;
 import com.simple.wildfishingnote.utils.BusinessUtil;
 
 public class WeatherDataSource {
@@ -130,6 +129,23 @@ public class WeatherDataSource {
 
         Cursor cursor = database.query(WildFishingContract.Weathers.TABLE_NAME,
                 weatherAllColumns, null, null, null, null, WildFishingContract.Weathers.COLUMN_NAME_DATE + " DESC");
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Weather obj = cursorToWeather(cursor);
+            retList.add(obj);
+            cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+        return retList;
+    }
+    
+    public List<Weather> getWeathersByYear(String year) {
+        List<Weather> retList = new ArrayList<Weather>();
+
+        Cursor cursor = database.query(WildFishingContract.Weathers.TABLE_NAME,
+                weatherAllColumns, WildFishingContract.Weathers.COLUMN_NAME_DATE + " like '"+year+"%'", null, null, null, WildFishingContract.Weathers.COLUMN_NAME_DATE + " DESC");
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

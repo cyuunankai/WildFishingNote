@@ -1,5 +1,6 @@
 package com.simple.wildfishingnote.utils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +35,16 @@ public class BusinessUtil {
         }
         title = StringUtils.join(titleList, Constant.SPACE);
         return title;
+    }
+    
+    public static String getFishWeight(HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash, CampaignSummary cc) {
+        int weight = 0;
+        for(RelayCamapignStatisticsResult rcsr : statisticsHash.get(cc.getId())){
+            weight = weight + (Integer.parseInt(rcsr.getWeight()) * Integer.parseInt(rcsr.getCount()));
+        }
+        DecimalFormat df = new DecimalFormat("##.#");
+        
+        return df.format(weight/500.0);
     }
     
     public static String getFishUnit(int grams) {

@@ -1104,5 +1104,77 @@ public class CampaignDataSource {
         return bait;
     }
     
+    
+    public HashMap<String, String> getFishWeightPerDay(String year) {
+        HashMap<String, String> ret = new HashMap<String, String>();
+        
+        HashMap<String, CampaignSummary> campaignIdHash = new HashMap<String, CampaignSummary>();
+        HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash = new HashMap<String, List<RelayCamapignStatisticsResult>>();
+        
+        StringBuffer  sb = new StringBuffer();
+        sb.append("SELECT c._id,c.start_time, ");
+        sb.append(" rcsr.weight ,rcsr.count,rcsr.hook_flag ");
+        sb.append("FROM campaigns c  ");
+        sb.append("LEFT JOIN relay_campaign_statistics_results rcsr ON rcsr.campaign_id=c._id ");
+        sb.append("WHERE c.start_time like '"+year+"%' ");
+        sb.append("order by c.start_Time DESC ");
+
+        
+        Cursor c = database.rawQuery(sb.toString(), new String[]{});
+        
+        c.moveToFirst();
+        while(!c.isAfterLast()){
+            List<RelayCamapignStatisticsResult> rcsrList= null;
+            CampaignSummary obj = null;
+            RelayCamapignStatisticsResult rcsr = null;
+            
+            String campaignId = c.getString(0);
+            String date = c.getString(1).split(Constant.SPACE)[0];
+            String weight = c.getString(2);
+            String count = c.getString(3);
+            String hookFlag = c.getString(4);
+            
+            if(!campaignIdHash.containsKey(campaignId)){
+                obj = new CampaignSummary();
+                obj.setId(campaignId);
+                obj.setDate(date);
+                campaignIdHash.put(campaignId, obj);
+            }
+            
+            if(statisticsHash.containsKey(campaignId)){
+                rcsrList = statisticsHash.get(campaignId);
+                rcsr = new RelayCamapignStatisticsResult();
+                rcsr.setWeight(weight);
+                rcsr.setCount(count);
+                rcsr.setHookFlag(hookFlag);
+                rcsrList.add(rcsr);
+                
+                statisticsHash.put(campaignId, rcsrList);
+            }else{
+                rcsrList = new ArrayList<RelayCamapignStatisticsResult>();
+                rcsr = new RelayCamapignStatisticsResult();
+                rcsr.setWeight(weight);
+                rcsr.setCount(count);
+                rcsr.setHookFlag(hookFlag);
+                rcsrList.add(rcsr);
+                
+                statisticsHash.put(campaignId, rcsrList);
+            }
+
+            c.moveToNext();
+        }
+        c.close();
+        
+        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(campaignIdHash.values());
+        for(CampaignSummary cc : tempList){
+            if (statisticsHash.containsKey(cc.getId())) {
+                String weight = BusinessUtil.getFishWeight(statisticsHash, cc);
+                ret.put(cc.getDate(), weight);
+            } 
+        }        
+        
+        return ret;
+    }
+    
 
 }

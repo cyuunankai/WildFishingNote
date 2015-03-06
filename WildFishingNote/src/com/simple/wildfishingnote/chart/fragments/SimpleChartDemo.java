@@ -1,6 +1,9 @@
 
 package com.simple.wildfishingnote.chart.fragments;
 
+import java.util.HashMap;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -12,7 +15,11 @@ import android.support.v4.view.ViewPager;
 import android.view.WindowManager;
 
 import com.simple.wildfishingnote.R;
+import com.simple.wildfishingnote.bean.Weather;
 import com.simple.wildfishingnote.chart.ChartBase;
+import com.simple.wildfishingnote.common.Constant;
+import com.simple.wildfishingnote.database.CampaignDataSource;
+import com.simple.wildfishingnote.database.WeatherDataSource;
 
 /**
  * Demonstrates how to keep your charts straight forward, simple and beautiful with the MPAndroidChart library.
@@ -21,6 +28,12 @@ import com.simple.wildfishingnote.chart.ChartBase;
  */
 public class SimpleChartDemo extends ChartBase {
 
+    public static String YEAR_MONTH = "year_month";
+    private WeatherDataSource dataSource;
+    private CampaignDataSource campaignDataSource;
+    public HashMap<String, String[]> dateTempcHash;
+    public HashMap<String, String> dateFishResultHash;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +41,10 @@ public class SimpleChartDemo extends ChartBase {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
         setContentView(R.layout.activity_awesomedesign);
+        
+        String yearMonth = getIntent().getStringExtra(YEAR_MONTH);
+        initDbValue(yearMonth);
+        
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setOffscreenPageLimit(3);
@@ -47,6 +64,23 @@ public class SimpleChartDemo extends ChartBase {
             }
         });
         b.show();
+    }
+
+    private void initDbValue(String yearMonth) {
+        String year = yearMonth.split(Constant.DASH)[0];
+        dataSource = new WeatherDataSource(this);
+        dataSource.open();
+        
+        dateTempcHash = new HashMap<String, String[]>();
+        List<Weather> list = dataSource.getWeathersByYear(year);
+        for(Weather obj : list){
+            String[] arr = {obj.getMintempC(), obj.getMaxtempC()};
+            dateTempcHash.put(obj.getDate(), arr);
+        }
+        
+        campaignDataSource = new CampaignDataSource(this);
+        campaignDataSource.open();
+        dateFishResultHash = campaignDataSource.getFishWeightPerDay(year);
     }
        
     private class PageAdapter extends FragmentPagerAdapter {
@@ -85,4 +119,19 @@ public class SimpleChartDemo extends ChartBase {
             return 5;
         }       
     }
+    
+    @Override
+    protected void onResume() {
+      dataSource.open();
+      campaignDataSource.open();
+      super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+      dataSource.close();
+      campaignDataSource.close();
+      super.onPause();
+    }
+    
 }

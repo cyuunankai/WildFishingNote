@@ -7,9 +7,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
-import android.text.format.DateUtils;
+import com.simple.wildfishingnote.common.Constant;
 
 public class DateUtil {
 
@@ -28,7 +29,29 @@ public class DateUtil {
 
     public static final String DATE_FORMAT_HH_MM_SS = "HH:mm:ss";
     
+    public static String getReadableYearMonth(String yearMonth) {
+        String[] arr = yearMonth.split(Constant.DASH);
+        return arr[0] + "年" + Integer.parseInt(arr[1]) + "月";
+    }
     
+    public static String[] getDaysInMonth(String yearMonth) {
+        String[] ret;
+
+        int maxDayInMonth = getMaxDayInMonth(yearMonth);
+        ret = new String[maxDayInMonth];
+        for (int i = 0; i < maxDayInMonth; i++) {
+            ret[i] = String.valueOf(i + 1);
+        }
+
+        return ret;
+    }
+    
+    public static int getMaxDayInMonth(String yearMonth) {
+        String year = yearMonth.split(Constant.DASH)[0];
+        String month = yearMonth.split(Constant.DASH)[1];
+        GregorianCalendar mycal = new GregorianCalendar(Integer.parseInt(year), Integer.parseInt(month) - 1, 1);
+        return mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
     
     public static String getSystemDate() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");

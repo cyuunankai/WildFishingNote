@@ -46,6 +46,7 @@ public class MainTab3Fragment extends Fragment implements OnClickListener {
                 break;
             case R.id.btnByYearDetail1:
                 Intent intentChartByYearDetail1 = new Intent(getActivity(), SimpleChartDemo.class);
+                intentChartByYearDetail1.putExtra(SimpleChartDemo.YEAR_MONTH, "2015-01");
                 getActivity().startActivity(intentChartByYearDetail1);
                 break;
         }
