@@ -192,8 +192,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       database.execSQL(initFishTypeSql);
       initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('船钉子')";
       database.execSQL(initFishTypeSql);
-      initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('船钉子')";
-      database.execSQL(initFishTypeSql);
       initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('狗鱼')";
       database.execSQL(initFishTypeSql);
       initFishTypeSql = "insert into " + WildFishingContract.FishType.TABLE_NAME + "("+WildFishingContract.FishType.COLUMN_NAME_NAME +") values ('老头鱼')";
