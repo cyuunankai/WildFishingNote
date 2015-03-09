@@ -90,6 +90,8 @@
     <string name="pressure">气压</string>
 	<string name="weather_name">天气</string>
 	<string name="cloud_cover">云量</string>
+	<string name="year_relay_fish_result_image">年份渔获图</string>
+	<string name="month_relay_fish_result_image">月份渔获图</string>
 	<string name="tempc_relay_fish_result_image">气温和渔获关系图</string>
 
 </resources>
