@@ -260,9 +260,9 @@ public class CampaignDataSource {
         return getCampaignById(String.valueOf(campaign.getId()));
     }
 
-    public void deleteCampaign(Campaign campagin) {
+    public void deleteCampaign(String campaginId) {
         database.delete(WildFishingContract.Campaigns.TABLE_NAME, WildFishingContract.Campaigns._ID
-                + " = " + campagin.getId(), null);
+                + " = " + campaginId, null);
     }
     
     public Campaign getCampaignById(String campaginId) {

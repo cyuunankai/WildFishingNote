@@ -2334,7 +2334,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int transparent=0x7f0201cc;
     }
     public static final class id {
-        public static final int action_add_today=0x7f0b014a;
+        public static final int action_add_today=0x7f0b014b;
         public static final int action_bar=0x7f0b0029;
         public static final int action_bar_activity_content=0x7f0b000a;
         public static final int action_bar_container=0x7f0b0028;
@@ -2343,14 +2343,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int action_bar_subtitle=0x7f0b0030;
         public static final int action_bar_title=0x7f0b002f;
         public static final int action_context_bar=0x7f0b002a;
-        public static final int action_guide=0x7f0b0149;
-        public static final int action_main=0x7f0b0147;
+        public static final int action_guide=0x7f0b014a;
+        public static final int action_main=0x7f0b0148;
         public static final int action_menu_divider=0x7f0b000b;
         public static final int action_menu_presenter=0x7f0b000c;
         public static final int action_mode_bar=0x7f0b003e;
         public static final int action_mode_bar_stub=0x7f0b003d;
         public static final int action_mode_close_button=0x7f0b0031;
-        public static final int action_statistics=0x7f0b0148;
+        public static final int action_statistics=0x7f0b0149;
         public static final int activity_chooser_view_content=0x7f0b0032;
         public static final int addCampaignEndDate=0x7f0b009d;
         public static final int addCampaignEndTime=0x7f0b009e;
@@ -2380,7 +2380,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int addResultPointSpinner=0x7f0b00b1;
         public static final int addResultWeightEditText=0x7f0b00b3;
         public static final int alertTitle=0x7f0b00d4;
-        public static final int ampm_label=0x7f0b0136;
+        public static final int ampm_label=0x7f0b0137;
         public static final int animator=0x7f0b00fa;
         public static final int atThumb=0x7f0b0018;
         public static final int auto=0x7f0b0025;
@@ -2460,7 +2460,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int custom=0x7f0b00da;
         public static final int customPanel=0x7f0b00d9;
         public static final int dark=0x7f0b001a;
-        public static final int dateTextView=0x7f0b0128;
+        public static final int dateTextView=0x7f0b0129;
         public static final int date_picker_day=0x7f0b00f7;
         public static final int date_picker_month=0x7f0b00f6;
         public static final int date_picker_month_and_day=0x7f0b00f5;
@@ -2469,12 +2469,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int day_picker_selected_date_layout=0x7f0b00f3;
         public static final int decrement=0x7f0b0012;
         public static final int default_activity_button=0x7f0b0035;
-        public static final int delete=0x7f0b0146;
+        public static final int delete=0x7f0b0147;
         public static final int dialog=0x7f0b001e;
         public static final int dimensionsLabel=0x7f0b00ea;
         public static final int disableHome=0x7f0b0008;
         public static final int done=0x7f0b00f9;
-        public static final int done_button=0x7f0b0139;
+        public static final int done_button=0x7f0b013a;
         public static final int dropdown=0x7f0b001f;
         public static final int edit=0x7f0b000d;
         public static final int edit_query=0x7f0b0045;
@@ -2485,21 +2485,22 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int expand_activities_button=0x7f0b0033;
         public static final int expanded_menu=0x7f0b0039;
         public static final int floating=0x7f0b0017;
+        public static final int flowTextContainer=0x7f0b0127;
         public static final int fontLoaderFont=0x7f0b0014;
         public static final int fontLoaderFontFamily=0x7f0b0016;
         public static final int fontLoaderFontStyle=0x7f0b0015;
         public static final int fragment_container=0x7f0b006d;
         public static final int frmQueue=0x7f0b0106;
         public static final int gridGallery=0x7f0b0102;
-        public static final int groupIndicator=0x7f0b012d;
+        public static final int groupIndicator=0x7f0b012e;
         public static final int headers=0x7f0b0116;
         public static final int home=0x7f0b0009;
         public static final int homeAsUp=0x7f0b0005;
-        public static final int hour_space=0x7f0b0131;
-        public static final int hours=0x7f0b0133;
+        public static final int hour_space=0x7f0b0132;
+        public static final int hours=0x7f0b0134;
         public static final int icon=0x7f0b0037;
         public static final int image=0x7f0b0034;
-        public static final int imageView=0x7f0b0129;
+        public static final int imageView=0x7f0b012a;
         public static final int imageView1=0x7f0b00cd;
         public static final int imageView2=0x7f0b00ce;
         public static final int imgNoMedia=0x7f0b0103;
@@ -2526,7 +2527,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int lineChart1=0x7f0b0101;
         public static final int listContainer=0x7f0b010a;
         public static final int listMode=0x7f0b0001;
-        public static final int listTextView=0x7f0b012a;
+        public static final int listTextView=0x7f0b012b;
         public static final int listView=0x7f0b006e;
         public static final int listView1=0x7f0b0064;
         public static final int listViewBait=0x7f0b0090;
@@ -2540,13 +2541,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int llBottomContainer=0x7f0b0104;
         public static final int lureMethodDetail=0x7f0b00fe;
         public static final int lureMethodName=0x7f0b00fd;
-        public static final int maxTempCTextView=0x7f0b0142;
+        public static final int maxTempCTextView=0x7f0b0143;
         public static final int message=0x7f0b00d8;
-        public static final int minTempCTextView=0x7f0b0141;
-        public static final int minutes=0x7f0b0135;
-        public static final int minutes_space=0x7f0b0134;
+        public static final int minTempCTextView=0x7f0b0142;
+        public static final int minutes=0x7f0b0136;
+        public static final int minutes_space=0x7f0b0135;
         public static final int mixed=0x7f0b001c;
-        public static final int month_text_view=0x7f0b0145;
+        public static final int month_text_view=0x7f0b0146;
         public static final int months_infinite_pager=0x7f0b00f0;
         public static final int next_button=0x7f0b011d;
         public static final int no=0x7f0b0024;
@@ -2570,7 +2571,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int preference=0x7f0b001d;
         public static final int prefs=0x7f0b0119;
         public static final int prefs_frame=0x7f0b0118;
-        public static final int pressureTextView=0x7f0b013f;
+        public static final int pressureTextView=0x7f0b0140;
         public static final int progress=0x7f0b00e0;
         public static final int progressContainer=0x7f0b0109;
         public static final int progress_circular=0x7f0b0043;
@@ -2599,9 +2600,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int search_voice_btn=0x7f0b0050;
         public static final int section_list_view=0x7f0b006f;
         public static final int seekbar=0x7f0b0115;
-        public static final int select_dialog_listview=0x7f0b012b;
-        public static final int selectionHandler=0x7f0b012e;
-        public static final int separator=0x7f0b0132;
+        public static final int select_dialog_listview=0x7f0b012c;
+        public static final int selectionHandler=0x7f0b012f;
+        public static final int separator=0x7f0b0133;
         public static final int shortcut=0x7f0b003b;
         public static final int showCustom=0x7f0b0007;
         public static final int showHome=0x7f0b0004;
@@ -2609,23 +2610,23 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int showWeatherBtn=0x7f0b0071;
         public static final int skip_button=0x7f0b011c;
         public static final int slider=0x7f0b0023;
-        public static final int slider_menu=0x7f0b012c;
-        public static final int slider_menu_group_indicator=0x7f0b012f;
+        public static final int slider_menu=0x7f0b012d;
+        public static final int slider_menu_group_indicator=0x7f0b0130;
         public static final int split_action_bar=0x7f0b002b;
         public static final int startBtn=0x7f0b0072;
         public static final int startSchduleBtn=0x7f0b0070;
         public static final int startTimeTextView=0x7f0b00c2;
         public static final int submit_area=0x7f0b004e;
         public static final int summary=0x7f0b0112;
-        public static final int summaryFlowTextView=0x7f0b0127;
+        public static final int summaryFlowTextView=0x7f0b0128;
         public static final int summaryTextView=0x7f0b00c1;
-        public static final int sunriseTextView=0x7f0b0143;
-        public static final int sunsetTextView=0x7f0b0144;
+        public static final int sunriseTextView=0x7f0b0144;
+        public static final int sunsetTextView=0x7f0b0145;
         public static final int switchWidget=0x7f0b011e;
         public static final int tab1_summary=0x7f0b009a;
         public static final int tabMode=0x7f0b0002;
-        public static final int tabSwipePager=0x7f0b0130;
-        public static final int tempCTextView=0x7f0b013c;
+        public static final int tabSwipePager=0x7f0b0131;
+        public static final int tempCTextView=0x7f0b013d;
         public static final int textViewBaitEachItem=0x7f0b008d;
         public static final int textViewBaitTitle=0x7f0b0062;
         public static final int textViewCountEachItem=0x7f0b006a;
@@ -2639,9 +2640,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int textViewRodLengthEachItem=0x7f0b008b;
         public static final int textViewRodLengthTitle=0x7f0b008f;
         public static final int textViewWeightEachItem=0x7f0b0069;
-        public static final int timeTextView=0x7f0b013b;
-        public static final int time_picker=0x7f0b0138;
-        public static final int time_picker_dialog=0x7f0b0137;
+        public static final int timeTextView=0x7f0b013c;
+        public static final int time_picker=0x7f0b0139;
+        public static final int time_picker_dialog=0x7f0b0138;
         public static final int title=0x7f0b0038;
         public static final int titleDivider=0x7f0b00d5;
         public static final int titleDividerTop=0x7f0b00d2;
@@ -2650,20 +2651,20 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int title_template=0x7f0b00d3;
         public static final int topPanel=0x7f0b00d1;
         public static final int top_action_bar=0x7f0b002d;
-        public static final int tvTitleText=0x7f0b013a;
+        public static final int tvTitleText=0x7f0b013b;
         public static final int tvYearMonth=0x7f0b0066;
         public static final int txtText=0x7f0b00e7;
         public static final int typeface=0x7f0b0010;
         public static final int up=0x7f0b002e;
         public static final int useLogo=0x7f0b0003;
         public static final int viewSwitcher=0x7f0b010d;
-        public static final int weatherNameTextView=0x7f0b0140;
+        public static final int weatherNameTextView=0x7f0b0141;
         public static final int weather_detail_list_view=0x7f0b00cf;
         public static final int weather_list_view=0x7f0b0075;
         public static final int weekday_gridview=0x7f0b00ef;
         public static final int widget_frame=0x7f0b0113;
-        public static final int windDirDegreeTextView=0x7f0b013d;
-        public static final int windSpeedKmphTextView=0x7f0b013e;
+        public static final int windDirDegreeTextView=0x7f0b013e;
+        public static final int windSpeedKmphTextView=0x7f0b013f;
         public static final int yes=0x7f0b0026;
     }
     public static final class integer {
@@ -2868,10 +2869,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int year_label_text_view=0x7f030093;
     }
     public static final class menu {
-        public static final int edit_and_delete_menu=0x7f0e0000;
-        public static final int main=0x7f0e0001;
-        public static final int select_place_context_menu=0x7f0e0002;
-        public static final int select_point_context_menu=0x7f0e0003;
+        public static final int delete_menu=0x7f0e0000;
+        public static final int edit_and_delete_menu=0x7f0e0001;
+        public static final int main=0x7f0e0002;
+        public static final int select_place_context_menu=0x7f0e0003;
+        public static final int select_point_context_menu=0x7f0e0004;
     }
     public static final class raw {
         public static final int roboto_bold=0x7f060000;

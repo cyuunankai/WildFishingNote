@@ -85,7 +85,7 @@ public class FlowTextView extends RelativeLayout {
         mLinkPaint.setColor(Color.BLUE);
         mLinkPaint.setUnderlineText(true);
         this.setBackgroundColor(Color.TRANSPARENT);
-        this.setOnTouchListener(mClickHandler);
+//        this.setOnTouchListener(mClickHandler);
 
         if (attrs != null) {
             readAttrs(context, attrs);

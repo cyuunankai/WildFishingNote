@@ -8,6 +8,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -19,12 +21,17 @@ import android.text.Spanned;
 import android.text.style.StyleSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -158,6 +165,8 @@ public class MainTab1Fragment extends Fragment {
                 // 添加事件
                 //// 内容单击事件->详细页面
                 addContentLayoutOnClickListener(viewHolder, convertView);
+                //// 内容长按事件->删除
+                addContentLayoutOnLongClickListener(viewHolder, convertView);
             }
 
             // 设置bean值到UI
@@ -187,7 +196,7 @@ public class MainTab1Fragment extends Fragment {
         }
 
         /**
-         * 监听list item单击事件
+         * 监听list item单击事件(text以外部分)
          * @param viewHolder
          * @param contentLayout
          */
@@ -198,12 +207,92 @@ public class MainTab1Fragment extends Fragment {
 
                 @Override
                 public void onClick(View arg0) {
-                	CampaignSummary element = (CampaignSummary)viewHolder.titleTextView.getTag();
-                	Intent intent = new Intent(context, AddMainActivity.class);
-                	intent.putExtra(AddMainActivity.CAMPAIGN_ID, element.getId());
-                    startActivityForResult(intent, Constant.REQUEST_CODE_EDIT_CAMPAIGN);
+                	doCampaignEdit(viewHolder);
+                }
+
+                
+            });
+        }
+        
+        /**
+         * 监听list item长按事件(text部分以外)
+         * @param viewHolder
+         * @param contentLayout
+         */
+        private void addContentLayoutOnLongClickListener(final ViewHolder viewHolder, View convertView) {
+            
+            LinearLayout contentLayout = (LinearLayout)convertView.findViewById(R.id.col1Layout);
+            contentLayout.setOnLongClickListener(deleteClickListener(viewHolder));
+        }
+
+        private OnLongClickListener deleteClickListener(final ViewHolder viewHolder) {
+            return new View.OnLongClickListener() {
+
+                @Override
+                public boolean onLongClick(View paramView) {
+
+                    final CampaignSummary element = (CampaignSummary)viewHolder.titleTextView.getTag();
+
+                    PopupMenu popup = new PopupMenu(context, paramView);
+                    popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            final String campaignId = element.getId();
+                            switch (item.getItemId()) {
+                                case R.id.delete:
+
+                                    deleteCampaign(campaignId);
+                                    return true;
+                                default:
+                                    return false;
+                            }
+
+                        }
+                    });
+                        
+
+                    MenuInflater inflater = popup.getMenuInflater();
+                    inflater.inflate(R.menu.delete_menu, popup.getMenu());
+                    popup.show();
+
+                    return true;
+
+                }
+            };
+        }
+        
+        private void doCampaignEdit(final ViewHolder viewHolder) {
+            CampaignSummary element = (CampaignSummary)viewHolder.titleTextView.getTag();
+            Intent intent = new Intent(context, AddMainActivity.class);
+            intent.putExtra(AddMainActivity.CAMPAIGN_ID, element.getId());
+            startActivityForResult(intent, Constant.REQUEST_CODE_EDIT_CAMPAIGN);
+        }
+        
+        /**
+         * 删除campaign
+         */
+        private void deleteCampaign(final String campaignId) {
+            AlertDialog.Builder adb = new AlertDialog.Builder(context);
+            adb.setTitle("删除?");
+            adb.setMessage("确定删除记录");
+            adb.setNegativeButton(R.string.cancel, null);
+            adb.setPositiveButton(R.string.confirm, new AlertDialog.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dataSource.deleteCampaign(campaignId);
+                    
+                    int deleteIndex = 0;
+                    for (int i = 0; i < list.size(); i++) {
+                        if (campaignId.equals(((CampaignSummary)list.get(i).item).getId())) {
+                            deleteIndex = i;
+                            break;
+                        }
+                    }
+                    list.remove(deleteIndex);
+                    arrayAdapter.notifyDataSetChanged();
                 }
             });
+            adb.show();
         }
         
 
