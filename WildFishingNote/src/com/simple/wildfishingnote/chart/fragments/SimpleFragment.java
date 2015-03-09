@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -36,7 +35,8 @@ public abstract class SimpleFragment extends Fragment {
     }
     
     private CombinedChart mChart;
-    private TextView tvYearMonth;
+//    private TextView tvYearMonth;
+    private final static float AXIS_MAX_VALUE = 40.0f;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,18 +48,20 @@ public abstract class SimpleFragment extends Fragment {
         String currentYearMonth = year + Constant.DASH + getMonth();
         
         
-        tvYearMonth = (TextView) v.findViewById(R.id.tvYearMonth);
-        tvYearMonth.setText(DateUtil.getReadableYearMonth(currentYearMonth));
+//        tvYearMonth = (TextView) v.findViewById(R.id.tvYearMonth);
+//        tvYearMonth.setText(DateUtil.getReadableYearMonth(currentYearMonth));
         
         mChart = (CombinedChart) v.findViewById(R.id.chart1);
-        mChart.setDescription("");
+        mChart.setDescription(DateUtil.getReadableYearMonth(currentYearMonth));
         mChart.setDrawGridBackground(false);
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setDrawGridLines(false);
+        rightAxis.setAxisMaxValue(AXIS_MAX_VALUE);
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
+        leftAxis.setAxisMaxValue(AXIS_MAX_VALUE);
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxisPosition.BOTH_SIDED);
@@ -131,15 +133,15 @@ public abstract class SimpleFragment extends Fragment {
 
 
         LineDataSet set = new LineDataSet(entries, "温度");
-        set.setColor(ColorTemplate.VORDIPLOM_COLORS[2]);
+        set.setColor(ColorTemplate.COLORFUL_COLORS[3]);
         set.setLineWidth(2.5f);
-        set.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[2]);
+        set.setCircleColor(ColorTemplate.COLORFUL_COLORS[3]);
         set.setCircleSize(5f);
-        set.setFillColor(ColorTemplate.VORDIPLOM_COLORS[2]);
+        set.setFillColor(ColorTemplate.COLORFUL_COLORS[3]);
         set.setDrawCubic(true);
         set.setDrawValues(true);
         set.setValueTextSize(10f);
-        set.setValueTextColor(ColorTemplate.VORDIPLOM_COLORS[2]);
+        set.setValueTextColor(ColorTemplate.COLORFUL_COLORS[3]);
 
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
 

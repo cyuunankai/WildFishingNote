@@ -56,42 +56,11 @@ public class ChartByYearDetailActivity extends ChartBase {
 
     private LineData generateLineData() {
 
-        LineData d = new LineData();
 
         ArrayList<Entry> entries = new ArrayList<Entry>();
         entries.add(new BarEntry(5, 0));
-        entries.add(new BarEntry(8, 1));
-        entries.add(new BarEntry(6, 2));
-        entries.add(new BarEntry(10, 3));
-        entries.add(new BarEntry(5, 4));
-        entries.add(new BarEntry(9, 5));
-        entries.add(new BarEntry(10, 6));
-        entries.add(new BarEntry(15, 7));
-        entries.add(new BarEntry(10, 8));
-        entries.add(new BarEntry(20, 9));
-        entries.add(new BarEntry(7, 10));
-        entries.add(new BarEntry(13, 11));
-        entries.add(new BarEntry(6, 12));
-        entries.add(new BarEntry(12, 13));
-        entries.add(new BarEntry(9, 14));
-        entries.add(new BarEntry(5, 15));
-        entries.add(new BarEntry(8, 16));
-        entries.add(new BarEntry(6, 17));
-        entries.add(new BarEntry(10, 18));
-        entries.add(new BarEntry(5, 19));
-        entries.add(new BarEntry(9, 20));
-        entries.add(new BarEntry(10, 21));
-        entries.add(new BarEntry(15, 22));
-        entries.add(new BarEntry(10, 23));
-        entries.add(new BarEntry(20, 24));
-        entries.add(new BarEntry(7, 25));
-        entries.add(new BarEntry(13, 26));
-        entries.add(new BarEntry(6, 27));
-        entries.add(new BarEntry(12, 28));
-        entries.add(new BarEntry(9, 29));
         entries.add(new BarEntry(12, 30));
-
-
+        
         LineDataSet set = new LineDataSet(entries, "温度");
         set.setColor(ColorTemplate.VORDIPLOM_COLORS[2]);
         set.setLineWidth(2.5f);
@@ -104,10 +73,36 @@ public class ChartByYearDetailActivity extends ChartBase {
         set.setValueTextColor(ColorTemplate.VORDIPLOM_COLORS[2]);
 
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        
+        
 
-        d.addDataSet(set);
+        ArrayList<Entry> entries2 = new ArrayList<Entry>();
+        entries2.add(new BarEntry(15, 0));
+        entries2.add(new BarEntry(22, 30));
+        
+        LineDataSet set2 = new LineDataSet(entries, "温度");
+        set2.setColor(ColorTemplate.VORDIPLOM_COLORS[3]);
+        set2.setLineWidth(2.5f);
+        set2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[3]);
+        set2.setCircleSize(5f);
+        set2.setFillColor(ColorTemplate.VORDIPLOM_COLORS[3]);
+        set2.setDrawCubic(true);
+        set2.setDrawValues(true);
+        set2.setValueTextSize(10f);
+        set2.setValueTextColor(ColorTemplate.VORDIPLOM_COLORS[3]);
 
-        return d;
+        set2.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+
+        
+        
+        ArrayList<LineDataSet> sets = new ArrayList<LineDataSet>();
+        sets.add(set);
+        sets.add(set2);
+        
+        LineData cd = new LineData(mDays, sets);
+
+        return cd;
     }
     
     private BarData generateBarData() {

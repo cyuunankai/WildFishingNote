@@ -53,17 +53,17 @@ public class SimpleChartDemo extends ChartBase {
         pager.setAdapter(a);
         
         
-        AlertDialog.Builder b = new AlertDialog.Builder(this);
-        b.setTitle("This is a ViewPager.");
-        b.setMessage("Swipe left and right for more awesome design examples!");
-        b.setPositiveButton("OK", new OnClickListener() {
-            
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        b.show();
+//        AlertDialog.Builder b = new AlertDialog.Builder(this);
+//        b.setTitle("This is a ViewPager.");
+//        b.setMessage("Swipe left and right for more awesome design examples!");
+//        b.setPositiveButton("OK", new OnClickListener() {
+//            
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//        b.show();
     }
 
     private void initDbValue(String yearMonth) {

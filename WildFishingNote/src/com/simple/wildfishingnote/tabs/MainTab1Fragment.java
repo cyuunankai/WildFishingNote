@@ -145,24 +145,24 @@ public class MainTab1Fragment extends Fragment {
             
             String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH;
             final String filePath = directory + ((CampaignSummary)list.get(position).item).getImagePath();
-            if (StringUtils.isNotBlank(filePath)) {
-            	// API guides Process and threads
-//            	new Thread(new Runnable() {
-//                    public void run() {
-//                        viewHolder.imageView.post(new Runnable() {
-//                            public void run() {
-                            	Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-                                viewHolder.imageView.setImageBitmap(bitmap);
-//                            }
-//                        });
-//                    }
-//                }).start();
-
-            	
-            } else {
+//            if (StringUtils.isNotBlank(filePath)) {
+//            	// API guides Process and threads
+////            	new Thread(new Runnable() {
+////                    public void run() {
+////                        viewHolder.imageView.post(new Runnable() {
+////                            public void run() {
+////                            	Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+////                                viewHolder.imageView.setImageBitmap(bitmap);
+////                            }
+////                        });
+////                    }
+////                }).start();
+//
+//            	
+//            } else {
                 viewHolder.imageView.getLayoutParams().width = 0;
                 viewHolder.imageView.getLayoutParams().height = 200;
-            }
+//            }
             viewHolder.titleTextView.setTag(list.get(position).item);//// 保存bean值到UI tag (响应事件从这个UI tag取值)
 
             return convertView;
