@@ -1,6 +1,8 @@
 package com.simple.wildfishingnote.tabs;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -8,7 +10,6 @@ import org.apache.commons.lang.StringUtils;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.simple.wildfishingnote.AddMainActivity;
 import com.simple.wildfishingnote.MainActivity;
 import com.simple.wildfishingnote.R;
@@ -39,6 +47,9 @@ import com.simple.wildfishingnote.sectionedlistview.SectionListView;
 
 public class MainTab1Fragment extends Fragment {
 
+    private ImageLoader imageLoader = ImageLoader.getInstance();
+    private DisplayImageOptions options;
+    
     private StandardArrayAdapter arrayAdapter;
     private SectionListAdapter sectionAdapter;
     private SectionListView listView;
@@ -55,9 +66,26 @@ public class MainTab1Fragment extends Fragment {
         dataSource = ((MainActivity)getActivity()).getCampaignDataSource();
         dataSource.open();
         
+        initImageLoaderConfig();
+        
         initSectionedListView();
         
+        
+        
         return tab1View;
+    }
+
+    private void initImageLoaderConfig() {
+        imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
+        options = new DisplayImageOptions.Builder()
+        .showImageOnLoading(R.drawable.ic_stub)
+        .showImageForEmptyUri(R.drawable.ic_empty)
+        .showImageOnFail(R.drawable.ic_error)
+        .cacheInMemory(true)
+        .cacheOnDisc(true)
+        .considerExifParams(true)
+        .displayer(new RoundedBitmapDisplayer(20))
+        .build();
     }
 
     private void initSectionedListView() {
@@ -85,6 +113,8 @@ public class MainTab1Fragment extends Fragment {
     }
 	
 	public class StandardArrayAdapter extends ArrayAdapter<SectionListItem> {
+	    
+	    private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 
         private final List<SectionListItem> list;
         private final Activity context;
@@ -100,7 +130,7 @@ public class MainTab1Fragment extends Fragment {
             protected TextView titleTextView;
             protected FlowTextView summaryFlowTextView;
             protected TextView dateTextView;
-            protected ImageView imageView;
+            public ImageView imageView;
         }
 
         /**`
@@ -145,24 +175,12 @@ public class MainTab1Fragment extends Fragment {
             
             String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH;
             final String filePath = directory + ((CampaignSummary)list.get(position).item).getImagePath();
-//            if (StringUtils.isNotBlank(filePath)) {
-//            	// API guides Process and threads
-////            	new Thread(new Runnable() {
-////                    public void run() {
-////                        viewHolder.imageView.post(new Runnable() {
-////                            public void run() {
-////                            	Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-////                                viewHolder.imageView.setImageBitmap(bitmap);
-////                            }
-////                        });
-////                    }
-////                }).start();
-//
-//            	
-//            } else {
+            if (StringUtils.isNotBlank(filePath)) {
+                imageLoader.displayImage("file://" + filePath, viewHolder.imageView, options, animateFirstListener);
+            } else {
                 viewHolder.imageView.getLayoutParams().width = 0;
                 viewHolder.imageView.getLayoutParams().height = 200;
-//            }
+            }
             viewHolder.titleTextView.setTag(list.get(position).item);//// 保存bean值到UI tag (响应事件从这个UI tag取值)
 
             return convertView;
@@ -195,6 +213,23 @@ public class MainTab1Fragment extends Fragment {
 
         
 
+    }
+	
+	private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+
+        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
+
+        @Override
+        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            if (loadedImage != null) {
+                ImageView imageView = (ImageView) view;
+                boolean firstDisplay = !displayedImages.contains(imageUri);
+                if (firstDisplay) {
+                    FadeInBitmapDisplayer.animate(imageView, 500);
+                    displayedImages.add(imageUri);
+                }
+            }
+        }
     }
 
 }
