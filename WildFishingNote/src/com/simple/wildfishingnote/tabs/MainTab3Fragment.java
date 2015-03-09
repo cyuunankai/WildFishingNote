@@ -43,7 +43,11 @@ public class MainTab3Fragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnByYear:
+            	Spinner spinnerYear = (Spinner) tab3View.findViewById(R.id.spinnerYear);
+            	String year = spinnerYear.getSelectedItem().toString();
+            	
                 Intent intentChartByYear = new Intent(getActivity(), ChartByYearActivity.class);
+                intentChartByYear.putExtra(ChartByYearActivity.YEAR, year);
                 intentChartByYear.putExtra(ChartByYearActivity.BIG_FISH, "500");
                 intentChartByYear.putExtra(ChartByYearActivity.FISH_COUNT, "10");
                 getActivity().startActivity(intentChartByYear);
@@ -55,13 +59,13 @@ public class MainTab3Fragment extends Fragment implements OnClickListener {
                 getActivity().startActivity(intentChartByMonth);
                 break;
             case R.id.btnByYearDetail:
-                Spinner spinnerYear = (Spinner) tab3View.findViewById(R.id.spinnerDetailYear);
-                Spinner spinnerMonth = (Spinner) tab3View.findViewById(R.id.spinnerDetailMonth);
-                String year = spinnerYear.getSelectedItem().toString();
-                String month = spinnerMonth.getSelectedItem().toString();
+                Spinner spinnerDetailYear = (Spinner) tab3View.findViewById(R.id.spinnerDetailYear);
+                Spinner spinnerDetailMonth = (Spinner) tab3View.findViewById(R.id.spinnerDetailMonth);
+                String detailYear = spinnerDetailYear.getSelectedItem().toString();
+                String detailMonth = spinnerDetailMonth.getSelectedItem().toString();
                 
                 Intent intentChartByYearDetail = new Intent(getActivity(), SimpleChartDemo.class);
-                intentChartByYearDetail.putExtra(SimpleChartDemo.YEAR_MONTH, year + Constant.DASH + month);
+                intentChartByYearDetail.putExtra(SimpleChartDemo.YEAR_MONTH, detailYear + Constant.DASH + detailMonth);
                 getActivity().startActivity(intentChartByYearDetail);
                 break;
         }

@@ -1111,7 +1111,84 @@ public class CampaignDataSource {
         HashMap<String, CampaignSummary> dateHash = new HashMap<String, CampaignSummary>();
         HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash = new HashMap<String, List<RelayCamapignStatisticsResult>>();
         
-        StringBuffer  sb = new StringBuffer();
+        setDateAndStatisticsHash(year, dateHash, statisticsHash);
+        
+        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
+        for(CampaignSummary cc : tempList){
+            if (statisticsHash.containsKey(cc.getDate())) {
+                String weight = BusinessUtil.getFishWeight(statisticsHash, cc);
+                ret.put(cc.getDate(), weight);
+            } 
+        }        
+        
+        return ret;
+    }
+    
+    public List<String> getCampaignCountPerMonth(String year) {
+    	List<String> ret = new ArrayList<String>();
+        
+        HashMap<String, CampaignSummary> dateHash = new HashMap<String, CampaignSummary>();
+        HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash = new HashMap<String, List<RelayCamapignStatisticsResult>>();
+        
+        setDateAndStatisticsHash(year, dateHash, statisticsHash);
+        
+        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
+		int[] monthCountArr = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		for (CampaignSummary cc : tempList) {
+			String month = cc.getDate().split(Constant.DASH)[1];
+			for (int i = 0; i < 12; i++) {
+				if (Constant.MONTH_NAMES[i].equals(month)) {
+					monthCountArr[i] += 1;
+				}
+			}
+
+		}  
+		
+		for (int i = 0; i < 12; i++) {
+			ret.add(String.valueOf(monthCountArr[i]));
+		}
+        
+        return ret;
+    }
+    
+    public List<String> getObtainBigFishCountPerMonth(String year, String bigFishWeight) {
+    	List<String> ret = new ArrayList<String>();
+        
+        HashMap<String, CampaignSummary> dateHash = new HashMap<String, CampaignSummary>();
+        HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash = new HashMap<String, List<RelayCamapignStatisticsResult>>();
+        
+        setDateAndStatisticsHash(year, dateHash, statisticsHash);
+        
+        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
+        int[] monthCountArr = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        for(CampaignSummary cc : tempList){
+        	if(!statisticsHash.containsKey(cc.getDate())){
+        		continue;
+        	}
+            int bigFishCount = BusinessUtil.getBigFishCount(statisticsHash, cc, bigFishWeight);
+            if(bigFishCount == 0){
+            	continue;
+            }
+            
+            String month = cc.getDate().split(Constant.DASH)[1];
+			for (int i = 0; i < 12; i++) {
+				if (Constant.MONTH_NAMES[i].equals(month)) {
+					monthCountArr[i] += bigFishCount;
+				}
+			}
+        }
+        
+        for (int i = 0; i < 12; i++) {
+			ret.add(String.valueOf(monthCountArr[i]));
+		}
+        
+        return ret;
+    }
+
+	private void setDateAndStatisticsHash(String year,
+			HashMap<String, CampaignSummary> dateHash,
+			HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash) {
+		StringBuffer  sb = new StringBuffer();
         sb.append("SELECT c._id,c.start_time, ");
         sb.append(" rcsr.weight ,rcsr.count,rcsr.hook_flag ");
         sb.append("FROM campaigns c  ");
@@ -1136,7 +1213,6 @@ public class CampaignDataSource {
             
             if(!dateHash.containsKey(date)){
                 obj = new CampaignSummary();
-//                obj.setId(campaignId);
                 obj.setDate(date);
                 dateHash.put(date, obj);
             }
@@ -1164,17 +1240,7 @@ public class CampaignDataSource {
             c.moveToNext();
         }
         c.close();
-        
-        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
-        for(CampaignSummary cc : tempList){
-            if (statisticsHash.containsKey(cc.getDate())) {
-                String weight = BusinessUtil.getFishWeight(statisticsHash, cc);
-                ret.put(cc.getDate(), weight);
-            } 
-        }        
-        
-        return ret;
-    }
+	}
     
     public List<String> getYearsList() {
         List<String> ret = new ArrayList<String>();

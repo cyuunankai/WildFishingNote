@@ -36,4 +36,6 @@ public class Constant {
     public static final String PREMIUM_API_KEY = "7e417a05fb4145411c6df7d3a48f1";
     
     public static final String BACKUP_FOLDER_NAME = "wildFishingNote";
+    
+    public static final String[] MONTH_NAMES = {"01","02","03","04","05","06","07","08","09","10","11","12"};
 }

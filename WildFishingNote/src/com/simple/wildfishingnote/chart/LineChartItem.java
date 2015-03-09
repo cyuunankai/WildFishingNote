@@ -15,7 +15,8 @@ import com.github.mikephil.charting.data.LineData;
 import com.simple.wildfishingnote.R;
 
 public class LineChartItem extends ChartItem {
-
+	
+	private final static float AXIS_MAX_VALUE = 20.0f;
     private Typeface mTf;
 
     public LineChartItem(ChartData<?> cd, Context c) {
@@ -62,10 +63,12 @@ public class LineChartItem extends ChartItem {
         YAxis leftAxis = holder.chart.getAxisLeft();
         leftAxis.setTypeface(mTf);
         leftAxis.setLabelCount(5);
+        leftAxis.setAxisMaxValue(AXIS_MAX_VALUE);
         
         YAxis rightAxis = holder.chart.getAxisRight();
         rightAxis.setTypeface(mTf);
         rightAxis.setLabelCount(5);
+        rightAxis.setAxisMaxValue(AXIS_MAX_VALUE);
         rightAxis.setDrawGridLines(false);
 
         // set data
