@@ -71,18 +71,54 @@
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tempc_relay_fish_result_image" />
+        
+    <View
+ 	android:layout_width="match_parent" 
+ 	android:layout_height="1dp" 
+ 	android:background="@android:color/black" />
+ 	
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal" >
     
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="年:" />
+    <Spinner
+        android:id="@+id/spinnerYear"
+        android:layout_width="0dp"
+        android:layout_weight="0.4"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"  />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="月:" />    
+    <Spinner
+        android:id="@+id/spinnerMonth"
+        android:layout_width="0dp"
+        android:layout_weight="0.4"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"  />
+        	
     <com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/btnByYearDetail1"
         android:layout_width="0dp"
-        android:layout_weight="0.5"
+        android:layout_weight="0.3"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
+        android:layout_margin="8dp"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success"
-        android:text="按年详细1" />
-
+        android:text="显示" />
+ 	</LinearLayout>
  </LinearLayout>
 
  </LinearLayout>

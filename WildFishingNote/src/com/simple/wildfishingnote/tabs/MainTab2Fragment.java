@@ -106,9 +106,11 @@ public class MainTab2Fragment extends Fragment implements OnClickListener {
     private void initWeatherListView() {
         WeatherDataSource dataSource = new WeatherDataSource(getActivity());
         dataSource.open();
+        List<Weather> weatherList = dataSource.getWeathers();
+        dataSource.close();
         
         List<SectionListItem> list = new ArrayList<SectionListItem>();
-        List<Weather> weatherList = dataSource.getWeathers();
+        
         for(Weather obj : weatherList){
             SectionListItem sli = new SectionListItem(obj, obj.getDate().substring(0, 7));
             list.add(sli);

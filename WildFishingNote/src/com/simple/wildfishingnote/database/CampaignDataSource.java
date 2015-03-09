@@ -1176,5 +1176,25 @@ public class CampaignDataSource {
         return ret;
     }
     
+    public List<String> getYearsList() {
+        List<String> ret = new ArrayList<String>();
 
+        List<Campaign> camList = getAllCampagins();
+        for (Campaign obj : camList) {
+            String year = obj.getStartTime().substring(0, 4);
+            if (!ret.contains(year)) {
+                ret.add(year);
+            }
+        }
+        
+        Collections.sort(ret, new Comparator<String>() {
+
+            public int compare(String o1, String o2) {
+                return Integer.parseInt(o2) - Integer.parseInt(o1);
+            }
+        });
+        
+        return ret;
+    }
+    
 }

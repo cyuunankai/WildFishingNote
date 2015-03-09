@@ -52,19 +52,18 @@ public class SimpleChartDemo extends ChartBase {
         PageAdapter a = new PageAdapter(getSupportFragmentManager());
         pager.setAdapter(a);
         
-        
-//        AlertDialog.Builder b = new AlertDialog.Builder(this);
-//        b.setTitle("This is a ViewPager.");
-//        b.setMessage("Swipe left and right for more awesome design examples!");
-//        b.setPositiveButton("OK", new OnClickListener() {
-//            
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });
-//        b.show();
+        setViewPagerCurrentItem(yearMonth, pager);
     }
+
+
+
+    private void setViewPagerCurrentItem(String yearMonth, ViewPager pager) {
+        String month = yearMonth.split(Constant.DASH)[1];
+        int currentItemIndex = Integer.parseInt(month) - 1;
+        pager.setCurrentItem(currentItemIndex);
+    }
+    
+    
 
     private void initDbValue(String yearMonth) {
         String year = yearMonth.split(Constant.DASH)[0];
