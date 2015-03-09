@@ -32,13 +32,54 @@ public class MainTab3Fragment extends Fragment implements OnClickListener {
 	    tab3View = inflater.inflate(R.layout.activity_main_tab3, container, false);
 	    
 	    initSpinner();  
-        
 	    addBtnOnClickListener();
 	    
         return tab3View;
     }
 
-    private void initSpinner() {
+   
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnByYear:
+                Intent intentChartByYear = new Intent(getActivity(), ChartByYearActivity.class);
+                intentChartByYear.putExtra(ChartByYearActivity.BIG_FISH, "500");
+                intentChartByYear.putExtra(ChartByYearActivity.FISH_COUNT, "10");
+                getActivity().startActivity(intentChartByYear);
+                break;
+            case R.id.btnByMonth:
+                Intent intentChartByMonth = new Intent(getActivity(), ChartByMonthActivity.class);
+                intentChartByMonth.putExtra(ChartByYearActivity.BIG_FISH, "500");
+                intentChartByMonth.putExtra(ChartByYearActivity.FISH_COUNT, "10");
+                getActivity().startActivity(intentChartByMonth);
+                break;
+            case R.id.btnByYearDetail:
+                Spinner spinnerYear = (Spinner) tab3View.findViewById(R.id.spinnerDetailYear);
+                Spinner spinnerMonth = (Spinner) tab3View.findViewById(R.id.spinnerDetailMonth);
+                String year = spinnerYear.getSelectedItem().toString();
+                String month = spinnerMonth.getSelectedItem().toString();
+                
+                Intent intentChartByYearDetail = new Intent(getActivity(), SimpleChartDemo.class);
+                intentChartByYearDetail.putExtra(SimpleChartDemo.YEAR_MONTH, year + Constant.DASH + month);
+                getActivity().startActivity(intentChartByYearDetail);
+                break;
+        }
+    }
+    
+    private void addBtnOnClickListener() {
+        BootstrapButton btnByYear = (BootstrapButton) tab3View.findViewById(R.id.btnByYear);
+        btnByYear.setOnClickListener(this);
+        
+        BootstrapButton btnByMonth = (BootstrapButton) tab3View.findViewById(R.id.btnByMonth);
+        btnByMonth.setOnClickListener(this);
+        
+        BootstrapButton btnByYearDetail = (BootstrapButton) tab3View.findViewById(R.id.btnByYearDetail);
+        btnByYearDetail.setOnClickListener(this);
+
+    }
+    
+ private void initSpinner() {
         
         initYearSpinner(R.id.spinnerYear);
         initMonthSpinner(R.id.spinnerMonth);
@@ -73,43 +114,6 @@ public class MainTab3Fragment extends Fragment implements OnClickListener {
                 android.R.layout.simple_spinner_item, mMonths);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s.setAdapter(spinnerArrayAdapter);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnByYear:
-                Intent intentChartByYear = new Intent(getActivity(), ChartByYearActivity.class);
-                getActivity().startActivity(intentChartByYear);
-                break;
-            case R.id.btnByMonth:
-                Intent intentChartByMonth = new Intent(getActivity(), ChartByMonthActivity.class);
-                getActivity().startActivity(intentChartByMonth);
-                break;
-            case R.id.btnByYearDetail:
-                Spinner spinnerYear = (Spinner) tab3View.findViewById(R.id.spinnerDetailYear);
-                Spinner spinnerMonth = (Spinner) tab3View.findViewById(R.id.spinnerDetailMonth);
-                String year = spinnerYear.getSelectedItem().toString();
-                String month = spinnerMonth.getSelectedItem().toString();
-                
-                Intent intentChartByYearDetail = new Intent(getActivity(), SimpleChartDemo.class);
-                intentChartByYearDetail.putExtra(SimpleChartDemo.YEAR_MONTH, year + Constant.DASH + month);
-                getActivity().startActivity(intentChartByYearDetail);
-                break;
-
-        }
-    }
-    
-    private void addBtnOnClickListener() {
-        BootstrapButton btnByYear = (BootstrapButton) tab3View.findViewById(R.id.btnByYear);
-        btnByYear.setOnClickListener(this);
-        
-        BootstrapButton btnByMonth = (BootstrapButton) tab3View.findViewById(R.id.btnByMonth);
-        btnByMonth.setOnClickListener(this);
-        
-        BootstrapButton btnByYearDetail = (BootstrapButton) tab3View.findViewById(R.id.btnByYearDetail);
-        btnByYearDetail.setOnClickListener(this);
-
     }
 
 }

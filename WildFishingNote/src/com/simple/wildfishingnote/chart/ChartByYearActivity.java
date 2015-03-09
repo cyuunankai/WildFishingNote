@@ -21,12 +21,18 @@ import com.simple.wildfishingnote.R;
 
 public class ChartByYearActivity extends ChartBase {
 
+    public final static String BIG_FISH = "big_fish";
+    public final static String FISH_COUNT = "fish_count";
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_chart_by_year);
+        
+        String bigFish = getIntent().getStringExtra(BIG_FISH);
+        String fishCount = getIntent().getStringExtra(FISH_COUNT);
         
         ListView lv = (ListView) findViewById(R.id.listView1);
 
