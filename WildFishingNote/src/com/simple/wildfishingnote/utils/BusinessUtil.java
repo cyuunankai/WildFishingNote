@@ -47,15 +47,41 @@ public class BusinessUtil {
         return df.format(weight/500.0);
     }
     
-    public static int getBigFishCount(HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash, CampaignSummary cc, String bigFishWeight) {
+    public static int getObatainedBigFishCount(HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash, CampaignSummary cc, String bigFishWeight) {
         int count = 0;
         for(RelayCamapignStatisticsResult rcsr : statisticsHash.get(cc.getDate())){
-        	if(Integer.parseInt(rcsr.getWeight()) >= Integer.parseInt(bigFishWeight)){
+        	if("in".equals(rcsr.getHookFlag()) && Integer.parseInt(rcsr.getWeight()) >= Integer.parseInt(bigFishWeight)){
         		count += Integer.parseInt(rcsr.getCount());
         	}
         }
         
         return count;
+    }
+    
+    public static int getEscapedBigFishCount(HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash, CampaignSummary cc, String bigFishWeight) {
+        int count = 0;
+        for(RelayCamapignStatisticsResult rcsr : statisticsHash.get(cc.getDate())){
+            if("out".equals(rcsr.getHookFlag()) && Integer.parseInt(rcsr.getWeight()) >= Integer.parseInt(bigFishWeight)){
+                count += Integer.parseInt(rcsr.getCount());
+            }
+        }
+        
+        return count;
+    }
+    
+    public static int getFishCountMoreThan(HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash, CampaignSummary cc, String fishCount) {
+        int count = 0;
+        for (RelayCamapignStatisticsResult rcsr : statisticsHash.get(cc.getDate())) {
+            if ("in".equals(rcsr.getHookFlag())) {
+                count += Integer.parseInt(rcsr.getCount());
+            }
+        }
+
+        if (count >= Integer.parseInt(fishCount)) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
     
     public static String getFishUnit(int grams) {

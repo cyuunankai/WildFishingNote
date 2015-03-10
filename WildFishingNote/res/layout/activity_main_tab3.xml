@@ -9,10 +9,58 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.simple.wildfishingnote.MainTab3Activity" >
+ 
+     <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="全体条件" />
         
+    <View
+ 	android:layout_width="match_parent" 
+ 	android:layout_height="1dp" 
+ 	android:background="@android:color/black" />
+ 	
+	<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <Spinner
+        android:id="@+id/spinnerFishWeight"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"  />
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="以上" />
+        
+    <Spinner
+        android:id="@+id/spinnerFishCount"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"  />
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="以上" />
+
+	</LinearLayout>
+</LinearLayout>
+       
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="8dp"
     android:orientation="vertical" >
     
     <TextView
@@ -30,23 +78,24 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
     
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="年:" />
+    
     <Spinner
         android:id="@+id/spinnerYear"
         android:layout_width="0dp"
         android:layout_weight="0.5"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"  />
-        
+          />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="年" />
+
 	<com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/btnByYear"
         android:layout_width="0dp"
         android:layout_weight="0.5"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
+        android:layout_marginLeft="8dp"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success"
         android:text="显示" />
@@ -57,7 +106,7 @@
 	 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
+    android:layout_margin="8dp"
     android:orientation="vertical" >
     
     <TextView
@@ -75,23 +124,24 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
     
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="月:" />
+    
     <Spinner
         android:id="@+id/spinnerMonth"
         android:layout_width="0dp"
         android:layout_weight="0.5"
+        android:layout_height="wrap_content" />
+        
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"  />
+        android:text="月" />
         
 	<com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/btnByMonth"
         android:layout_width="0dp"
         android:layout_weight="0.5"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
+        android:layout_marginLeft="8dp"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success"
         android:text="显示" />
@@ -103,7 +153,7 @@
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
+    android:layout_margin="8dp"
     android:orientation="vertical" >
     
     <TextView
@@ -121,35 +171,38 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
     
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="年:" />
+    
     <Spinner
         android:id="@+id/spinnerDetailYear"
         android:layout_width="0dp"
         android:layout_weight="0.4"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"  />
+        android:layout_height="wrap_content"  />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="月:" />    
+        android:text="年" />
+        
+     
     <Spinner
         android:id="@+id/spinnerDetailMonth"
         android:layout_width="0dp"
         android:layout_weight="0.4"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"  />
+        android:layout_marginLeft="8dp"  />
+        
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="月" />   
         	
     <com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/btnByYearDetail"
         android:layout_width="0dp"
         android:layout_weight="0.3"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success"
+        android:layout_marginLeft="8dp"
+	    bootstrapbutton:bb_roundedCorners="true"
+	    bootstrapbutton:bb_type="success"
         android:text="显示" />
  	</LinearLayout>
 

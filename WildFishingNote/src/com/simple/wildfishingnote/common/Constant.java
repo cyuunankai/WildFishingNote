@@ -38,4 +38,11 @@ public class Constant {
     public static final String BACKUP_FOLDER_NAME = "wildFishingNote";
     
     public static final String[] MONTH_NAMES = {"01","02","03","04","05","06","07","08","09","10","11","12"};
+    public final static String CAMPAIGN_COUNT = "campaign_count";
+    public final static String OBTAINED_FISH_BIGGER_THAN = "obtained_fish_bigger_than";
+    public final static String ESCAPED_FISH_BIGGER_THAN = "escaped_fish_bigger_than";
+    public final static String NOT_OBTAINED_FISH = "not_obtained_fish";
+    public final static String FISH_COUNT_MORE_THAN = "fish_count_more_than";
+    public final static int[] SEARCH_FISH_WEIGHT = {150, 250, 500, 1000, 1500, 2000, 2500};
+    public final static int[] SEARCH_FISH_COUNT = {5, 10, 15, 20, 30, 40, 50};
 }

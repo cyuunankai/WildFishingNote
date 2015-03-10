@@ -1124,14 +1124,31 @@ public class CampaignDataSource {
         return ret;
     }
     
-    public List<String> getCampaignCountPerMonth(String year) {
-    	List<String> ret = new ArrayList<String>();
+    public HashMap<String, List<String>> getChartByYearData(String year, String bigFishWeight, String fishCount) {
+    	HashMap<String, List<String>> ret = new HashMap<String, List<String>>();
         
         HashMap<String, CampaignSummary> dateHash = new HashMap<String, CampaignSummary>();
         HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash = new HashMap<String, List<RelayCamapignStatisticsResult>>();
         
         setDateAndStatisticsHash(year, dateHash, statisticsHash);
         
+        List<String> campaignCountList = getCampaignCountList(dateHash);
+        List<String> obtainedBigFishCountList = getObtainedBigFishCountList(bigFishWeight, dateHash, statisticsHash);
+        List<String> escapedBigFishCountList = getEscapedBigFishCountList(bigFishWeight, dateHash, statisticsHash);
+        List<String> notObtainedFishCountList = getNotObtainedFishCountList(dateHash, statisticsHash);
+        List<String> fishCountMoreThanCountList = getFishCountMoreThanCountList(fishCount, dateHash, statisticsHash);
+        
+        ret.put(Constant.CAMPAIGN_COUNT, campaignCountList);
+        ret.put(Constant.OBTAINED_FISH_BIGGER_THAN, obtainedBigFishCountList);
+        ret.put(Constant.ESCAPED_FISH_BIGGER_THAN, escapedBigFishCountList);
+        ret.put(Constant.NOT_OBTAINED_FISH, notObtainedFishCountList);
+        ret.put(Constant.FISH_COUNT_MORE_THAN, fishCountMoreThanCountList);
+        
+        return ret;
+    }
+
+    private List<String> getCampaignCountList(HashMap<String, CampaignSummary> dateHash) {
+        List<String> campaignCountList = new ArrayList<String>();
         ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
 		int[] monthCountArr = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		for (CampaignSummary cc : tempList) {
@@ -1145,19 +1162,14 @@ public class CampaignDataSource {
 		}  
 		
 		for (int i = 0; i < 12; i++) {
-			ret.add(String.valueOf(monthCountArr[i]));
+		    campaignCountList.add(String.valueOf(monthCountArr[i]));
 		}
-        
-        return ret;
+		
+		return campaignCountList;
     }
-    
-    public List<String> getObtainBigFishCountPerMonth(String year, String bigFishWeight) {
-    	List<String> ret = new ArrayList<String>();
-        
-        HashMap<String, CampaignSummary> dateHash = new HashMap<String, CampaignSummary>();
-        HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash = new HashMap<String, List<RelayCamapignStatisticsResult>>();
-        
-        setDateAndStatisticsHash(year, dateHash, statisticsHash);
+
+    private List<String> getObtainedBigFishCountList(String bigFishWeight, HashMap<String, CampaignSummary> dateHash, HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash) {
+        List<String> obtainedBigFishCountList = new ArrayList<String>();
         
         ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
         int[] monthCountArr = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -1165,7 +1177,7 @@ public class CampaignDataSource {
         	if(!statisticsHash.containsKey(cc.getDate())){
         		continue;
         	}
-            int bigFishCount = BusinessUtil.getBigFishCount(statisticsHash, cc, bigFishWeight);
+            int bigFishCount = BusinessUtil.getObatainedBigFishCount(statisticsHash, cc, bigFishWeight);
             if(bigFishCount == 0){
             	continue;
             }
@@ -1179,9 +1191,88 @@ public class CampaignDataSource {
         }
         
         for (int i = 0; i < 12; i++) {
-			ret.add(String.valueOf(monthCountArr[i]));
+            obtainedBigFishCountList.add(String.valueOf(monthCountArr[i]));
 		}
         
+        return obtainedBigFishCountList;
+    }
+
+    private List<String> getEscapedBigFishCountList(String bigFishWeight, HashMap<String, CampaignSummary> dateHash, HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash) {
+        List<String> ret = new ArrayList<String>();
+        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
+        int[] monthCountArr = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        for(CampaignSummary cc : tempList){
+            if(!statisticsHash.containsKey(cc.getDate())){
+                continue;
+            }
+            int bigFishCount = BusinessUtil.getEscapedBigFishCount(statisticsHash, cc, bigFishWeight);
+            if(bigFishCount == 0){
+                continue;
+            }
+            
+            String month = cc.getDate().split(Constant.DASH)[1];
+            for (int i = 0; i < 12; i++) {
+                if (Constant.MONTH_NAMES[i].equals(month)) {
+                    monthCountArr[i] += bigFishCount;
+                }
+            }
+        }
+        
+        for (int i = 0; i < 12; i++) {
+            ret.add(String.valueOf(monthCountArr[i]));
+        }
+        return ret;
+    }
+
+
+    private List<String> getNotObtainedFishCountList(HashMap<String, CampaignSummary> dateHash, HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash) {
+        List<String> ret = new ArrayList<String>();
+        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
+        int[] monthCountArr = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        for(CampaignSummary cc : tempList){
+            if(statisticsHash.containsKey(cc.getDate())){
+                continue;
+            }
+            
+            
+            String month = cc.getDate().split(Constant.DASH)[1];
+            for (int i = 0; i < 12; i++) {
+                if (Constant.MONTH_NAMES[i].equals(month)) {
+                    monthCountArr[i] += 1;
+                }
+            }
+        }
+        
+        for (int i = 0; i < 12; i++) {
+            ret.add(String.valueOf(monthCountArr[i]));
+        }
+        return ret;
+    }
+
+    private List<String> getFishCountMoreThanCountList(String fishCount, HashMap<String, CampaignSummary> dateHash, HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash) {
+        List<String> ret = new ArrayList<String>();
+        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
+        int[] monthCountArr = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        for (CampaignSummary cc : tempList) {
+            if (!statisticsHash.containsKey(cc.getDate())) {
+                continue;
+            }
+            int fishCountMoreThan = BusinessUtil.getFishCountMoreThan(statisticsHash, cc, fishCount);
+            if (fishCountMoreThan == 0) {
+                continue;
+            }
+
+            String month = cc.getDate().split(Constant.DASH)[1];
+            for (int i = 0; i < 12; i++) {
+                if (Constant.MONTH_NAMES[i].equals(month)) {
+                    monthCountArr[i] += fishCountMoreThan;
+                }
+            }
+        }
+
+        for (int i = 0; i < 12; i++) {
+            ret.add(String.valueOf(monthCountArr[i]));
+        }
         return ret;
     }
 
