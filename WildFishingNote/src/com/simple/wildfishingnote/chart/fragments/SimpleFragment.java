@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -35,8 +34,9 @@ public abstract class SimpleFragment extends Fragment {
     }
     
     private CombinedChart mChart;
-//    private TextView tvYearMonth;
     private final static float AXIS_MAX_VALUE = 40.0f;
+    public final static int LINE_1_COLOR = ColorTemplate.COLORFUL_COLORS[3];
+    public final static int BAR_COLOR = ColorTemplate.COLORFUL_COLORS[4];
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,10 +46,6 @@ public abstract class SimpleFragment extends Fragment {
         String year = queryYearMonth.split(Constant.DASH)[0];
         
         String currentYearMonth = year + Constant.DASH + getMonth();
-        
-        
-//        tvYearMonth = (TextView) v.findViewById(R.id.tvYearMonth);
-//        tvYearMonth.setText(DateUtil.getReadableYearMonth(currentYearMonth));
         
         mChart = (CombinedChart) v.findViewById(R.id.chart1);
         mChart.setDescription(DateUtil.getReadableYearMonth(currentYearMonth));
@@ -133,21 +129,25 @@ public abstract class SimpleFragment extends Fragment {
 
 
         LineDataSet set = new LineDataSet(entries, "温度");
-        set.setColor(ColorTemplate.COLORFUL_COLORS[3]);
-        set.setLineWidth(2.5f);
-        set.setCircleColor(ColorTemplate.COLORFUL_COLORS[3]);
-        set.setCircleSize(5f);
-        set.setFillColor(ColorTemplate.COLORFUL_COLORS[3]);
-        set.setDrawCubic(true);
-        set.setDrawValues(true);
-        set.setValueTextSize(10f);
-        set.setValueTextColor(ColorTemplate.COLORFUL_COLORS[3]);
-
-        set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        setLineDataSetProperty(set, LINE_1_COLOR);
 
         d.addDataSet(set);
 
         return d;
+    }
+    
+    protected void setLineDataSetProperty(LineDataSet lds, int color) {
+        lds.setColor(color);
+        lds.setLineWidth(2.5f);
+        lds.setCircleColor(color);
+        lds.setCircleSize(5f);
+        lds.setFillColor(color);
+        lds.setDrawCubic(true);
+        lds.setDrawValues(true);
+        lds.setValueTextSize(14f);
+        lds.setValueTextColor(color);
+
+        lds.setAxisDependency(YAxis.AxisDependency.LEFT);
     }
     
     protected BarData generateBarData(String yearMonth, String[] daysInMonth) {
@@ -200,14 +200,18 @@ public abstract class SimpleFragment extends Fragment {
         
         
         BarDataSet set = new BarDataSet(entries, "渔获重量");
-        set.setColor(Color.rgb(60, 220, 78));
-        set.setValueTextColor(Color.rgb(60, 220, 78));
-        set.setValueTextSize(10f);
+        setBarDataSetProperty(set);
         d.addDataSet(set);
 
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         return d;
+    }
+
+    private void setBarDataSetProperty(BarDataSet set) {
+        set.setColor(BAR_COLOR);
+        set.setValueTextColor(BAR_COLOR);
+        set.setValueTextSize(14f);
     }
 
 //    protected String[] mDays = new String[] {

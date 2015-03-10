@@ -59,9 +59,13 @@ public class MainTab3Fragment extends Fragment implements OnClickListener {
                 getActivity().startActivity(intentChartByYear);
                 break;
             case R.id.btnByMonth:
+                Spinner spinnerMonth = (Spinner)tab3View.findViewById(R.id.spinnerMonth);
+                String month = spinnerMonth.getSelectedItem().toString();
+                
                 Intent intentChartByMonth = new Intent(getActivity(), ChartByMonthActivity.class);
-                intentChartByMonth.putExtra(ChartByYearActivity.BIG_FISH_WEIGHT, fishWeight);
-                intentChartByMonth.putExtra(ChartByYearActivity.FISH_COUNT, fishCount);
+                intentChartByMonth.putExtra(ChartByMonthActivity.MONTH, month);
+                intentChartByMonth.putExtra(ChartByMonthActivity.BIG_FISH_WEIGHT, fishWeight);
+                intentChartByMonth.putExtra(ChartByMonthActivity.FISH_COUNT, fishCount);
                 getActivity().startActivity(intentChartByMonth);
                 break;
             case R.id.btnByYearDetail:

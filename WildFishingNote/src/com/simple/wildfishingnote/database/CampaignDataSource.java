@@ -1111,7 +1111,7 @@ public class CampaignDataSource {
         HashMap<String, CampaignSummary> dateHash = new HashMap<String, CampaignSummary>();
         HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash = new HashMap<String, List<RelayCamapignStatisticsResult>>();
         
-        setDateAndStatisticsHash(year, dateHash, statisticsHash);
+        setDateAndStatisticsHashForChartYear(year, dateHash, statisticsHash);
         
         ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
         for(CampaignSummary cc : tempList){
@@ -1124,13 +1124,14 @@ public class CampaignDataSource {
         return ret;
     }
     
+    // chart by year
     public HashMap<String, List<String>> getChartByYearData(String year, String bigFishWeight, String fishCount) {
     	HashMap<String, List<String>> ret = new HashMap<String, List<String>>();
         
         HashMap<String, CampaignSummary> dateHash = new HashMap<String, CampaignSummary>();
         HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash = new HashMap<String, List<RelayCamapignStatisticsResult>>();
         
-        setDateAndStatisticsHash(year, dateHash, statisticsHash);
+        setDateAndStatisticsHashForChartYear(year, dateHash, statisticsHash);
         
         List<String> campaignCountList = getCampaignCountList(dateHash);
         List<String> obtainedBigFishCountList = getObtainedBigFishCountList(bigFishWeight, dateHash, statisticsHash);
@@ -1146,6 +1147,7 @@ public class CampaignDataSource {
         
         return ret;
     }
+
 
     private List<String> getCampaignCountList(HashMap<String, CampaignSummary> dateHash) {
         List<String> campaignCountList = new ArrayList<String>();
@@ -1276,7 +1278,7 @@ public class CampaignDataSource {
         return ret;
     }
 
-	private void setDateAndStatisticsHash(String year,
+	private void setDateAndStatisticsHashForChartYear(String year,
 			HashMap<String, CampaignSummary> dateHash,
 			HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash) {
 		StringBuffer  sb = new StringBuffer();
@@ -1332,6 +1334,196 @@ public class CampaignDataSource {
         }
         c.close();
 	}
+	
+	// chart by month
+	
+    public HashMap<String, HashMap<String, Integer>> getChartByMonthData(String month, String bigFishWeight, String fishCount) {
+        HashMap<String, HashMap<String, Integer>> ret = new HashMap<String, HashMap<String, Integer>>();
+
+        List<String> yearList = getYearsList();
+        HashMap<String, CampaignSummary> dateHash = new HashMap<String, CampaignSummary>();
+        HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash = new HashMap<String, List<RelayCamapignStatisticsResult>>();
+
+        setDateAndStatisticsHashForChartMonth(month, dateHash, statisticsHash);
+
+        HashMap<String, Integer> campaignCountHash = getCampaignCountHash(dateHash, yearList);
+        HashMap<String, Integer> obtainedBigFishCountHash = getObtainedBigFishCountHash(bigFishWeight, dateHash, statisticsHash, yearList);
+        HashMap<String, Integer> escapedBigFishCountHash = getEscapedBigFishCountHash(bigFishWeight, dateHash, statisticsHash, yearList);
+        HashMap<String, Integer> notObtainedFishCountHash = getNotObtainedFishCountHash(dateHash, statisticsHash, yearList);
+        HashMap<String, Integer> fishCountMoreThanCountHash = getFishCountMoreThanCountHash(fishCount, dateHash, statisticsHash, yearList);
+
+        ret.put(Constant.CAMPAIGN_COUNT, campaignCountHash);
+        ret.put(Constant.OBTAINED_FISH_BIGGER_THAN, obtainedBigFishCountHash);
+        ret.put(Constant.ESCAPED_FISH_BIGGER_THAN, escapedBigFishCountHash);
+        ret.put(Constant.NOT_OBTAINED_FISH, notObtainedFishCountHash);
+        ret.put(Constant.FISH_COUNT_MORE_THAN, fishCountMoreThanCountHash);
+
+        return ret;
+    }
+
+    private HashMap<String, Integer> getCampaignCountHash(HashMap<String, CampaignSummary> dateHash, List<String> yearList) {
+        HashMap<String, Integer> ret = new HashMap<String, Integer>();
+        initYearCountHash(yearList, ret);
+
+        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
+        for (CampaignSummary cc : tempList) {
+            setYearCountHash(yearList, ret, cc);
+        }
+
+        return ret;
+    }
+
+    private HashMap<String, Integer> getObtainedBigFishCountHash(String bigFishWeight, HashMap<String, CampaignSummary> dateHash, HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash, List<String> yearList) {
+        HashMap<String, Integer> ret = new HashMap<String, Integer>();
+        initYearCountHash(yearList, ret);
+
+        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
+        for (CampaignSummary cc : tempList) {
+            if (!statisticsHash.containsKey(cc.getDate())) {
+                continue;
+            }
+            int bigFishCount = BusinessUtil.getObatainedBigFishCount(statisticsHash, cc, bigFishWeight);
+            if (bigFishCount == 0) {
+                continue;
+            }
+
+            setYearCountHash(yearList, ret, cc);
+        }
+
+        return ret;
+    }
+
+    private HashMap<String, Integer> getEscapedBigFishCountHash(String bigFishWeight, HashMap<String, CampaignSummary> dateHash, HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash, List<String> yearList) {
+        HashMap<String, Integer> ret = new HashMap<String, Integer>();
+        initYearCountHash(yearList, ret);
+
+        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
+        for (CampaignSummary cc : tempList) {
+            if (!statisticsHash.containsKey(cc.getDate())) {
+                continue;
+            }
+            int bigFishCount = BusinessUtil.getEscapedBigFishCount(statisticsHash, cc, bigFishWeight);
+            if (bigFishCount == 0) {
+                continue;
+            }
+
+            setYearCountHash(yearList, ret, cc);
+        }
+
+        return ret;
+    }
+
+    private HashMap<String, Integer> getNotObtainedFishCountHash(HashMap<String, CampaignSummary> dateHash, HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash, List<String> yearList) {
+        HashMap<String, Integer> ret = new HashMap<String, Integer>();
+        initYearCountHash(yearList, ret);
+
+        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
+        for (CampaignSummary cc : tempList) {
+            if (statisticsHash.containsKey(cc.getDate())) {
+                continue;
+            }
+
+            setYearCountHash(yearList, ret, cc);
+        }
+        return ret;
+    }
+
+    private HashMap<String, Integer> getFishCountMoreThanCountHash(String fishCount, HashMap<String, CampaignSummary> dateHash, HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash, List<String> yearList) {
+        HashMap<String, Integer> ret = new HashMap<String, Integer>();
+        initYearCountHash(yearList, ret);
+
+        ArrayList<CampaignSummary> tempList = new ArrayList<CampaignSummary>(dateHash.values());
+        for (CampaignSummary cc : tempList) {
+            if (!statisticsHash.containsKey(cc.getDate())) {
+                continue;
+            }
+            int fishCountMoreThan = BusinessUtil.getFishCountMoreThan(statisticsHash, cc, fishCount);
+            if (fishCountMoreThan == 0) {
+                continue;
+            }
+
+            setYearCountHash(yearList, ret, cc);
+        }
+
+        return ret;
+    }
+
+    private void initYearCountHash(List<String> yearList, HashMap<String, Integer> ret) {
+        for (String year : yearList) {
+            ret.put(year, 0);
+        }
+    }
+
+    private void setYearCountHash(List<String> yearList, HashMap<String, Integer> ret, CampaignSummary cc) {
+        String year = cc.getDate().split(Constant.DASH)[0];
+        for (String s : yearList) {
+            if (s.equals(year)) {
+                if (ret.containsKey(year)) {
+                    Integer count = ret.get(year) + 1;
+                    ret.put(year, count);
+                } else {
+                    ret.put(year, 1);
+                }
+                break;
+            }
+        }
+    }
+
+    private void setDateAndStatisticsHashForChartMonth(String month,
+            HashMap<String, CampaignSummary> dateHash,
+            HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT c._id,c.start_time, ");
+        sb.append(" rcsr.weight ,rcsr.count,rcsr.hook_flag ");
+        sb.append("FROM campaigns c  ");
+        sb.append("LEFT JOIN relay_campaign_statistics_results rcsr ON rcsr.campaign_id=c._id ");
+        sb.append("WHERE c.start_time like '%-" + month + "-%' ");
+        sb.append("order by c.start_Time DESC ");
+
+        Cursor c = database.rawQuery(sb.toString(), new String[]{});
+
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            List<RelayCamapignStatisticsResult> rcsrList = null;
+            CampaignSummary obj = null;
+            RelayCamapignStatisticsResult rcsr = null;
+
+            String campaignId = c.getString(0);
+            String date = c.getString(1).split(Constant.SPACE)[0];
+            String weight = c.getString(2);
+            String count = c.getString(3);
+            String hookFlag = c.getString(4);
+
+            if (!dateHash.containsKey(date)) {
+                obj = new CampaignSummary();
+                obj.setDate(date);
+                dateHash.put(date, obj);
+            }
+
+            if (statisticsHash.containsKey(date)) {
+                rcsrList = statisticsHash.get(date);
+                rcsr = new RelayCamapignStatisticsResult();
+                rcsr.setWeight(weight);
+                rcsr.setCount(count);
+                rcsr.setHookFlag(hookFlag);
+                rcsrList.add(rcsr);
+
+                statisticsHash.put(campaignId, rcsrList);
+            } else {
+                rcsrList = new ArrayList<RelayCamapignStatisticsResult>();
+                rcsr = new RelayCamapignStatisticsResult();
+                rcsr.setWeight(weight);
+                rcsr.setCount(count);
+                rcsr.setHookFlag(hookFlag);
+                rcsrList.add(rcsr);
+
+                statisticsHash.put(date, rcsrList);
+            }
+
+            c.moveToNext();
+        }
+        c.close();
+    }
     
     public List<String> getYearsList() {
         List<String> ret = new ArrayList<String>();
