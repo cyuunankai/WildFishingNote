@@ -79,9 +79,8 @@ public class BackupDialogFragment extends DialogFragment {
 	           .setPositiveButton("确定", new DialogInterface.OnClickListener() {
 	               @Override
 	               public void onClick(DialogInterface dialog, int id) {
-	                   // sign in the user ...
 	                   TextView tvBackupPath = (TextView)mView.findViewById(R.id.tvBackupPath);
-	                   new BackupTask().execute(tvBackupPath.getText().toString());
+	                   tvBackupPath.getText().toString();
 	               }
 	           })
 	           .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -89,7 +88,27 @@ public class BackupDialogFragment extends DialogFragment {
 	                   BackupDialogFragment.this.getDialog().cancel();
 	               }
 	           });      
-	    return builder.create();
+	    
+	    final AlertDialog dialog = builder.create();
+        dialog.show();
+        //Overriding the handler immediately after show is probably a better approach than OnShowListener as described below
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                TextView tvBackupPath = (TextView)mView.findViewById(R.id.tvBackupPath);
+                new BackupTask().execute(tvBackupPath.getText().toString());
+
+                Boolean wantToCloseDialog = false;
+                // Do stuff, possibly set wantToCloseDialog to true then...
+                if (wantToCloseDialog)
+                    dialog.dismiss();
+                // else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set
+                // cancellable to false.
+            }
+        });
+	    return dialog;
 	}
 	
 	
@@ -102,7 +121,7 @@ public class BackupDialogFragment extends DialogFragment {
 	            
 	            ret = "备份成功";
 	        } catch (IOException e) {
-	            ret = "备份失败" + e.getMessage();
+//	            ret = "备份失败" + e.getMessage();
 	        }
 	        
 	        return ret;
@@ -160,6 +179,7 @@ public class BackupDialogFragment extends DialogFragment {
             public static final boolean LOGD = true;
 
             protected String doInBackground(String... directory) {
+//                Msg.showLongTime(mActivity, "备份中");
                 String ret = backup(directory[0]);
                 return ret;
             }
