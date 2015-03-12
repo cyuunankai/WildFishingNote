@@ -26,7 +26,7 @@ public class FileUtil {
 
         try { 
             FileOutputStream out = new FileOutputStream(myImage); 
-            outputImage.compress(Bitmap.CompressFormat.JPEG, 100, out); 
+            outputImage.compress(Bitmap.CompressFormat.JPEG, 60, out); 
             out.flush();    
             out.close();
         } catch (Exception e) { 

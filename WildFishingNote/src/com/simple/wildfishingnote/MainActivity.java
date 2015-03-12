@@ -11,13 +11,17 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import com.simple.wildfishingnote.animation.hover.HoverSwitch;
+import com.simple.wildfishingnote.backupandrestore.BackupDialogFragment;
 import com.simple.wildfishingnote.bean.animation.hover.ImageIntentBean;
 import com.simple.wildfishingnote.bean.animation.hover.ImageSrcIntent;
 import com.simple.wildfishingnote.common.Common;
@@ -94,7 +98,47 @@ public class MainActivity extends ActionBarActivity {
                     new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
                             ActionBar.LayoutParams.WRAP_CONTENT,
                             Gravity.CENTER_VERTICAL | Gravity.RIGHT));
+        
+        initOperationDataBtn(view);
 	}
+
+
+    private void initOperationDataBtn(ViewGroup view) {
+        ImageView iv = (ImageView) view.findViewById(R.id.imageViewOperateData);
+        iv.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View paramView) {
+                PopupMenu popup = new PopupMenu(getApplicationContext(), paramView);
+                popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.backup:
+                                BackupDialogFragment bdf = new BackupDialogFragment();
+                                bdf.show(getSupportFragmentManager(), "backupDialog");
+                                
+                                return true;
+                            case R.id.restore:
+
+                                return true;
+                            default:
+                                return false;
+                        }
+
+                    }
+                });
+                    
+
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.backup_and_restore_menu, popup.getMenu());
+                popup.show();
+
+                
+            }
+        });
+    }
 
 	private void initHoverSwith() {
 		ViewGroup parent = (ViewGroup) findViewById(R.id.rootLayout);

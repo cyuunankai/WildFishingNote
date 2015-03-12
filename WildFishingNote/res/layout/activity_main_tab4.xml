@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,46 +10,113 @@
     tools:context="com.simple.wildfishingnote.MainTab4Activity" >
 
 
+	<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="备份" />
         
-        <LinearLayout
-    android:id="@+id/buttonsLayoutCampaignTimeEdit"
+    <View
+ 	android:layout_width="match_parent" 
+ 	android:layout_height="1dp" 
+ 	android:background="@android:color/black" />
+ 	
+	<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
-
-<com.beardedhen.androidbootstrap.BootstrapButton
-				    android:id="@+id/buttonImport"
-	                android:layout_width="10dp"
+	
+    <TextView 
+	android:id="@+id/tvBackupPath"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="0.7"
+    android:ellipsize="marquee"
+    android:singleLine="true"
+    android:focusable="true"
+    android:marqueeRepeatLimit="marquee_forever"
+    android:focusableInTouchMode="true"
+    android:scrollHorizontally="true"/>
+    
+	<com.beardedhen.androidbootstrap.BootstrapButton
+				    android:id="@+id/buttonDirectoryChooser"
+	                android:layout_width="0dp"
 	                android:layout_height="wrap_content"
-	                android:layout_weight="0.5"
+	                android:layout_weight="0.3"
 	                android:layout_margin="8dp"
-	                android:text="导入竿长，打窝，饵料，鱼种"
+	                android:text="浏览"
 	                bootstrapbutton:bb_icon_left="fa-undo"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success" />
+	</LinearLayout>
 	
-</LinearLayout>
-
-        
-    <LinearLayout
-    android:id="@+id/buttonsLayoutCampaignTimeEdit"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:orientation="horizontal" >
-
-<com.beardedhen.androidbootstrap.BootstrapButton
+	<com.beardedhen.androidbootstrap.BootstrapButton
 				    android:id="@+id/buttonBackUp"
-	                android:layout_width="10dp"
+	                android:layout_width="0dp"
 	                android:layout_height="wrap_content"
-	                android:layout_weight="0.5"
+	                android:layout_weight="1"
 	                android:layout_margin="8dp"
 	                android:text="备份"
 	                bootstrapbutton:bb_icon_left="fa-undo"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success" />
+	</LinearLayout>
+
+        
+    
+
+
+	<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="恢复" />
+        
+    <View
+ 	android:layout_width="match_parent" 
+ 	android:layout_height="1dp" 
+ 	android:background="@android:color/black" />
+ 	
+	<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
 	
-	            <com.beardedhen.androidbootstrap.BootstrapButton
+    <TextView 
+	android:id="@+id/tvBackupPath"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="0.7"
+    android:ellipsize="marquee"
+    android:singleLine="true"
+    android:focusable="true"
+    android:marqueeRepeatLimit="marquee_forever"
+    android:focusableInTouchMode="true"
+    android:scrollHorizontally="true"/>
+    
+	<com.beardedhen.androidbootstrap.BootstrapButton
+				    android:id="@+id/buttonDirectoryChooser"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.3"
+	                android:layout_margin="8dp"
+	                android:text="浏览"
+	                bootstrapbutton:bb_icon_left="fa-undo"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
+	</LinearLayout>
+	
+	<com.beardedhen.androidbootstrap.BootstrapButton
 	                android:id="@+id/buttonRestore"
 	                android:layout_width="0dp"
 	                android:layout_height="wrap_content"
@@ -59,6 +126,26 @@
 	                bootstrapbutton:bb_icon_left="fa-floppy-o"
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success" />
-</LinearLayout>
+	</LinearLayout>
+	
+	
+	<LinearLayout
+    android:id="@+id/importBasicDataLinerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
 
-</RelativeLayout>
+	<com.beardedhen.androidbootstrap.BootstrapButton
+				    android:id="@+id/buttonImport"
+	                android:layout_width="10dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.5"
+	                android:layout_margin="8dp"
+	                android:text="导入竿长，打窝，饵料，鱼种"
+	                bootstrapbutton:bb_icon_left="fa-undo"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
+
+	</LinearLayout>
+
+</LinearLayout>

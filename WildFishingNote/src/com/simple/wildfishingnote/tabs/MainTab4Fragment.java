@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.simple.wildfishingnote.MainActivity;
@@ -24,6 +25,7 @@ import com.simple.wildfishingnote.bean.FishType;
 import com.simple.wildfishingnote.bean.LureMethod;
 import com.simple.wildfishingnote.bean.RodLength;
 import com.simple.wildfishingnote.common.Constant;
+import com.simple.wildfishingnote.common.DirectoryChooserDialog;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 import com.simple.wildfishingnote.database.MySQLiteHelper;
 import com.simple.wildfishingnote.utils.Msg;
@@ -166,7 +168,6 @@ public class MainTab4Fragment extends Fragment implements OnClickListener {
                 dst.transferFrom(src, 0, src.size());
                 src.close();
                 dst.close();
-//                Msg.show(getActivity(), "恢复数据库成功");
 
             }
 //        } catch (Exception e) {
@@ -210,7 +211,6 @@ public class MainTab4Fragment extends Fragment implements OnClickListener {
 				
 				FileUtils.deleteDirectory(dest);
 				FileUtils.copyDirectory(source, dest);
-//				Msg.show(getActivity(), "恢复渔获图片成功");
 			}
 //
 //		} catch (IOException e) {
@@ -230,74 +230,57 @@ public class MainTab4Fragment extends Fragment implements OnClickListener {
 		}
 	}
 
-	private void backupDatabase() throws IOException {
-//		try {
-            File sd = Environment.getExternalStorageDirectory();
-            File data = Environment.getDataDirectory();
+    private void backupDatabase() throws IOException {
+        File sd = Environment.getExternalStorageDirectory();
+        File data = Environment.getDataDirectory();
 
-            if (sd.canWrite()) {
-                String currentDBPath = "//data//" + "com.simple.wildfishingnote"
-                        + "//databases//" + MySQLiteHelper.DATABASE_NAME;
-                String backupDBPath = "backup.db";
-                File currentDB = new File(data, currentDBPath);
-                File backupDB = new File(sd, Constant.BACKUP_FOLDER_NAME + "/" + backupDBPath);
+        if (sd.canWrite()) {
+            String currentDBPath = "//data//" + "com.simple.wildfishingnote"
+                    + "//databases//" + MySQLiteHelper.DATABASE_NAME;
+            String backupDBPath = "backup.db";
+            File currentDB = new File(data, currentDBPath);
+            File backupDB = new File(sd, Constant.BACKUP_FOLDER_NAME + "/" + backupDBPath);
 
-                FileChannel src = new FileInputStream(currentDB).getChannel();
-                FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                dst.transferFrom(src, 0, src.size());
-                src.close();
-                dst.close();
-//                Msg.show(getActivity(), "备份数据库成功");
+            FileChannel src = new FileInputStream(currentDB).getChannel();
+            FileChannel dst = new FileOutputStream(backupDB).getChannel();
+            dst.transferFrom(src, 0, src.size());
+            src.close();
+            dst.close();
+        }
 
-            }
-//        } catch (Exception e) {
-//        	Msg.show(getActivity(), "备份数据库失败");
-//        }
-	}
+    }
 	
-	private void backupPlaceImageFiles() throws IOException {
-//		try {
+    private void backupPlaceImageFiles() throws IOException {
 
-			String imagePath = getActivity().getFilesDir()
-					+ Constant.PLACE_IMAGE_PATH;
-			File sd = Environment.getExternalStorageDirectory();
+        String imagePath = getActivity().getFilesDir()
+                + Constant.PLACE_IMAGE_PATH;
+        File sd = Environment.getExternalStorageDirectory();
 
-			if (sd.canWrite()) {
-				File source = new File(imagePath);
-				File dest = new File(sd, Constant.BACKUP_FOLDER_NAME
-						+ Constant.PLACE_IMAGE_PATH);
-				
-				FileUtils.deleteDirectory(dest);
-				FileUtils.copyDirectory(source, dest);
-//				Msg.show(getActivity(), "备份钓位图片成功");
-			}
+        if (sd.canWrite()) {
+            File source = new File(imagePath);
+            File dest = new File(sd, Constant.BACKUP_FOLDER_NAME
+                    + Constant.PLACE_IMAGE_PATH);
 
-//		} catch (IOException e) {
-//			Msg.show(getActivity(), "备份钓位图片失败");
-//		}
-	}
+            FileUtils.deleteDirectory(dest);
+            FileUtils.copyDirectory(source, dest);
+        }
+
+    }
 	
-	private void backupFishResultImageFiles() throws IOException {
-//		try {
+    private void backupFishResultImageFiles() throws IOException {
+        String imagePath = getActivity().getFilesDir()
+                + Constant.FISH_RESULT_IMAGE_PATH;
+        File sd = Environment.getExternalStorageDirectory();
 
-			String imagePath = getActivity().getFilesDir()
-					+ Constant.FISH_RESULT_IMAGE_PATH;
-			File sd = Environment.getExternalStorageDirectory();
+        if (sd.canWrite()) {
+            File source = new File(imagePath);
+            File dest = new File(sd, Constant.BACKUP_FOLDER_NAME
+                    + Constant.FISH_RESULT_IMAGE_PATH);
 
-			if (sd.canWrite()) {
-				File source = new File(imagePath);
-				File dest = new File(sd, Constant.BACKUP_FOLDER_NAME
-						+ Constant.FISH_RESULT_IMAGE_PATH);
-				
-				FileUtils.deleteDirectory(dest);
-				FileUtils.copyDirectory(source, dest);
-//				Msg.show(getActivity(), "备份渔获图片成功");
-			}
-//
-//		} catch (IOException e) {
-//			Msg.show(getActivity(), "备份渔获图片失败");
-//		}
-	}
+            FileUtils.deleteDirectory(dest);
+            FileUtils.copyDirectory(source, dest);
+        }
+    }
 	
 	private void setBtns() {
         BootstrapButton btn = (BootstrapButton)tab4View.findViewById(R.id.buttonBackUp);
@@ -308,6 +291,38 @@ public class MainTab4Fragment extends Fragment implements OnClickListener {
         
         btn = (BootstrapButton)tab4View.findViewById(R.id.buttonImport);
         btn.setOnClickListener(this);
+        
+        BootstrapButton dirChooserButton = (BootstrapButton)tab4View.findViewById(R.id.buttonDirectoryChooser);
+        
+        dirChooserButton.setOnClickListener(new OnClickListener() 
+        {
+            private String m_chosenDir = "";
+            private boolean m_newFolderEnabled = true;
+
+            @Override
+            public void onClick(View v) 
+            {
+                // Create DirectoryChooserDialog and register a callback 
+                DirectoryChooserDialog directoryChooserDialog = 
+                new DirectoryChooserDialog(getActivity(), 
+                    new DirectoryChooserDialog.ChosenDirectoryListener() 
+                {
+                    @Override
+                    public void onChosenDir(String chosenDir) 
+                    {
+                        m_chosenDir = chosenDir;
+                        TextView tv = (TextView) tab4View.findViewById(R.id.tvBackupPath);
+                        tv.setText(chosenDir);
+                    }
+                }); 
+                // Toggle new folder button enabling
+                directoryChooserDialog.setNewFolderEnabled(m_newFolderEnabled);
+                // Load directory chooser dialog for initial 'm_chosenDir' directory.
+                // The registered callback will be called upon final directory selection.
+                directoryChooserDialog.chooseDirectory(m_chosenDir);
+                m_newFolderEnabled = ! m_newFolderEnabled;
+            }
+        });
     }
     
 }
