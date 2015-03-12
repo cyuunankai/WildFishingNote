@@ -16,6 +16,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
@@ -27,14 +28,20 @@ import com.simple.wildfishingnote.utils.Msg;
 
 public class BackupDialogFragment extends DialogFragment {
 	private Activity mActivity;
+	private ProgressBar pb;
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 	    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 	    // Get the layout inflater
 	    mActivity = getActivity();
+	    
+	    
+	    
 	    LayoutInflater inflater = getActivity().getLayoutInflater();
 	    final View mView = inflater.inflate(R.layout.dialog_backup, null);
+	    pb = (ProgressBar)mView.findViewById(R.id.progressBar1);
+	    pb.setVisibility(View.INVISIBLE);
 	    
 	    BootstrapButton dirChooserButton = (BootstrapButton)mView.findViewById(R.id.buttonDirectoryChooser);
 	    dirChooserButton.setOnClickListener(new OnClickListener() 
@@ -97,6 +104,7 @@ public class BackupDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v)
             {
+                pb.setVisibility(View.VISIBLE);
                 TextView tvBackupPath = (TextView)mView.findViewById(R.id.tvBackupPath);
                 new BackupTask().execute(tvBackupPath.getText().toString());
 
@@ -180,11 +188,13 @@ public class BackupDialogFragment extends DialogFragment {
 
             protected String doInBackground(String... directory) {
 //                Msg.showLongTime(mActivity, "备份中");
+                
                 String ret = backup(directory[0]);
                 return ret;
             }
             
             protected void onPostExecute(String msg) {
+                pb.setVisibility(View.INVISIBLE);
                 Msg.showLongTime(mActivity, msg);
             }
         }
