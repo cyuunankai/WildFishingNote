@@ -168,23 +168,24 @@ public class MainTab1Fragment extends Fragment {
                 //// 内容长按事件->删除
                 addContentLayoutOnLongClickListener(viewHolder, convertView);
             }
-
+            CampaignSummary csObj = (CampaignSummary)list.get(position).item;
+            
             // 设置bean值到UI
-            SpannableString spanString = new SpannableString(((CampaignSummary)list.get(position).item).getTitle());
+            SpannableString spanString = new SpannableString(csObj.getTitle());
             spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
             viewHolder.titleTextView.setText(spanString);
             
             viewHolder.dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 8.0f);
-            viewHolder.dateTextView.setText(((CampaignSummary)list.get(position).item).getDate());
+            viewHolder.dateTextView.setText(csObj.getDate());
             
-            String summary = ((CampaignSummary)list.get(position).item).getSummary();
+            String summary = csObj.getSummary();
             Spanned html = Html.fromHtml(summary);
             viewHolder.summaryFlowTextView.setText(html);
             viewHolder.summaryFlowTextView.setTextSize(24.0f);
             
-            String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH;
-            final String filePath = directory + ((CampaignSummary)list.get(position).item).getImagePath();
-            if (StringUtils.isNotBlank(filePath)) {
+            String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH + csObj.getId() + "/";
+            final String filePath = directory + csObj.getImagePath();
+            if (StringUtils.isNotBlank(csObj.getImagePath())) {
                 imageLoader.displayImage("file://" + filePath, viewHolder.imageView, options, animateFirstListener);
             } else {
                 viewHolder.imageView.getLayoutParams().width = 0;

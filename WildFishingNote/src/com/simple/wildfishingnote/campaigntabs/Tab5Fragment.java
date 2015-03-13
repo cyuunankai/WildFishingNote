@@ -1,8 +1,12 @@
 package com.simple.wildfishingnote.campaigntabs;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -166,10 +170,7 @@ public class Tab5Fragment extends Fragment implements OnClickListener {
         
         List<String> sdCardPicList = new ArrayList<String>();
         List<String> picList = Common.getCampaignPrefernceStrList(getActivity(), "campaign_fish_result_pic_list");
-        for(String from : picList){
-        	String to = dealImageFile(from);
-        	sdCardPicList.add(to);
-        }
+        dealImageFile(sdCardPicList, picList);
         
         Campaign campaign = new Campaign();
         campaign.setSummary(summary);
@@ -182,20 +183,21 @@ public class Tab5Fragment extends Fragment implements OnClickListener {
         
         return campaign;
     }
-    
-	
-    /**
-     * 处理图片
-     * @return
-     */
-    private String dealImageFile(String from) {
-        String fileName;
+
+	private void dealImageFile(List<String> sdCardPicList, List<String> picList) {
+        String maxCampaignId = dataSource.getMaxCampaignId();
+        String toDirectory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH + maxCampaignId + "/";
+        try {
+			FileUtils.deleteDirectory(new File(toDirectory));
+		} catch (IOException e) {
+		}
         
-        String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH;
-        fileName = FileUtil.saveImageToInternalStorage(from, directory);
-        
-        return fileName;
-    }
+        for(String from : picList){
+        	String to = FileUtil.saveImageToInternalStorage(from, toDirectory);
+        	sdCardPicList.add(to);
+        }
+	}
+ 
     
     private void setOperationBtnVisibility() {
         LinearLayout buttonsLayoutCampaignWeatherEdit = (LinearLayout)tab5View.findViewById(R.id.buttonsLayoutCampaignWeatherEdit);
@@ -248,7 +250,8 @@ public class Tab5Fragment extends Fragment implements OnClickListener {
         galleryAdapter.setMultiplePick(false);
         gridGallery.setAdapter(galleryAdapter);
 
-        String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH;
+        String maxCampaignId = dataSource.getMaxCampaignId();
+        String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH + maxCampaignId + "/";
         ArrayList<CustomGallery> dataT = new ArrayList<CustomGallery>();
         
         for (String fileName : picList) {

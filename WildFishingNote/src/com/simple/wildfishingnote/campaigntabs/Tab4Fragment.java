@@ -1,8 +1,12 @@
 package com.simple.wildfishingnote.campaigntabs;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -171,30 +175,40 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
         String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
         
         List<String> picList = new ArrayList<String>();
-        ArrayList<CustomGallery> allT = galleryAdapter.getSelected();
-        for (CustomGallery cg : allT) {
-        	String to = dealImageFile(cg.sdcardPath);
-            picList.add(to);
-        }
+        
+        dealImageFile(picList, campaignId);
         dataSource.updateRelayCamapignStatisticsAndImageResult(campaignId, statisticsList, picList);
         
         Intent intent = getActivity().getIntent();
         getActivity().setResult(Activity.RESULT_OK, intent);
         getActivity().finish();
     }
-    
-    /**
-     * 处理图片
-     * @return
-     */
-    private String dealImageFile(String from) {
-        String fileName;
+
+	private void dealImageFile(List<String> picList, String campaignId) {
+		ArrayList<CustomGallery> allT = galleryAdapter.getSelected();
+		
+		String toDirectory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH + campaignId + "/";
+        try {
+        	boolean isImageNotChange = false;
+        	for (CustomGallery cg : allT) {
+        		if(cg.sdcardPath.startsWith("/data")){
+        			isImageNotChange = true;
+        			break;
+        		}
+        	}
+        	if(!isImageNotChange){
+        		FileUtils.deleteDirectory(new File(toDirectory));
+        	}
+			
+		} catch (IOException e) {
+		}
         
-        String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH;
-        fileName = FileUtil.saveImageToInternalStorage(from, directory);
-        
-        return fileName;
-    }
+        for (CustomGallery cg : allT) {
+        	String to = FileUtil.saveImageToInternalStorage(cg.sdcardPath, toDirectory);
+            picList.add(to);
+        }
+	}
+
 	
 	private void setOperationBtnVisibility() {
         LinearLayout buttonsLayoutCampaignResultEdit = (LinearLayout)tab4View.findViewById(R.id.buttonsLayoutCampaignResultEdit);
@@ -404,7 +418,7 @@ public class Tab4Fragment extends Fragment implements OnClickListener {
             String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
             List<String> picList = dataSource.getFishResultPicList(campaignId);
             
-            String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH;
+            String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH + campaignId + "/";
             ArrayList<CustomGallery> dataT = new ArrayList<CustomGallery>();
             
             for (String fileName : picList) {

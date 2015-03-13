@@ -303,6 +303,21 @@ public class CampaignDataSource {
         return campaign;
     }
     
+    public String getMaxCampaignId() {
+    	
+	    StringBuffer  sb = new StringBuffer();
+        sb.append("SELECT max(_id) as max_id ");
+        sb.append("FROM campaigns   ");
+
+        Cursor c = database.rawQuery(sb.toString(), null);
+
+		c.moveToFirst();
+		int max = c.getInt(0) + 1;
+		c.close();
+		
+		return String.valueOf(max);
+	}
+    
     // 钓位
     
     public Place addPlace(Place place) {
@@ -413,6 +428,21 @@ public class CampaignDataSource {
 		place.setDetail(cursor.getString(2));
 		place.setFileName(cursor.getString(3));
 		return place;
+	}
+	
+	public String getMaxPlaceId() {
+    	
+	    StringBuffer  sb = new StringBuffer();
+        sb.append("SELECT max(_id) as max_id ");
+        sb.append("FROM places   ");
+
+        Cursor c = database.rawQuery(sb.toString(), null);
+
+		c.moveToFirst();
+		int max = c.getInt(0) + 1;
+		c.close();
+		
+		return String.valueOf(max);
 	}
 	
 	// 钓点
