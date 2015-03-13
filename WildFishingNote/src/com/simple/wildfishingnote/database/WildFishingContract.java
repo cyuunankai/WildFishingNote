@@ -110,5 +110,12 @@ public class WildFishingContract {
         public static final String COLUMN_NAME_CLOUD_COVER = "cloud_cover";
         public static final String COLUMN_NAME_WEATHER_CODE = "weather_code";
     }
+    
+    // 备份
+    public static abstract class Backups implements BaseColumns {
+        public static final String TABLE_NAME = "backups";
+        public static final String COLUMN_NAME_PATH = "path";
+        public static final String COLUMN_NAME_TIME = "time";
+    }
 
 }

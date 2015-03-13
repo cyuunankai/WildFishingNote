@@ -54,7 +54,12 @@ public class DateUtil {
     }
     
     public static String getSystemDate() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_YYYY_MM_DD_HYPHEN);
+        return df.format(new java.util.Date());
+    }
+    
+    public static String getSystemDateHHMMSS() {
+        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_YYYY_MM_DD_HH_MM_SS_HYPHEN);
         return df.format(new java.util.Date());
     }
 

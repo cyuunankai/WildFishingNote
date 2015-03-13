@@ -131,6 +131,7 @@
         <activity android:name="com.simple.wildfishingnote.chart.ChartByMonthActivity" />
         <activity android:name="com.simple.wildfishingnote.chart.ChartByYearDetailActivity" android:screenOrientation="landscape"/>
         <activity android:name="com.simple.wildfishingnote.chart.fragments.SimpleChartDemo" android:screenOrientation="landscape"/>
+        <activity android:name="com.simple.wildfishingnote.backupandrestore.RestoreActivity" />
         
         <receiver android:name="com.simple.wildfishingnote.weather.schdule.AlarmManagerBroadcastReceiver" />
         <service android:name="com.simple.wildfishingnote.weather.service.SaveWeatherAndLocationService"/>

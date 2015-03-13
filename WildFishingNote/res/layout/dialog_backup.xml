@@ -32,14 +32,5 @@
 	                bootstrapbutton:bb_roundedCorners="true"
 	                bootstrapbutton:bb_type="success" />
 	</LinearLayout>
-	
-	<ProgressBar
-        android:id="@+id/progressBar1"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="15dp" />
 
 </LinearLayout>

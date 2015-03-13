@@ -130,6 +130,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                     + WildFishingContract.Weathers.TABLE_NAME
                     + "(" + WildFishingContract.Weathers._ID + ")" +
                     " )";
+    
+    // 备份
+    private static final String SQL_CREATE_BACKUPS =
+            "CREATE TABLE " + WildFishingContract.Backups.TABLE_NAME + " (" +
+                    WildFishingContract.Backups._ID + " INTEGER PRIMARY KEY," +
+                    WildFishingContract.Backups.COLUMN_NAME_PATH + TEXT_TYPE +  COMMA_SEP +
+                    WildFishingContract.Backups.COLUMN_NAME_TIME + TEXT_TYPE +  
+            " )";
 
 
     public MySQLiteHelper(Context context) {
@@ -150,6 +158,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       database.execSQL(SQL_CREATE_FISH_TYPE);
       database.execSQL(SQL_CREATE_WEATHERS);
       database.execSQL(SQL_CREATE_WEATHERS_HOURLY);
+      database.execSQL(SQL_CREATE_BACKUPS);
       
       String initRodLengthSql = "insert into " + WildFishingContract.RodLengths.TABLE_NAME + "("+WildFishingContract.RodLengths.COLUMN_NAME_NAME +") values ('3.6')";
       database.execSQL(initRodLengthSql);
@@ -219,6 +228,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.FishType.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Weathers.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.WeathersHourly.TABLE_NAME);
+      db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Backups.TABLE_NAME);
       onCreate(db);
     }
 

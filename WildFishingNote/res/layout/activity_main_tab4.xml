@@ -43,6 +43,17 @@
     android:focusableInTouchMode="true"
     android:scrollHorizontally="true"/>
     
+    <com.beardedhen.androidbootstrap.BootstrapButton
+				    android:id="@+id/buttonCreateBackupTable"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="0.3"
+	                android:layout_margin="8dp"
+	                android:text="建表"
+	                bootstrapbutton:bb_icon_left="fa-undo"
+	                bootstrapbutton:bb_roundedCorners="true"
+	                bootstrapbutton:bb_type="success" />
+    
 	<com.beardedhen.androidbootstrap.BootstrapButton
 				    android:id="@+id/buttonDirectoryChooser"
 	                android:layout_width="0dp"

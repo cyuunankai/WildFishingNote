@@ -22,6 +22,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import com.simple.wildfishingnote.animation.hover.HoverSwitch;
 import com.simple.wildfishingnote.backupandrestore.BackupDialogFragment;
+import com.simple.wildfishingnote.backupandrestore.RestoreActivity;
 import com.simple.wildfishingnote.bean.animation.hover.ImageIntentBean;
 import com.simple.wildfishingnote.bean.animation.hover.ImageSrcIntent;
 import com.simple.wildfishingnote.common.Common;
@@ -121,7 +122,9 @@ public class MainActivity extends ActionBarActivity {
                                 
                                 return true;
                             case R.id.restore:
-
+                                Intent intent = new Intent(getApplicationContext(), RestoreActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                getApplicationContext().startActivity(intent);
                                 return true;
                             default:
                                 return false;

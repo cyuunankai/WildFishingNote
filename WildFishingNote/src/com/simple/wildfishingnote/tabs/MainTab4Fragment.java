@@ -26,6 +26,7 @@ import com.simple.wildfishingnote.bean.LureMethod;
 import com.simple.wildfishingnote.bean.RodLength;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.common.DirectoryChooserDialog;
+import com.simple.wildfishingnote.database.BackupDataSource;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 import com.simple.wildfishingnote.database.MySQLiteHelper;
 import com.simple.wildfishingnote.utils.Msg;
@@ -60,7 +61,17 @@ public class MainTab4Fragment extends Fragment implements OnClickListener {
             case R.id.buttonImport:
             	importData();
                 break;
+            case R.id.buttonCreateBackupTable:
+                createTable();
+                break;
         }
+    }
+	
+    private void createTable() {
+        BackupDataSource bds = new BackupDataSource(getActivity());
+        bds.open();
+        bds.createTable();
+        bds.close();
     }
 	
 	private void importData(){
@@ -283,7 +294,10 @@ public class MainTab4Fragment extends Fragment implements OnClickListener {
     }
 	
 	private void setBtns() {
-        BootstrapButton btn = (BootstrapButton)tab4View.findViewById(R.id.buttonBackUp);
+	    BootstrapButton btn = (BootstrapButton)tab4View.findViewById(R.id.buttonCreateBackupTable);
+        btn.setOnClickListener(this);
+	    
+        btn = (BootstrapButton)tab4View.findViewById(R.id.buttonBackUp);
         btn.setOnClickListener(this);
         
         btn = (BootstrapButton)tab4View.findViewById(R.id.buttonRestore);
