@@ -184,12 +184,11 @@ public class MainTab1Fragment extends Fragment {
             viewHolder.summaryFlowTextView.setTextSize(24.0f);
             
             String directory = getActivity().getApplicationContext().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH + csObj.getId() + "/";
-            final String filePath = directory + csObj.getImagePath();
+            String filePath = directory + csObj.getImagePath();
             if (StringUtils.isNotBlank(csObj.getImagePath())) {
                 imageLoader.displayImage("file://" + filePath, viewHolder.imageView, options, animateFirstListener);
             } else {
-                viewHolder.imageView.getLayoutParams().width = 0;
-                viewHolder.imageView.getLayoutParams().height = 200;
+            	imageLoader.displayImage("drawable://" + R.drawable.ic_empty, viewHolder.imageView, options);
             }
             viewHolder.titleTextView.setTag(list.get(position).item);//// 保存bean值到UI tag (响应事件从这个UI tag取值)
 
