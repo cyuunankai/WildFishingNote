@@ -1350,14 +1350,16 @@ public class CampaignDataSource {
                 
                 statisticsHash.put(campaignId, rcsrList);
             }else{
-                rcsrList = new ArrayList<RelayCamapignStatisticsResult>();
-                rcsr = new RelayCamapignStatisticsResult();
-                rcsr.setWeight(weight);
-                rcsr.setCount(count);
-                rcsr.setHookFlag(hookFlag);
-                rcsrList.add(rcsr);
-                
-                statisticsHash.put(date, rcsrList);
+            	if(weight != null){
+	                rcsrList = new ArrayList<RelayCamapignStatisticsResult>();
+	                rcsr = new RelayCamapignStatisticsResult();
+	                rcsr.setWeight(weight);
+	                rcsr.setCount(count);
+	                rcsr.setHookFlag(hookFlag);
+	                rcsrList.add(rcsr);
+	                
+	                statisticsHash.put(date, rcsrList);
+            	}
             }
 
             c.moveToNext();
