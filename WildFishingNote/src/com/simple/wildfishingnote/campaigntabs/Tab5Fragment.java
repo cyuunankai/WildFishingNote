@@ -133,7 +133,9 @@ public class Tab5Fragment extends Fragment implements OnClickListener {
     private void initStatisticsByPreference(Campaign campaign) {
         NestedListView listView = (NestedListView) tab5View.findViewById(R.id.confirmListViewResult);
         View header = mInflater.inflate(R.layout.activity_fish_result_listview_header, null);
-        listView.addHeaderView(header);
+        if (listView.getHeaderViewsCount() == 0) {
+            listView.addHeaderView(header);
+        }
         arrayAdapter = new StatisticsArrayAdapter(getActivity(), campaign.getStatisticsList());
         listView.setAdapter(arrayAdapter);
     }

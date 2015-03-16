@@ -9,62 +9,62 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.android.apis.app.Tab2Activity" >
-    
+
     <ListView
         android:id="@+id/listViewPlace"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
+        android:layout_above="@+id/buttonsLayoutCampaignPlaceAdd"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_above = "@+id/buttonsLayoutCampaignPlaceAdd" >
+        android:layout_alignParentTop="true" >
     </ListView>
-    
-    <LinearLayout
-    android:id="@+id/buttonsLayoutCampaignPlaceAdd"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:orientation="horizontal" >	                
-	                
-	                <com.beardedhen.androidbootstrap.BootstrapButton
-				    android:id="@+id/buttonCampaignPlacePre"
-	                android:layout_width="0dp"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="0.5"
-	                android:layout_margin="8dp"
-	                android:text="@string/pre"
-	                bootstrapbutton:bb_icon_left="fa-undo"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success" />
-	
-	            <com.beardedhen.androidbootstrap.BootstrapButton
-	                android:id="@+id/buttonCampaignPlaceNext"
-	                android:layout_width="0dp"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="0.5"
-	                android:layout_margin="8dp"
-	                android:text="@string/next"
-	                bootstrapbutton:bb_icon_left="fa-floppy-o"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success" />
-</LinearLayout>	 
 
     <LinearLayout
-    android:id="@+id/buttonsLayoutCampaignPlaceEdit"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:orientation="horizontal" >
-	
-	            <com.beardedhen.androidbootstrap.BootstrapButton
-	                android:id="@+id/buttonSavePlace"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_margin="8dp"
-	                android:text="@string/save"
-	                bootstrapbutton:bb_icon_left="fa-floppy-o"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success" />
-</LinearLayout>	                
- 
+        android:id="@+id/buttonsLayoutCampaignPlaceAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/buttonCampaignPlacePre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="0.5"
+            android:text="@string/pre"
+            bootstrapbutton:bb_icon_left="fa-undo"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_type="success" />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/buttonCampaignPlaceNext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="0.5"
+            android:text="@string/next"
+            bootstrapbutton:bb_icon_left="fa-floppy-o"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_type="success" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonsLayoutCampaignPlaceEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/buttonSavePlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/save"
+            bootstrapbutton:bb_icon_left="fa-floppy-o"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_type="success" />
+    </LinearLayout>
+
 </RelativeLayout>

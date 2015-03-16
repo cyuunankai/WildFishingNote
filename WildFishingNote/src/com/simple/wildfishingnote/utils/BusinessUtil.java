@@ -92,7 +92,12 @@ public class BusinessUtil {
         int liang = remainGrams / 50;
 
         if (jin == 0) {
-            ret = liang + "两";
+            if(liang == 0){
+                ret = "少于1两";
+            }else{
+                ret = liang + "两";
+            }
+            
         } else {
             if (liang == 0) {
                 ret = jin + "斤";

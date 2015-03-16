@@ -3,10 +3,25 @@
 				android:layout_height="wrap_content"
 				android:orientation="horizontal"
 				android:padding="6dip">
+				
+<LinearLayout android:id = "@+id/col2Layout"
+    android:orientation="vertical"
+    android:gravity="center_vertical|center_horizontal"
+    android:layout_width="40dp"
+    android:layout_height="wrap_content">
+    
+	<RadioButton
+        android:id="@+id/placeRadio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </RadioButton>
+    
+    
+</LinearLayout>
 					
 <LinearLayout android:id = "@+id/col1Layout"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_weight="1"
     android:layout_height="30dp">
     
@@ -14,31 +29,8 @@
         android:id="@+id/textViewPlaceTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:singleLine="true"
-        android:ellipsize="marquee"
-        android:text="4"
         android:textSize="14sp" 
         />
 </LinearLayout>    
-	
-<LinearLayout android:id = "@+id/col2Layout"
-    android:orientation="vertical"
-    android:gravity="center_vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    
-	<RadioButton
-        android:id="@+id/placeRadio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="4px"
-        android:layout_marginRight="10px" >
-    </RadioButton>
-    
-    
-</LinearLayout>
-
 
 </LinearLayout>
