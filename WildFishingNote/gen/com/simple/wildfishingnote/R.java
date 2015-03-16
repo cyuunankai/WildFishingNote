@@ -3406,6 +3406,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int Holo_Theme_Wallpaper=0x7f0a0121;
         public static final int MyActionBar=0x7f0a013e;
         public static final int MyTheme=0x7f0a013d;
+        public static final int PopupMenu=0x7f0a013f;
         /**  Mimic text appearance in select_dialog_item.xml 
          */
         public static final int TextAppearance_AppCompat_Base_CompactMenu_Dialog=0x7f0a0065;

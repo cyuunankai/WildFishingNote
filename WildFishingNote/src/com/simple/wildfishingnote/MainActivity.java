@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -110,7 +112,8 @@ public class MainActivity extends ActionBarActivity {
             
             @Override
             public void onClick(View paramView) {
-                PopupMenu popup = new PopupMenu(getApplicationContext(), paramView);
+                Context wrapper = new ContextThemeWrapper(getApplicationContext(), R.style.PopupMenu);
+                PopupMenu popup = new PopupMenu(wrapper, paramView);
                 popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
                     @Override

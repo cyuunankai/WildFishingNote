@@ -26,5 +26,9 @@
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.Base.ActionBar">
         <item name="background">@drawable/abc_ab_transparent_light_holo</item>
     </style>
+    
+    <style name="PopupMenu" parent="android:Theme.Holo.Light">
+    	<item name="android:popupBackground">@drawable/abc_ab_transparent_light_holo</item>
+	</style>
 
 </resources>
