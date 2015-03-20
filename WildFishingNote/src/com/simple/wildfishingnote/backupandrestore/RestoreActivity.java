@@ -326,6 +326,17 @@ public class RestoreActivity extends ActionBarActivity {
         public int getCount() {
             return list.size();
         }
+        
+        @Override
+        public int getViewTypeCount() {                 
+            return list.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+
+            return position;
+        }
 
     }
     

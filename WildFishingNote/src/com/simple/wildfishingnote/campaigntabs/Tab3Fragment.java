@@ -32,7 +32,6 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.gson.Gson;
 import com.simple.wildfishingnote.AddMainActivity;
 import com.simple.wildfishingnote.R;
-import com.simple.wildfishingnote.bean.Campaign;
 import com.simple.wildfishingnote.bean.Point;
 import com.simple.wildfishingnote.campaign.point.AddPointActivity;
 import com.simple.wildfishingnote.campaign.point.PointDetailActivity;
@@ -483,7 +482,16 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
             return list.size();
         }
 
-        
+        @Override
+        public int getViewTypeCount() {                 
+            return list.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+
+            return position;
+        }
 
     }
 

@@ -253,8 +253,6 @@ public class ShowAllBaitActivity extends ActionBarActivity implements BaitDialog
             return list.size();
         }
 
-        
-
     }
     
     @Override
