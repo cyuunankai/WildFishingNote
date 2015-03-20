@@ -24,11 +24,18 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                     WildFishingContract.Campaigns.COL_NAME_SUMMARY + TEXT_TYPE + COMMA_SEP +
                     WildFishingContract.Campaigns.COL_NAME_PLACE_ID + INTEGER_TYPE + 
             " )"; 
+    // 区域
+    private static final String SQL_CREATE_AREAS =
+        "CREATE TABLE " + WildFishingContract.Areas.TABLE_NAME + " (" +
+                WildFishingContract.Areas._ID + " INTEGER PRIMARY KEY," +
+                WildFishingContract.Areas.COLUMN_NAME_TITLE + TEXT_TYPE +  
+        " )"; 
     
     // 钓位
     private static final String SQL_CREATE_PLACES =
         "CREATE TABLE " + WildFishingContract.Places.TABLE_NAME + " (" +
         		WildFishingContract.Places._ID + " INTEGER PRIMARY KEY," +
+        		WildFishingContract.Places.COLUMN_NAME_AREA_ID + INTEGER_TYPE +  COMMA_SEP +
         		WildFishingContract.Places.COLUMN_NAME_TITLE + TEXT_TYPE +  COMMA_SEP +
         		WildFishingContract.Places.COLUMN_NAME_DETAIL + TEXT_TYPE + COMMA_SEP +
 	            WildFishingContract.Places.COLUMN_NAME_FILE_NAME + TEXT_TYPE +  
@@ -147,6 +154,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database) {
       database.execSQL(SQL_CREATE_CAMPAINGS);
+      database.execSQL(SQL_CREATE_AREAS);
       database.execSQL(SQL_CREATE_PLACES);
       database.execSQL(SQL_CREATE_POINTS);
       database.execSQL(SQL_CREATE_RELAY_CAMPAIGN_POINTS);
@@ -217,6 +225,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
           "Upgrading database from version " + oldVersion + " to "
               + newVersion + ", which will destroy all old data");
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Campaigns.TABLE_NAME);
+      db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Areas.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Places.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Points.TABLE_NAME);
       db.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.RelayCampaignPoints.TABLE_NAME);

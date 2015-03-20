@@ -14,6 +14,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.simple.wildfishingnote.bean.Area;
 import com.simple.wildfishingnote.bean.Bait;
 import com.simple.wildfishingnote.bean.Campaign;
 import com.simple.wildfishingnote.bean.CampaignSummary;
@@ -38,7 +39,11 @@ public class CampaignDataSource {
             WildFishingContract.Campaigns.COL_NAME_SUMMARY,
             WildFishingContract.Campaigns.COL_NAME_PLACE_ID};
     
+    private String[] areaAllColumns = { WildFishingContract.Areas._ID,
+            WildFishingContract.Areas.COLUMN_NAME_TITLE};
+    
     private String[] placeAllColumns = { WildFishingContract.Places._ID,
+            WildFishingContract.Places.COLUMN_NAME_AREA_ID,
 			WildFishingContract.Places.COLUMN_NAME_TITLE,
 			WildFishingContract.Places.COLUMN_NAME_DETAIL,
 			WildFishingContract.Places.COLUMN_NAME_FILE_NAME };
@@ -326,6 +331,8 @@ public class CampaignDataSource {
     public Place addPlace(Place place) {
 
 		ContentValues values = new ContentValues();
+		values.put(WildFishingContract.Places.COLUMN_NAME_AREA_ID,
+                place.getAreaId());
 		values.put(WildFishingContract.Places.COLUMN_NAME_TITLE,
 				place.getTitle());
 		values.put(WildFishingContract.Places.COLUMN_NAME_DETAIL,
@@ -343,6 +350,8 @@ public class CampaignDataSource {
 	public Place updatePlace(Place place) {
 
 		ContentValues values = new ContentValues();
+		values.put(WildFishingContract.Places.COLUMN_NAME_AREA_ID,
+                place.getAreaId());
 		values.put(WildFishingContract.Places.COLUMN_NAME_TITLE,
 				place.getTitle());
 		values.put(WildFishingContract.Places.COLUMN_NAME_DETAIL,
@@ -378,23 +387,6 @@ public class CampaignDataSource {
 
 		return place;
 	}
-
-	public Cursor getPlaceForPinner() {
-
-		String[] projection = { WildFishingContract.Places._ID,
-				WildFishingContract.Places.COLUMN_NAME_TITLE };
-
-		Cursor c = database.query(WildFishingContract.Places.TABLE_NAME, 
-				projection, // The columns to return
-				null, // The columns for the WHERE clause
-				null, // The values for the WHERE clause
-				null, // don't group the rows
-				null, // don't filter by row groups
-				null // The sort order
-				);
-
-		return c;
-	}
 	
 	public List<Place> getPlacesForList() {
 		List<Place> list = new ArrayList<Place>();
@@ -410,11 +402,7 @@ public class CampaignDataSource {
 		
 		c.moveToFirst();
 		while(!c.isAfterLast()){
-			Place obj = new Place();
-			obj.setId(c.getString(c.getColumnIndex(WildFishingContract.Places._ID)));
-			obj.setTitle(c.getString(c.getColumnIndex(WildFishingContract.Places.COLUMN_NAME_TITLE)));
-			obj.setDetail(c.getString(c.getColumnIndex(WildFishingContract.Places.COLUMN_NAME_DETAIL)));
-			obj.setFileName(c.getString(c.getColumnIndex(WildFishingContract.Places.COLUMN_NAME_FILE_NAME)));
+			Place obj = cursorToPlace(c);
 		
 			list.add(obj);
 			c.moveToNext();
@@ -427,9 +415,10 @@ public class CampaignDataSource {
 	private Place cursorToPlace(Cursor cursor) {
 		Place place = new Place();
 		place.setId(cursor.getString(0));
-		place.setTitle(cursor.getString(1));
-		place.setDetail(cursor.getString(2));
-		place.setFileName(cursor.getString(3));
+		place.setAreaId(cursor.getString(1));
+		place.setTitle(cursor.getString(2));
+		place.setDetail(cursor.getString(3));
+		place.setFileName(cursor.getString(4));
 		return place;
 	}
 	
@@ -1580,5 +1569,97 @@ public class CampaignDataSource {
         
         return ret;
     }
+    
+    
+    // 区域
+    public Area addArea(Area area) {
+
+        ContentValues values = new ContentValues();
+        values.put(WildFishingContract.Areas.COLUMN_NAME_TITLE, area.getTitle());
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId;
+        newRowId = database.insert(WildFishingContract.Areas.TABLE_NAME, null,
+                values);
+
+        return getAreaById(String.valueOf(newRowId));
+    }
+
+    public Area updateArea(Area area) {
+
+        ContentValues values = new ContentValues();
+        values.put(WildFishingContract.Areas.COLUMN_NAME_TITLE, area.getTitle());
+
+        String selection = WildFishingContract.Areas._ID + " = ? ";
+        String[] selelectionArgs = { area.getId() };
+
+        database.update(WildFishingContract.Areas.TABLE_NAME, values,
+                selection, selelectionArgs);
+
+        return getAreaById(area.getId());
+    }
+
+    public void deleteArea(String rowId) {
+
+        String selection = WildFishingContract.Areas._ID + " = ? ";
+        String[] selelectionArgs = { rowId };
+
+        database.delete(WildFishingContract.Areas.TABLE_NAME, selection,
+                selelectionArgs);
+    }
+
+    public Area getAreaById(String rowId) {
+        String selection = WildFishingContract.Areas._ID + " = ? ";
+        String[] selelectionArgs = { rowId };
+
+        Cursor c = database.query(WildFishingContract.Areas.TABLE_NAME, 
+                areaAllColumns, // The columns to return
+                selection, // The columns for the WHERE clause
+                selelectionArgs, // The values for the WHERE clause
+                null, // don't group the rows
+                null, // don't filter by row groups
+                null // The sort order
+                );
+
+        c.moveToFirst();
+        Area Area = cursorToArea(c);
+        c.close();
+
+        return Area;
+    }
+
+    public List<Area> getAllAreas() {
+        List<Area> retList = new ArrayList<Area>();
+
+        Cursor c = database.query(WildFishingContract.Areas.TABLE_NAME,
+                areaAllColumns, // The columns to return
+                null, // The columns for the WHERE clause
+                null, // The values for the WHERE clause
+                null, // don't group the rows
+                null, // don't filter by row groups
+                null // The sort order
+                );
+
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            Area obj = cursorToArea(c);
+            retList.add(obj);
+
+            c.moveToNext();
+        }
+        c.close();
+
+        return retList;
+    }
+
+    private Area cursorToArea(Cursor c) {
+        Area Area = new Area();
+        Area.setId(c.getString(c.getColumnIndex(WildFishingContract.Areas._ID)));
+        Area.setTitle(c.getString(c
+                .getColumnIndex(WildFishingContract.Areas.COLUMN_NAME_TITLE)));
+        return Area;
+    }
+    
+    
     
 }

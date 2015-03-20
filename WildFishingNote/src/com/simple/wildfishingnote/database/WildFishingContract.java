@@ -13,10 +13,17 @@ public class WildFishingContract {
         public static final String COL_NAME_SUMMARY = "summary";
         public static final String COL_NAME_PLACE_ID = "place_id";
     }
+    
+    // 区域
+    public static abstract class Areas implements BaseColumns {
+        public static final String TABLE_NAME = "areas";
+        public static final String COLUMN_NAME_TITLE = "title";
+    }
 
     // 钓位
     public static abstract class Places implements BaseColumns {
         public static final String TABLE_NAME = "places";
+        public static final String COLUMN_NAME_AREA_ID = "area_id";
         public static final String COLUMN_NAME_TITLE = "title";
         public static final String COLUMN_NAME_DETAIL = "detail";
         public static final String COLUMN_NAME_FILE_NAME = "file_path";

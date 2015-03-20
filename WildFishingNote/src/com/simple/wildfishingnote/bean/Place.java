@@ -3,8 +3,15 @@ package com.simple.wildfishingnote.bean;
 public class Place {
 
 	private String id;
+	private String areaId;
 	private String title;
-	private String detail;
+	public String getAreaId() {
+        return areaId;
+    }
+    public void setAreaId(String areaId) {
+        this.areaId = areaId;
+    }
+    private String detail;
 	private String fileName;
 	boolean selected;
 	
