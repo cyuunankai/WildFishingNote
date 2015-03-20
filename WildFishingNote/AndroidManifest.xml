@@ -91,6 +91,9 @@
             android:name=".campaign.place.AddPlaceActivity"
             android:label="@string/title_activity_add_place" >
         </activity>
+         <activity
+            android:name=".campaign.place.ShowAllAreaActivity">
+        </activity>
         <activity
             android:name=".campaign.point.AddPointActivity"
             android:label="@string/title_activity_add_point" >

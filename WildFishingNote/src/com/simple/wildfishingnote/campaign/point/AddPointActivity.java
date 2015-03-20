@@ -52,7 +52,7 @@ public class AddPointActivity extends ActionBarActivity implements RodLengthDial
         initHoverSwith();
         
         initAddOrEdit();
-    }
+    }   
 
     /**
      * [保存]按钮按下

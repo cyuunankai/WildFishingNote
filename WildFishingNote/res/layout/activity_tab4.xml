@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,231 +9,224 @@
     android:paddingTop="6dp"
     tools:context="com.example.android.apis.app.Tab4Activity" >
 
-		
-<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical" >
-
-
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal" >
-	<TextView
- 		android:layout_width="35dp" 
-		android:layout_height="wrap_content"
-		android:layout_marginTop="6dp" 
-		android:layout_marginLeft="6dp"
-		android:layout_marginBottom="6dp"
- 		android:text="@string/point" />		
-    <Spinner
-        android:id="@+id/addResultPointSpinner"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"  />
-    </LinearLayout>
-    
-    <LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal" >
-	<TextView
- 		android:layout_width="35dp" 
-		android:layout_height="wrap_content"
-		android:layout_marginTop="6dp" 
-		android:layout_marginLeft="6dp"
-		android:layout_marginBottom="6dp"
- 		android:text="@string/fish_type" />	
-    <Spinner
-        android:id="@+id/addResultFishTypeSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_margin="6dp"  />
-        
-    </LinearLayout>
-    	
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal" >	
-	<TextView
- 		android:layout_width="35dp" 
-		android:layout_height="wrap_content"
-		android:layout_marginTop="6dp" 
-		android:layout_marginLeft="6dp"
-		android:layout_marginBottom="6dp"
- 		android:text="@string/weight" />	
-	<com.beardedhen.androidbootstrap.BootstrapEditText
-        android:id="@+id/addResultWeightEditText"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:hint="@string/weight_hint" 
-        android:inputType="numberDecimal" 
-        bootstrapbutton:be_roundedCorners="true"
-	    bootstrapbutton:be_state="success"/>
-	    
-	    <RadioGroup
-					android:id="@+id/radioGroup"
-					android:layout_width="0dp"
-					android:layout_weight="1"
-					android:layout_height="match_parent"
-					android:orientation="horizontal">
-					<RadioButton
-						android:id="@+id/addResultInRadio"
-						android:layout_width="0dp"
-						android:layout_weight="0.5"
-						android:layout_height="wrap_content"
-						android:text="@string/in" />
-					<RadioButton
-						android:id="@+id/addResultOutRadio"
-						android:layout_width="0dp"
-						android:layout_weight="0.5"
-						android:layout_height="wrap_content"
-						android:text="@string/out" />
-				</RadioGroup>
+        android:orientation="vertical" >
 
-	
-	</LinearLayout>
-
-
-    <LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal" >
-
-    	
-	<TextView
- 		android:layout_width="35dp" 
-		android:layout_height="wrap_content"
-		android:layout_marginTop="6dp" 
-		android:layout_marginLeft="6dp"
-		android:layout_marginBottom="6dp"
- 		android:text="@string/count" />	
- 		
-	<com.beardedhen.androidbootstrap.BootstrapEditText
-        android:id="@+id/addResultCountEditText"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:hint="@string/count_hint" 
-        android:inputType="numberDecimal" 
-        bootstrapbutton:be_roundedCorners="true"
-	    bootstrapbutton:be_state="success"/>		
-	   
-	    <com.beardedhen.androidbootstrap.BootstrapButton
-				    android:id="@+id/addResultGalleryPickBtn"
-	                android:layout_width="0dp"
-	                android:layout_weight="0.5"
-	                android:layout_height="wrap_content"
-	                android:layout_margin="2dp"
-	                android:text="@string/add_result_pick_pic"
-	                bootstrapbutton:bb_icon_left="fa-calendar"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_size="small"
-	                bootstrapbutton:bb_type="success" />
-	                
-		<com.beardedhen.androidbootstrap.BootstrapButton
-				    android:id="@+id/addResultAddBtn"
-	                android:layout_width="0dp"
-	                android:layout_weight="0.5"
-	                android:layout_height="wrap_content"
-	                android:layout_margin="2dp"
-	                android:text="@string/add"
-	                bootstrapbutton:bb_icon_left="fa-calendar"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_size="small"
-	                bootstrapbutton:bb_type="success" />
-    </LinearLayout>
-
-	<ListView
-        android:id="@+id/listViewResult"
-        android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_marginTop="6dp" 
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
-    </ListView>
-    
-    <LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical" >		
-
-		<GridView
-            android:id="@+id/addResultGridGallery"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_marginBottom="-10dp"
-            android:layout_marginLeft="-10dp"
-            android:layout_marginRight="-10dp"
-            android:layout_marginTop="-10dp"
-            android:horizontalSpacing="-15dp"
-            android:numColumns="3"
-            android:padding="0dp"
-            android:verticalSpacing="-15dp"
-            tools:listitem="@layout/gallery_item" >
-        </GridView>
+            android:orientation="horizontal" >
 
-	   
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/point" />
+
+            <Spinner
+                android:id="@+id/addResultPointSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/fish_type" />
+
+            <Spinner
+                android:id="@+id/addResultFishTypeSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/weight" />
+
+            <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:id="@+id/addResultWeightEditText"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:hint="@string/weight_hint"
+                android:inputType="numberDecimal"
+                bootstrapbutton:be_roundedCorners="true"
+                bootstrapbutton:be_state="success" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/addResultInRadio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/in" />
+
+                <RadioButton
+                    android:id="@+id/addResultOutRadio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/out" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/count" />
+
+            <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:id="@+id/addResultCountEditText"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:hint="@string/count_hint"
+                android:inputType="numberDecimal"
+                bootstrapbutton:be_roundedCorners="true"
+                bootstrapbutton:be_state="success" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/addResultGalleryPickBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="0.5"
+                android:text="@string/add_result_pick_pic"
+                bootstrapbutton:bb_icon_left="fa-calendar"
+                bootstrapbutton:bb_roundedCorners="true"
+                bootstrapbutton:bb_size="small"
+                bootstrapbutton:bb_type="success" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/addResultAddBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="0.5"
+                android:text="@string/add"
+                bootstrapbutton:bb_icon_left="fa-calendar"
+                bootstrapbutton:bb_roundedCorners="true"
+                bootstrapbutton:bb_size="small"
+                bootstrapbutton:bb_type="success" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listViewResult"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="6dp" >
+        </ListView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <GridView
+                android:id="@+id/addResultGridGallery"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginBottom="-10dp"
+                android:layout_marginLeft="-10dp"
+                android:layout_marginRight="-10dp"
+                android:layout_marginTop="-10dp"
+                android:horizontalSpacing="-15dp"
+                android:numColumns="3"
+                android:padding="0dp"
+                android:verticalSpacing="-15dp"
+                tools:listitem="@layout/gallery_item" >
+            </GridView>
+        </LinearLayout>
     </LinearLayout>
 
- 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/buttonsLayoutCampaignResultAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
 
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/buttonCampaignResultPre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_weight="0.5"
+            android:text="@string/pre"
+            bootstrapbutton:bb_icon_left="fa-undo"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_type="success" />
 
-
-
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/buttonCampaignResultNext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_weight="0.5"
+            android:text="@string/next"
+            bootstrapbutton:bb_icon_left="fa-floppy-o"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_type="success" />
+    </LinearLayout>
 
     <LinearLayout
-    android:id="@+id/buttonsLayoutCampaignResultAdd"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:orientation="horizontal" >	                
-	                
-	                <com.beardedhen.androidbootstrap.BootstrapButton
-				    android:id="@+id/buttonCampaignResultPre"
-	                android:layout_width="0dp"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="0.5"
-	                android:layout_margin="6dp"
-	                android:text="@string/pre"
-	                bootstrapbutton:bb_icon_left="fa-undo"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success" />
-	
-	            <com.beardedhen.androidbootstrap.BootstrapButton
-	                android:id="@+id/buttonCampaignResultNext"
-	                android:layout_width="0dp"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="0.5"
-	                android:layout_margin="6dp"
-	                android:text="@string/next"
-	                bootstrapbutton:bb_icon_left="fa-floppy-o"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success" />
-</LinearLayout>	 
+        android:id="@+id/buttonsLayoutCampaignResultEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
 
-    <LinearLayout
-    android:id="@+id/buttonsLayoutCampaignResultEdit"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:orientation="horizontal" >
-	
-	            <com.beardedhen.androidbootstrap.BootstrapButton
-	                android:id="@+id/buttonSaveResult"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_margin="6dp"
-	                android:text="@string/save"
-	                bootstrapbutton:bb_icon_left="fa-floppy-o"
-	                bootstrapbutton:bb_roundedCorners="true"
-	                bootstrapbutton:bb_type="success" />
-</LinearLayout>
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/buttonSaveResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="@string/save"
+            bootstrapbutton:bb_icon_left="fa-floppy-o"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_type="success" />
+    </LinearLayout>
 
 </RelativeLayout>

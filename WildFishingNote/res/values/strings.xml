@@ -35,6 +35,7 @@
     <string name="title_activity_place_detail">钓位信息</string>
     <string name="add">添加</string>
     <string name="title_activity_add_place">AddPlaceActivity</string>
+    <string name="add_place_area_hint">区域</string>
     <string name="add_place_title_hint">标题，要求简短</string>
     <string name="add_place_detail_hint">详细描述</string>
     <string name="add_place_pick_pic">添加钓位图片</string>
