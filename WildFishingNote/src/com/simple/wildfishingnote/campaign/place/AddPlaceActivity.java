@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import com.simple.wildfishingnote.animation.hover.HoverSwitch;
 import com.simple.wildfishingnote.bean.Area;
 import com.simple.wildfishingnote.bean.Place;
 import com.simple.wildfishingnote.bean.Point;
+import com.simple.wildfishingnote.bean.RodLength;
 import com.simple.wildfishingnote.bean.animation.hover.ImageIntentBean;
 import com.simple.wildfishingnote.bean.animation.hover.ImageSrcIntent;
 import com.simple.wildfishingnote.campaign.point.BaitDialogFragment;
@@ -48,7 +50,7 @@ import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 import com.simple.wildfishingnote.utils.FileUtil;
 
-public class AddPlaceActivity extends ActionBarActivity {
+public class AddPlaceActivity extends ActionBarActivity implements AreaDialogFragment.NoticeDialogListener{
 
     GridView gridGallery;
     Handler handler;
@@ -63,6 +65,7 @@ public class AddPlaceActivity extends ActionBarActivity {
     String single_path;
     
     public final static String PLACE_ID = "placeId"; 
+    public final static String AREA_ID = "areaId"; 
     private CampaignDataSource dataSourceCampaign;
     String globalPlaceId;   
     
@@ -81,8 +84,10 @@ public class AddPlaceActivity extends ActionBarActivity {
         initImageLoader();
         initSinglePickBtn();
 
-        initAddOrEdit();
         initAreaSpinner();
+        initAddOrEdit();
+        
+        initHoverSwith();
     }
 
     /**
@@ -104,13 +109,12 @@ public class AddPlaceActivity extends ActionBarActivity {
      */
     private void initEdit() {
         Place place = dataSourceCampaign.getPlaceById(globalPlaceId);
-        Spinner areaSpinner = (Spinner) findViewById(R.id.addPlaceAreaSpinner);
         BootstrapEditText etTitle = (BootstrapEditText) findViewById(R.id.addPlaceTitle);
         BootstrapEditText etDetail = (BootstrapEditText) findViewById(R.id.addPlaceDetail);
         
-        List<Area> list = dataSourceCampaign.getAllAreas();
-        int position = getAreaSelectedIndex(place.getAreaId(), list);
-        areaSpinner.setSelection(position);
+        if(place.getAreaId() != null){
+        	setAreaSpinnerSelection(place.getAreaId());
+        }
         etTitle.setText(place.getTitle());
         etDetail.setText(place.getDetail());
         
@@ -119,7 +123,8 @@ public class AddPlaceActivity extends ActionBarActivity {
         imageLoader.displayImage("file://" + single_path, imgSinglePick);
     }
     
-    public void initAreaSpinner() {
+    private void initAreaSpinner() {
+    	dataSourceCampaign.open();
         List<Area> list = dataSourceCampaign.getAllAreas();
         
         Area[] arr = list.toArray(new Area[list.size()]);
@@ -142,6 +147,32 @@ public class AddPlaceActivity extends ActionBarActivity {
         return selectedIndex;
     }
     
+    
+    /**
+     * 【添加区域】画面[OK]按钮按下
+     */
+    @Override
+    public void onAreaDialogPositiveClick(DialogFragment dialog, String title) {
+        // User touched the dialog's positive button
+        Area obj = new Area();
+        obj.setTitle(title);
+        Area newArea = dataSourceCampaign.addArea(obj);
+        
+        initAreaSpinner();
+        setAreaSpinnerSelection(newArea.getId());
+        
+        hoverSwitch.execRootImageClick(true);
+    }
+    
+    private void setAreaSpinnerSelection(String selectedId) {
+        List<Area> list = dataSourceCampaign.getAllAreas();
+        
+        int selectedIndex = getAreaSelectedIndex(selectedId, list);
+        
+        Spinner s = (Spinner) findViewById(R.id.addPlaceAreaSpinner);
+        s.setSelection(selectedIndex);
+    }
+    
     /**
      * [保存]按钮按下
      */
@@ -154,8 +185,10 @@ public class AddPlaceActivity extends ActionBarActivity {
         Place place = buildPlace();
         Place updatedPlace = savePlace(place);
 
+        
         Intent intent = getIntent();
-        intent.putExtra("placeId", updatedPlace.getId());
+        intent.putExtra(PLACE_ID, updatedPlace.getId());
+        intent.putExtra(AREA_ID, updatedPlace.getAreaId());
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -293,7 +326,10 @@ public class AddPlaceActivity extends ActionBarActivity {
             single_path = data.getStringExtra("single_path");
             imageLoader.displayImage("file://" + single_path, imgSinglePick);
 
-        }
+        }else if (requestCode == Constant.REQUEST_CODE_SHOW_ALL_AREA && resultCode == Activity.RESULT_OK) {
+            // 查看区域方法返回
+            initAreaSpinner();
+        } 
     }
     
     private void initHoverSwith() {
@@ -347,8 +383,8 @@ public class AddPlaceActivity extends ActionBarActivity {
                         AreaDialogFragment dialog = new AreaDialogFragment("");
                         dialog.show(getSupportFragmentManager(), "areaDialog");
                     } else if ("ShowAllAreaActivity".equals(intentName)) {
-//                        Intent intent = new Intent(getApplicationContext(), ShowAllRodLengthActivity.class);
-//                        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_ROD_LENGTH);
+                        Intent intent = new Intent(getApplicationContext(), ShowAllAreaActivity.class);
+                        startActivityForResult(intent, Constant.REQUEST_CODE_SHOW_ALL_AREA);
                     }
                 }
             });
@@ -359,6 +395,7 @@ public class AddPlaceActivity extends ActionBarActivity {
     protected void onResume() {
       dataSourceCampaign.open();
       super.onResume();
+      hoverSwitch.execRootImageClick(true);
     }
 
     @Override

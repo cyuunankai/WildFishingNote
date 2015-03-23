@@ -30,6 +30,23 @@ public class BackupDataSource {
                     WildFishingContract.Backups.COLUMN_NAME_PATH + TEXT_TYPE +  COMMA_SEP +
                     WildFishingContract.Backups.COLUMN_NAME_TIME + TEXT_TYPE +  
             " )";
+    
+ // 区域
+    private static final String SQL_CREATE_AREAS =
+        "CREATE TABLE " + WildFishingContract.Areas.TABLE_NAME + " (" +
+                WildFishingContract.Areas._ID + " INTEGER PRIMARY KEY," +
+                WildFishingContract.Areas.COLUMN_NAME_TITLE + TEXT_TYPE +  
+        " )"; 
+    
+    // 钓位
+    private static final String SQL_CREATE_PLACES =
+        "CREATE TABLE " + WildFishingContract.Places.TABLE_NAME + " (" +
+        		WildFishingContract.Places._ID + " INTEGER PRIMARY KEY," +
+        		WildFishingContract.Places.COLUMN_NAME_AREA_ID + "INTEGER" +  COMMA_SEP +
+        		WildFishingContract.Places.COLUMN_NAME_TITLE + TEXT_TYPE +  COMMA_SEP +
+        		WildFishingContract.Places.COLUMN_NAME_DETAIL + TEXT_TYPE + COMMA_SEP +
+	            WildFishingContract.Places.COLUMN_NAME_FILE_NAME + TEXT_TYPE +  
+        " )"; 
 
     public BackupDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -46,8 +63,13 @@ public class BackupDataSource {
     
     
     public void createTable() {
-        database.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Backups.TABLE_NAME);
-        database.execSQL(SQL_CREATE_BACKUPS);
+//        database.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Backups.TABLE_NAME);
+//        database.execSQL(SQL_CREATE_BACKUPS);
+        
+        database.execSQL("DROP TABLE IF EXISTS " + WildFishingContract.Areas.TABLE_NAME);
+        database.execSQL(SQL_CREATE_AREAS);
+        
+        database.execSQL("ALTER TABLE "+WildFishingContract.Places.TABLE_NAME+" ADD COLUMN "+WildFishingContract.Places.COLUMN_NAME_AREA_ID+" INTEGER");
     }
 
     public void addBackup(Backup backup) {

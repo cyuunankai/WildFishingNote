@@ -388,13 +388,16 @@ public class CampaignDataSource {
 		return place;
 	}
 	
-	public List<Place> getPlacesForList() {
+	public List<Place> getPlacesForList(String areaId) {
 		List<Place> list = new ArrayList<Place>();
+		
+		String selection = WildFishingContract.Places.COLUMN_NAME_AREA_ID + " = ? ";
+		String[] selelectionArgs = { areaId };
 		
 		Cursor c = database.query(WildFishingContract.Places.TABLE_NAME, 
 				placeAllColumns, // The columns to return
-				null, // The columns for the WHERE clause
-				null, // The values for the WHERE clause
+				selection, // The columns for the WHERE clause
+				selelectionArgs, // The values for the WHERE clause
 				null, // don't group the rows
 				null, // don't filter by row groups
 				null // The sort order
@@ -1660,6 +1663,25 @@ public class CampaignDataSource {
         return Area;
     }
     
-    
+    public void updatePlaceAndArea(String campaignId, String selectedPlaceId, String selectedAreaId){
+    	
+    	database.beginTransaction();
+        try {
+        	Campaign campaign = getCampaignById(campaignId);
+            campaign.setPlaceId(selectedPlaceId);
+            updateCampaign(campaign);
+            
+            Place place = getPlaceById(selectedPlaceId);
+            place.setAreaId(selectedAreaId);
+            updatePlace(place);
+            
+            database.setTransactionSuccessful();
+        } catch (Exception e) {
+
+        } finally {
+            database.endTransaction();
+        }
+        
+    }
     
 }

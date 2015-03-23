@@ -70,7 +70,7 @@ public class ShowAllAreaActivity extends ActionBarActivity implements AreaDialog
     /**
      * [返回]按钮按下
      */
-    public void buttonBackToAddAreaClick(View v){
+    public void buttonBackToAddPlaceClick(View v){
         Intent intent = getIntent();
         setResult(RESULT_OK, intent);
         finish();

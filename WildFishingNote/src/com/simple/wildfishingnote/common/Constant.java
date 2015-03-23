@@ -22,6 +22,7 @@ public class Constant {
     public final static int REQUEST_CODE_PICK_MULTIPLE_IMAGE = 108;
     public final static int REQUEST_CODE_ADD_CAMPAIGN = 109;
     public final static int REQUEST_CODE_EDIT_CAMPAIGN = 110;
+    public final static int REQUEST_CODE_SHOW_ALL_AREA = 111;
     
     
     public final static int ADD_PLACE_ID = 10000;

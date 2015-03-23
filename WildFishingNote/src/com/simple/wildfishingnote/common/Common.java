@@ -103,6 +103,7 @@ public class Common {
         editor.putString("campaign_end_time", null);
         editor.putString("campaign_summary", null);
         editor.putString("campaign_place_id", null);
+        editor.putString("campaign_area_id", null);
         editor.putString("campaign_point_id_list", null);
         editor.putString("campaign_fish_result_pic_list", null);
         editor.putString("campaign_fish_result_statistics_list", null);

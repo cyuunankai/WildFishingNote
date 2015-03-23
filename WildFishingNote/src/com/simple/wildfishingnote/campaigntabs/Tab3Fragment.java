@@ -484,7 +484,11 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
 
         @Override
         public int getViewTypeCount() {                 
-            return list.size();
+        	if(list.size() == 0){
+        		return 1;
+        	}else{
+        		return list.size();
+        	}
         }
 
         @Override
