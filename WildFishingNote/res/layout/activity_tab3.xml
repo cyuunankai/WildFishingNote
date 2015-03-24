@@ -10,14 +10,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.android.apis.app.Tab3Activity" >
 
-    <ListView
-        android:id="@+id/listViewPoint"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_above="@+id/buttonsLayoutCampaignPointEdit"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
-    </ListView>
+        android:layout_height="match_parent" >
+
+        <com.simple.wildfishingnote.sectionedlistview.SectionListView
+            android:id="@+id/listViewPoint"
+            android:layout_width="fill_parent"
+            android:layout_height="460dp" >
+        </com.simple.wildfishingnote.sectionedlistview.SectionListView>
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/buttonsLayoutCampaignPointEdit"

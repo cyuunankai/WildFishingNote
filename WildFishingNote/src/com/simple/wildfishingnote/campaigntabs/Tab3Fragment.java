@@ -22,7 +22,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.RelativeLayout;
@@ -38,31 +37,39 @@ import com.simple.wildfishingnote.campaign.point.PointDetailActivity;
 import com.simple.wildfishingnote.common.Common;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.CampaignDataSource;
+import com.simple.wildfishingnote.sectionedlistview.SectionListAdapter;
+import com.simple.wildfishingnote.sectionedlistview.SectionListItem;
+import com.simple.wildfishingnote.sectionedlistview.SectionListView;
+import com.simple.wildfishingnote.utils.BusinessUtil;
 
 public class Tab3Fragment extends Fragment implements OnClickListener {
-    
+
     private View tab3View;
     private CampaignDataSource dataSource;
     private PointArrayAdapter adapter;
+    private SectionListAdapter sectionAdapter;
+    private SectionListView listView;
     private AddMainActivity addMainActivity;
-    
-	@Override
+    private LayoutInflater mInflater;
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-	    // Inflate the layout for this fragment
+            Bundle savedInstanceState) {
+        mInflater = inflater;
+        // Inflate the layout for this fragment
         tab3View = inflater.inflate(R.layout.activity_tab3, container, false);
 
         addMainActivity = (AddMainActivity)getActivity();
         dataSource = addMainActivity.getCampaignDataSource();
-        
+
         return tab3View;
     }
-	
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             dataSource.open();
-            
+
             initPointListViewByDbOrPreference();
             setAddPointBtn();
             setSavePointBtn();
@@ -75,16 +82,17 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
     private void initPointListViewByDbOrPreference() {
         List<String> pointIdList = null;
         String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
-        if(mode.equals("edit")){
+        if (mode.equals("edit")) {
             String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
             pointIdList = dataSource.getPointIdListByCampaignId(campaignId);
-        }else{
+        } else {
             pointIdList = Common.getCampaignPrefernceStrList(getActivity(), "campaign_point_id_list");
         }
+
         initPointListView(pointIdList);
     }
 
-	/**
+    /**
      * 监听所有onClick事件
      */
     @Override
@@ -96,11 +104,11 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
                 break;
             case R.id.buttonSavePoint:
                 List<String> selectedPointIds = getSelectedPointIds();
-                
+
                 if (checkIsFail(selectedPointIds)) {
                     return;
                 }
-                
+
                 addRelayCampaignPoint(selectedPointIds);
                 break;
             case R.id.buttonCampaignPointPre:
@@ -112,7 +120,7 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
                 break;
         }
     }
-    
+
     private void setOperationBtnVisibility() {
         LinearLayout buttonsLayoutCmapginPointEdit = (LinearLayout)tab3View.findViewById(R.id.buttonsLayoutCampaignPointEdit);
         LinearLayout buttonsLayoutCmapginPointAdd = (LinearLayout)tab3View.findViewById(R.id.buttonsLayoutCampaignPointAdd);
@@ -128,16 +136,16 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
 
     private void setCampaignPointToPreference() {
         List<String> selectedPointIds = getSelectedPointIds();
-        
+
         if (checkIsFail(selectedPointIds)) {
             return;
         }
-        
+
         Common.setCampaignPrefernce(getActivity(), "campaign_point_id_list", new Gson().toJson(selectedPointIds));
         Common.setCampaignPrefernce(getActivity(), "btn_click", "true");
         ((AddMainActivity)getActivity()).getActionBarReference().setSelectedNavigationItem(3);
     }
-    
+
     /**
      * 监听所有onActivityResult事件
      */
@@ -152,86 +160,78 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
                 initPointListView(selectedPointIds);
             }
         }
-        
+
         // 编辑钓点返回
         if (requestCode == Constant.REQUEST_CODE_EDIT_POINT && resultCode == Activity.RESULT_OK) {
             initPointListView(null);
         }
     }
-    
+
     /**
      * 取得选中的钓点
      */
     private List<String> getSelectedPointIds() {
         return adapter.getSelectedIds();
     }
-    
+
     /**
      * 更新前check
      */
     private boolean checkIsFail(List<String> selectedPointIds) {
         boolean ret = false;
-//        if (addMainActivity.getCampaignId() == 0) {
-//            Toast.makeText(getActivity(), "请先保存时间!", Toast.LENGTH_SHORT).show();
-//            return true;
-//        }
-//        
-//        Campaign c = dataSource.getCampaignById(String.valueOf(addMainActivity.getCampaignId()));
-//        if("".equals(getPlaceId())){
-//            Toast.makeText(getActivity(), "请先保存钓位!", Toast.LENGTH_SHORT).show();
-//            return true;
-//        }
+        // if (addMainActivity.getCampaignId() == 0) {
+        // Toast.makeText(getActivity(), "请先保存时间!", Toast.LENGTH_SHORT).show();
+        // return true;
+        // }
+        //
+        // Campaign c = dataSource.getCampaignById(String.valueOf(addMainActivity.getCampaignId()));
+        // if("".equals(getPlaceId())){
+        // Toast.makeText(getActivity(), "请先保存钓位!", Toast.LENGTH_SHORT).show();
+        // return true;
+        // }
 
         if (selectedPointIds.size() == 0) {
             Toast.makeText(getActivity(), "请选择钓点!", Toast.LENGTH_SHORT).show();
             return true;
         }
-        
+
         return ret;
     }
-    
+
     /**
      * 更新钓位
      */
     private void addRelayCampaignPoint(List<String> selectedPointIds) {
         String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
         dataSource.updateRelayCampaignPoint(campaignId, selectedPointIds);
-        
+
         Intent intent = getActivity().getIntent();
         getActivity().setResult(Activity.RESULT_OK, intent);
         getActivity().finish();
     }
-    
+
     /**
      * 初始化钓点listview
-     * @param PointId  是null，list中都不选中
-     *        PointId 不是null，list有选中值
+     * 
+     * @param PointId 是null，list中都不选中 PointId 不是null，list有选中值
      */
     private void initPointListView(List<String> pointIdList) {
         dataSource.open();
-        List<Point> list = dataSource.getAllPoints();
-        
-        selectedPointById(pointIdList, list);
-                
-        ListView listView = (ListView) tab3View.findViewById(R.id.listViewPoint);
+
+        List<SectionListItem> list = new ArrayList<SectionListItem>();
+        List<Point> pointList = dataSource.getAllPoints();
+        for (Point obj : pointList) {
+            String section = BusinessUtil.getDepthSection(obj.getDepth());
+            SectionListItem sli = new SectionListItem(obj, section);
+            list.add(sli);
+        }
+
         adapter = new PointArrayAdapter(getActivity(), list);
-        listView.setAdapter(adapter);
+        sectionAdapter = new SectionListAdapter(mInflater, adapter);
+        listView = (SectionListView)tab3View.findViewById(R.id.listViewPoint);
+        listView.setAdapter(sectionAdapter);
     }
 
-    /**
-     * 根据ID选中钓点
-     */
-    private void selectedPointById(List<String> selectedPointIdList, List<Point> allList) {
-        if (selectedPointIdList != null) {
-            for (int i = 0; i < allList.size(); i++) {
-                Point p = allList.get(i);
-                if (selectedPointIdList.contains(p.getId())) {
-                    p.setSelected(true);
-                }
-            }
-        }
-    }
-    
     /**
      * 注册[保存]按钮事件
      */
@@ -244,11 +244,11 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
      * 注册[添加]按钮事件
      */
     private void setAddPointBtn() {
-        ViewGroup parent = (ViewGroup) tab3View.findViewById(R.id.addPointRootLayout);
+        ViewGroup parent = (ViewGroup)tab3View.findViewById(R.id.addPointRootLayout);
         ImageView imageView = new ImageView(getActivity());
         imageView.setId(Constant.ADD_POINT_ID);
         imageView.setImageResource(R.drawable.ic_launcher);
-        
+
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
@@ -257,10 +257,10 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
         params.rightMargin = 10;
         imageView.setLayoutParams(params);
         parent.addView(imageView);
-        
+
         imageView.setOnClickListener(this);
     }
-    
+
     /**
      * 注册[上一步]按钮事件
      */
@@ -268,7 +268,7 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
         BootstrapButton buttonCampaignPointPre = (BootstrapButton)tab3View.findViewById(R.id.buttonCampaignPointPre);
         buttonCampaignPointPre.setOnClickListener(this);
     }
-    
+
     /**
      * 注册[下一步]按钮事件
      */
@@ -276,29 +276,31 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
         BootstrapButton buttonCampaignPointNext = (BootstrapButton)tab3View.findViewById(R.id.buttonCampaignPointNext);
         buttonCampaignPointNext.setOnClickListener(this);
     }
-    
-    public class PointArrayAdapter extends ArrayAdapter<Point> {
 
-        private final List<Point> list;
+    public class PointArrayAdapter extends ArrayAdapter<SectionListItem> {
+
+        private final List<SectionListItem> list;
         private final Activity context;
         protected Object mActionMode;
 
-        public PointArrayAdapter(Activity context, List<Point> list) {
+        public PointArrayAdapter(Activity context, List<SectionListItem> list) {
             super(context, R.layout.activity_point_listview_each_item, list);
             this.context = context;
             this.list = list;
         }
-        
+
         /**
          * 取得选中check对应的ids
+         * 
          * @return
          */
         public List<String> getSelectedIds() {
             List<String> retIds = new ArrayList<String>();
 
-            for (Point p : list) {
-                if (p.isSelected()) {
-                    retIds.add(p.getId());
+            for (SectionListItem p : list) {
+                Point obj = (Point)p.item;
+                if (obj.isSelected()) {
+                    retIds.add(obj.getId());
                 }
             }
 
@@ -324,7 +326,7 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
             } else {
                 viewHolder = (ViewHolder)convertView.getTag();
             }
-            
+
             if (convertView == null) {
                 // 添加UI到convertView
                 convertView = context.getLayoutInflater().inflate(R.layout.activity_point_listview_each_item, null);
@@ -333,32 +335,34 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
                 viewHolder.textViewLureMethod = (TextView)convertView.findViewById(R.id.textViewLureMethodEachItem);
                 viewHolder.textViewBait = (TextView)convertView.findViewById(R.id.textViewBaitEachItem);
                 viewHolder.check = (CheckBox)convertView.findViewById(R.id.checkEachItem);
-                viewHolder.check.setTag(list.get(position));//// 保存bean值到UI tag (响应事件从这个UI tag取值)
+                viewHolder.check.setTag(list.get(position));// // 保存bean值到UI tag (响应事件从这个UI tag取值)
                 convertView.setTag(viewHolder);
-                
+
                 // 添加事件
-                //// check事件
+                // // check事件
                 addCheckBoxOnCheckedChangeListener(viewHolder);
-                //// 内容单击事件->详细页面
+                // // 内容单击事件->详细页面
                 addContentLayoutOnClickListener(viewHolder, convertView);
-                //// 内容长按事件->编辑页面，删除
+                // // 内容长按事件->编辑页面，删除
                 addContentLayoutOnLongClickListener(viewHolder, convertView);
             }
 
+            Point obj = (Point)list.get(position).item;
             // 设置bean值到UI
-            viewHolder.textViewDepth.setText(list.get(position).getDepth() + "米");
-            viewHolder.textViewRodLength.setText(list.get(position).getRodLengthName() + "米");
-            viewHolder.textViewLureMethod.setText(list.get(position).getLureMethodName());
-            viewHolder.textViewBait.setText(list.get(position).getBaitName());
-            viewHolder.check.setChecked(list.get(position).isSelected());
-            
-            viewHolder.check.setTag(list.get(position));//// 保存bean值到UI tag (响应事件从这个UI tag取值)
+            viewHolder.textViewDepth.setText(obj.getDepth() + "米");
+            viewHolder.textViewRodLength.setText(obj.getRodLengthName() + "米");
+            viewHolder.textViewLureMethod.setText(obj.getLureMethodName());
+            viewHolder.textViewBait.setText(obj.getBaitName());
+            viewHolder.check.setChecked(obj.isSelected());
+
+            viewHolder.check.setTag(list.get(position));// // 保存bean值到UI tag (响应事件从这个UI tag取值)
 
             return convertView;
         }
 
         /**
          * 监听raidobutton选中变更事件
+         * 
          * @param viewHolder
          */
         private void addCheckBoxOnCheckedChangeListener(final ViewHolder viewHolder) {
@@ -375,11 +379,12 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
 
         /**
          * 监听list item长按事件
+         * 
          * @param viewHolder
          * @param contentLayout
          */
         private void addContentLayoutOnLongClickListener(final ViewHolder viewHolder, View convertView) {
-            
+
             LinearLayout contentLayout = (LinearLayout)convertView.findViewById(R.id.col1Layout);
             contentLayout.setOnLongClickListener(new View.OnLongClickListener() {
 
@@ -407,7 +412,6 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
 
                         }
                     });
-                        
 
                     MenuInflater inflater = popup.getMenuInflater();
                     inflater.inflate(R.menu.select_point_context_menu, popup.getMenu());
@@ -418,9 +422,10 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
                 }
             });
         }
-        
+
         /**
          * 编辑钓点
+         * 
          * @param PointId
          */
         private void editPoint(final String pointId) {
@@ -428,9 +433,10 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
             intent.putExtra(AddPointActivity.POINT_ID, pointId);
             startActivityForResult(intent, Constant.REQUEST_CODE_EDIT_POINT);
         }
-        
+
         /**
          * 删除钓点
+         * 
          * @param PointId
          */
         private void deletePoint(final String pointId) {
@@ -441,10 +447,11 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
             adb.setPositiveButton(R.string.confirm, new AlertDialog.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     dataSource.deletePoint(pointId);
-                    
+
                     int deleteIndex = 0;
                     for (int i = 0; i < list.size(); i++) {
-                        if (pointId.equals(list.get(i).getId())) {
+                        Point obj = (Point)list.get(i).item;
+                        if (pointId.equals(obj.getId())) {
                             deleteIndex = i;
                             break;
                         }
@@ -455,15 +462,15 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
             });
             adb.show();
         }
-    
 
         /**
          * 监听list item单击事件
+         * 
          * @param viewHolder
          * @param contentLayout
          */
         private void addContentLayoutOnClickListener(final ViewHolder viewHolder, View convertView) {
-            
+
             LinearLayout contentLayout = (LinearLayout)convertView.findViewById(R.id.col1Layout);
             contentLayout.setOnClickListener(new OnClickListener() {
 
@@ -476,19 +483,18 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
                 }
             });
         }
-        
 
         public int getCount() {
             return list.size();
         }
 
         @Override
-        public int getViewTypeCount() {                 
-        	if(list.size() == 0){
-        		return 1;
-        	}else{
-        		return list.size();
-        	}
+        public int getViewTypeCount() {
+            if (list.size() == 0) {
+                return 1;
+            } else {
+                return list.size();
+            }
         }
 
         @Override

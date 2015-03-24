@@ -110,6 +110,30 @@ public class BusinessUtil {
         return ret;
     }
     
+    public static String getDepthSection(String depth) {
+        String ret = "";
+        
+        float fDepth = Float.valueOf(depth);
+        if (fDepth < 1.0) {
+            ret = "1米以下";
+        } else if (fDepth >= 1.0 && fDepth <= 1.5) {
+            ret = "1～1.5米";
+        } else if (fDepth >= 1.6 && fDepth <= 2.0) {
+            ret = "1.6～2米";
+        } else if (fDepth >= 2.1 && fDepth <= 2.5) {
+            ret = "2.1～2.5米";
+        } else if (fDepth >= 2.6 && fDepth <= 3.0) {
+            ret = "2.6～3米";
+        } else if (fDepth >= 3.1 && fDepth <= 3.5) {
+            ret = "3.1～3.5米";
+        } else if (fDepth >= 3.6 && fDepth <= 4.0) {
+            ret = "3.6～4米";
+        }  else if (fDepth >= 4.1) {
+            ret = "4米以上";
+        } 
+        return ret;
+    }
+    
     /**
      * 风向
      */

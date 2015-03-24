@@ -525,6 +525,7 @@ public class CampaignDataSource {
 	        sb.append("INNER JOIN rod_lengths rl ON p.rod_length_id=rl._id ");
 	        sb.append("INNER JOIN lure_methods lm ON p.lure_method_id=lm._id ");
 	        sb.append("INNER JOIN baits b ON p.bait_id=b._id ");
+	        sb.append("ORDER BY p.depth DESC ");
 
 	        
 	        Cursor c = database.rawQuery(sb.toString(), new String[]{});
