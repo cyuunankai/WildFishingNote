@@ -225,11 +225,27 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
             SectionListItem sli = new SectionListItem(obj, section);
             list.add(sli);
         }
+        
+        selectedPointById(pointIdList, list);
 
         adapter = new PointArrayAdapter(getActivity(), list);
         sectionAdapter = new SectionListAdapter(mInflater, adapter);
         listView = (SectionListView)tab3View.findViewById(R.id.listViewPoint);
         listView.setAdapter(sectionAdapter);
+    }
+    
+    /**
+     * 根据ID选中钓点
+     */
+    private void selectedPointById(List<String> selectedPointIdList, List<SectionListItem> allList) {
+        if (selectedPointIdList != null) {
+            for (int i = 0; i < allList.size(); i++) {
+                Point p = (Point)allList.get(i).item;
+                if (selectedPointIdList.contains(p.getId())) {
+                    p.setSelected(true);
+                }
+            }
+        }
     }
 
     /**
@@ -335,7 +351,7 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
                 viewHolder.textViewLureMethod = (TextView)convertView.findViewById(R.id.textViewLureMethodEachItem);
                 viewHolder.textViewBait = (TextView)convertView.findViewById(R.id.textViewBaitEachItem);
                 viewHolder.check = (CheckBox)convertView.findViewById(R.id.checkEachItem);
-                viewHolder.check.setTag(list.get(position));// // 保存bean值到UI tag (响应事件从这个UI tag取值)
+                viewHolder.check.setTag(list.get(position).item);// // 保存bean值到UI tag (响应事件从这个UI tag取值)
                 convertView.setTag(viewHolder);
 
                 // 添加事件
@@ -355,7 +371,7 @@ public class Tab3Fragment extends Fragment implements OnClickListener {
             viewHolder.textViewBait.setText(obj.getBaitName());
             viewHolder.check.setChecked(obj.isSelected());
 
-            viewHolder.check.setTag(list.get(position));// // 保存bean值到UI tag (响应事件从这个UI tag取值)
+            viewHolder.check.setTag(list.get(position).item);// // 保存bean值到UI tag (响应事件从这个UI tag取值)
 
             return convertView;
         }
