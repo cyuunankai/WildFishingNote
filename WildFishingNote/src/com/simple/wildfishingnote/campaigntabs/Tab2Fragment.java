@@ -48,6 +48,7 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
 	private CampaignDataSource dataSource;
 	private PlaceArrayAdapter adapter;
 	private AddMainActivity addMainActivity;
+	String mPlaceId = null;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,7 +66,6 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
         if (isVisibleToUser) {
             dataSource.open();
             
-            initAreaSpinner();
             initPlaceListViewByDbOrPreference();
             setAddPlaceBtn();
             setSavePlaceBtn();
@@ -75,70 +75,10 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
         }
     }
     
-    private void initAreaSpinner() {
-    	dataSource.open();
-        List<Area> list = dataSource.getAllAreas();
-        Area obj = new Area();
-        obj.setId("0");
-        obj.setTitle("请选择");
-        list.add(0, obj);
-        
-        Area[] arr = list.toArray(new Area[list.size()]);
-        
-        Spinner s = (Spinner) tab2View.findViewById(R.id.areaSpinner);
-        ArrayAdapter<Area> spinnerArrayAdapter = new ArrayAdapter<Area>(getActivity(),
-                android.R.layout.simple_spinner_item, arr);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        s.setAdapter(spinnerArrayAdapter);  
-        
-        s.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int positon, long id) {
-				String areaId = ((Area)parent.getItemAtPosition(positon)).getId();
-				onAreaSpinnerChange(areaId);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				
-			}
-        	
-		});
-    }
-
-    private void initPlaceListViewByDbOrPreference() {
-        String placeId = null;
-        String areaId = null;
-        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
-        if(mode.equals("edit")){
-            String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
-            Campaign campaign = dataSource.getCampaignById(campaignId);
-            placeId = campaign.getPlaceId();
-            areaId = dataSource.getPlaceById(placeId).getAreaId();
-        }else{
-            placeId = Common.getCampaignPrefernceString(getActivity(), "campaign_place_id");
-            areaId = Common.getCampaignPrefernceString(getActivity(), "campaign_area_id");
-            if ("".equals(placeId)) {
-                placeId = null;
-            }
-            if ("".equals(areaId)) {
-            	areaId = null;
-            }
-        }
-        if(areaId != null){
-        	setSelectedAreaById(areaId);
-        }
-        initPlaceListView(areaId, placeId);
-    }
-	
-
-
     /**
      * 监听所有onClick事件
      */
-	@Override
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case Constant.ADD_PLACE_ID:
@@ -163,6 +103,103 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
                 break;
         }
     }
+    
+    /**
+     * 监听所有onActivityResult事件
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // 添加/编辑钓位返回
+        if ((requestCode == Constant.REQUEST_CODE_ADD_PLACE || requestCode == Constant.REQUEST_CODE_EDIT_PLACE) && resultCode == Activity.RESULT_OK) {
+            if (data.getExtras().containsKey(AddPlaceActivity.PLACE_ID)) {
+                String placeId = data.getExtras().getString(AddPlaceActivity.PLACE_ID);
+                String areaId = data.getExtras().getString(AddPlaceActivity.AREA_ID);
+                
+                initAreaSpinner(areaId);
+                    
+                mPlaceId = placeId;
+            }
+        }
+    }
+    
+    private void initPlaceListViewByDbOrPreference() {
+        mPlaceId = null;
+        String areaId = null;
+        String mode = Common.getCampaignPrefernceString(getActivity(), "campaign_operation_mode");
+        if(mode.equals("edit")){
+            String campaignId = Common.getCampaignPrefernceString(getActivity(), "campaign_id");
+            Campaign campaign = dataSource.getCampaignById(campaignId);
+            mPlaceId = campaign.getPlaceId();
+            areaId = dataSource.getPlaceById(mPlaceId).getAreaId();
+        }else{
+            mPlaceId = Common.getCampaignPrefernceString(getActivity(), "campaign_place_id");
+            areaId = Common.getCampaignPrefernceString(getActivity(), "campaign_area_id");
+            if ("".equals(mPlaceId)) {
+                mPlaceId = null;
+            }
+            if ("".equals(areaId)) {
+                areaId = null;
+            }
+        }
+        
+        initAreaSpinner(areaId);
+        
+        initPlaceListView(areaId, mPlaceId);
+    }
+    
+    private void initAreaSpinner(String areaId) {
+        dataSource.open();
+        List<Area> areaList = dataSource.getAllAreas();
+        if(areaId != null){
+            int position = getAreaSelectedIndex(areaId, areaList) + 1;
+            initAreaSpinner(position, areaList);
+        } else {
+            initAreaSpinner(0, areaList);
+        }
+    }
+    
+    private void initAreaSpinner(int position, List<Area> list) {
+    	
+        addDefaultValueToAreaSpinner(list);
+        
+        Area[] arr = list.toArray(new Area[list.size()]);
+        
+        Spinner s = (Spinner) tab2View.findViewById(R.id.areaSpinner);
+        ArrayAdapter<Area> spinnerArrayAdapter = new ArrayAdapter<Area>(getActivity(),
+                android.R.layout.simple_spinner_item, arr);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s.setAdapter(spinnerArrayAdapter);  
+        // 防止页面加载后调用onItemSelected方法
+        s.setSelection(position, false);
+        
+        addOnItemSelectedListener(s);
+    }
+
+    private void addDefaultValueToAreaSpinner(List<Area> list) {
+        Area obj = new Area();
+        obj.setId("0");
+        obj.setTitle("请选择");
+        list.add(0, obj);
+    }
+
+    private void addOnItemSelectedListener(Spinner s) {
+        s.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int positon, long id) {
+				String areaId = ((Area)parent.getItemAtPosition(positon)).getId();
+				onAreaSpinnerChange(areaId);
+				initPlaceListView(areaId, mPlaceId);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				
+			}
+        	
+		});
+    }
 
     private void setCampaignPlaceToPreference() {
         String selectedPlaceId = getSelectedPlaceId();
@@ -176,27 +213,6 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
         }
         
     }
-	
-	/**
-     * 监听所有onActivityResult事件
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // 添加钓位返回
-        if ((requestCode == Constant.REQUEST_CODE_ADD_PLACE || requestCode == Constant.REQUEST_CODE_EDIT_PLACE) && resultCode == Activity.RESULT_OK) {
-            if (data.getExtras().containsKey(AddPlaceActivity.PLACE_ID)) {
-                String placeId = data.getExtras().getString(AddPlaceActivity.PLACE_ID);
-                String areaId = data.getExtras().getString(AddPlaceActivity.AREA_ID);
-                initPlaceListView(placeId, areaId);
-            }
-        }
-        
-//        // 编辑钓位返回
-//        if (requestCode == Constant.REQUEST_CODE_EDIT_PLACE && resultCode == Activity.RESULT_OK) {
-//            initPlaceListView(null);
-//        }
-    }
-
     
     private void setOperationBtnVisibility() {
         LinearLayout buttonsLayoutCampaignPlaceAdd = (LinearLayout)tab2View.findViewById(R.id.buttonsLayoutCampaignPlaceAdd);
@@ -231,15 +247,16 @@ public class Tab2Fragment extends Fragment implements OnClickListener {
         return selectedIndex;
     }
     
-    private void setSelectedAreaById(String areaId){
-    	List<Area> list = dataSource.getAllAreas();
-    	int index = getAreaSelectedIndex(areaId, list);
-    	if(areaId == null){
-    		index = 0;
-    	}
-    	Spinner s = (Spinner) tab2View.findViewById(R.id.areaSpinner);
-    	s.setSelection(index);
-    }
+//    private void setSelectedAreaById(String areaId){
+//        List<Area> list = dataSource.getAllAreas();
+//        int index = getAreaSelectedIndex(areaId, list);
+//        index = index + 1;
+//        if(areaId == null){
+//            index = 0;
+//        }
+//        Spinner s = (Spinner) tab2View.findViewById(R.id.areaSpinner);
+//        s.setSelection(index);
+//    }
     
 	/**
      * 取得选中的区域
