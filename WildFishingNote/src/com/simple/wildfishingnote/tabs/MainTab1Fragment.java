@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import android.app.Activity;
@@ -46,11 +47,13 @@ import com.simple.wildfishingnote.MainActivity;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.CampaignSummary;
 import com.simple.wildfishingnote.common.Constant;
+import com.simple.wildfishingnote.common.ImagePagerActivity;
 import com.simple.wildfishingnote.database.CampaignDataSource;
 import com.simple.wildfishingnote.flowtextview.FlowTextView;
 import com.simple.wildfishingnote.sectionedlistview.SectionListAdapter;
 import com.simple.wildfishingnote.sectionedlistview.SectionListItem;
 import com.simple.wildfishingnote.sectionedlistview.SectionListView;
+import com.simple.wildfishingnote.utils.Msg;
 
 public class MainTab1Fragment extends Fragment {
 
@@ -165,6 +168,7 @@ public class MainTab1Fragment extends Fragment {
                 // 添加事件
                 //// 内容单击事件->详细页面
                 addContentLayoutOnClickListener(viewHolder, convertView);
+                addImageViewOnClickListener(viewHolder, convertView);
                 //// 内容长按事件->删除
                 addContentLayoutOnLongClickListener(viewHolder, convertView);
             }
@@ -210,6 +214,41 @@ public class MainTab1Fragment extends Fragment {
                 	doCampaignEdit(viewHolder);
                 }
 
+                
+            });
+        }
+        
+        /**
+         * 监听list item图片单击事件
+         * @param viewHolder
+         * @param contentLayout
+         */
+        private void addImageViewOnClickListener(final ViewHolder viewHolder, View convertView) {
+            
+            ImageView iv = (ImageView)convertView.findViewById(R.id.imageView);
+            iv.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    List<String> imageNameList = new ArrayList<String>();
+                    final CampaignSummary element = (CampaignSummary)viewHolder.titleTextView.getTag();
+                    
+                    if(CollectionUtils.isEmpty(element.getFishResultImageList())){
+                        Msg.show(getActivity(), "没有渔获,下次努力!");
+                    }
+                    
+                    if (CollectionUtils.isNotEmpty(element.getFishResultImageList())) {
+                        String mFilePath = getActivity().getFilesDir() + Constant.FISH_RESULT_IMAGE_PATH;
+                        for (String imageName : element.getFishResultImageList()) {
+                            imageNameList.add("file://" + mFilePath + element.getId() + Constant.SLASH + imageName);
+                        }
+
+                        String[] imageNames = imageNameList.toArray(new String[imageNameList.size()]);
+                        Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
+                        intent.putExtra(ImagePagerActivity.IMAGE_NAMES, imageNames);
+                        getActivity().startActivity(intent);
+                    }
+                }
                 
             });
         }

@@ -99,7 +99,7 @@ public class CampaignDataSource {
         
         HashMap<String, CampaignSummary> campaignIdHash = new HashMap<String, CampaignSummary>();
         HashMap<String, List<RelayCamapignStatisticsResult>> statisticsHash = new HashMap<String, List<RelayCamapignStatisticsResult>>();
-        HashMap<String, List<RelayCampaignImageResult>> imageHash = new HashMap<String, List<RelayCampaignImageResult>>();
+        HashMap<String, List<String>> imageHash = new HashMap<String, List<String>>();
         
         StringBuffer  sb = new StringBuffer();
         sb.append("SELECT c._id,c.start_time, c.summary, ");
@@ -116,7 +116,7 @@ public class CampaignDataSource {
         c.moveToFirst();
         while(!c.isAfterLast()){
             List<RelayCamapignStatisticsResult> rcsrList= null;
-            List<RelayCampaignImageResult> rcirList= null;
+            List<String> rcirList= null;
             CampaignSummary obj = null;
             RelayCamapignStatisticsResult rcsr = null;
             RelayCampaignImageResult rcir = null;
@@ -161,20 +161,20 @@ public class CampaignDataSource {
                 
             }
             
-            if(imageHash.containsKey(campaignId)){
-                rcirList = imageHash.get(campaignId);
-                rcir = new RelayCampaignImageResult();
-                rcir.setFilePath(filePath);
-                rcirList.add(rcir);
-                
-                imageHash.put(campaignId, rcirList);
-            }else{
-                rcirList = new ArrayList<RelayCampaignImageResult>();
-                rcir = new RelayCampaignImageResult();
-                rcir.setFilePath(filePath);
-                rcirList.add(rcir);
-                
-                imageHash.put(campaignId, rcirList);
+            
+            if (filePath != null) {
+                if (imageHash.containsKey(campaignId)) {
+                    rcirList = imageHash.get(campaignId);
+                    if (!rcirList.contains(filePath)) {
+                        rcirList.add(filePath);
+                        imageHash.put(campaignId, rcirList);
+                    }                  
+                } else {
+                    rcirList = new ArrayList<String>();
+                    rcirList.add(filePath);
+
+                    imageHash.put(campaignId, rcirList);
+                }
             }
 
             c.moveToNext();
@@ -193,8 +193,10 @@ public class CampaignDataSource {
                 title = "空军";
             }
             String imagePath = "";
+            List<String> fishResultImageList = null;
             if(imageHash.containsKey(cc.getId())){
-                imagePath = imageHash.get(cc.getId()).get(0).getFilePath();
+                imagePath = imageHash.get(cc.getId()).get(0);
+                fishResultImageList = imageHash.get(cc.getId());
             }
             
             newObj.setId(cc.getId());
@@ -202,6 +204,7 @@ public class CampaignDataSource {
             newObj.setSummary(cc.getSummary());
             newObj.setTitle(title);
             newObj.setImagePath(imagePath);
+            newObj.setFishResultImageList(fishResultImageList);
             
             retList.add(newObj);
         }

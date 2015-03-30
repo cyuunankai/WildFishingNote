@@ -1,5 +1,7 @@
 package com.simple.wildfishingnote.bean;
 
+import java.util.List;
+
 public class CampaignSummary {
 
     private String id;
@@ -7,7 +9,14 @@ public class CampaignSummary {
     private String date;
     private String summary;
     private String imagePath;
+    private List<String> fishResultImageList;
     
+    public List<String> getFishResultImageList() {
+        return fishResultImageList;
+    }
+    public void setFishResultImageList(List<String> fishResultImageList) {
+        this.fishResultImageList = fishResultImageList;
+    }
     public String getId() {
         return id;
     }
