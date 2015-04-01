@@ -26,6 +26,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.utils.DateUtil;
+import com.simple.wildfishingnote.utils.Msg;
 
 public abstract class SimpleFragment extends Fragment {
     
@@ -157,7 +158,7 @@ public abstract class SimpleFragment extends Fragment {
 
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
         for (int i = 0; i < daysInMonth.length; i++) {
-            String key = yearMonth + Constant.DASH + StringUtils.leftPad(daysInMonth[i], 2);
+            String key = yearMonth + Constant.DASH + StringUtils.leftPad(daysInMonth[i], 2, '0');
             String weight = dateFishResultHash.get(key);
             if (weight != null) {
                 entries.add(new BarEntry(Float.valueOf(weight), i));
