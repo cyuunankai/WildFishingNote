@@ -1,8 +1,5 @@
 package com.simple.wildfishingnote.weather.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -21,7 +18,10 @@ import com.simple.wildfishingnote.R;
 import com.simple.wildfishingnote.bean.LocationData;
 import com.simple.wildfishingnote.bean.Weather;
 import com.simple.wildfishingnote.bean.WeatherAndLocation;
+import com.simple.wildfishingnote.common.Constant;
 import com.simple.wildfishingnote.database.WeatherDataSource;
+import com.simple.wildfishingnote.utils.DateUtil;
+import com.simple.wildfishingnote.utils.LogUtil;
 import com.simple.wildfishingnote.weather.LocalWeather;
 import com.simple.wildfishingnote.weather.LocationSearch;
 import com.simple.wildfishingnote.weather.WeatherNoticeActivity;
@@ -53,6 +53,7 @@ public class SaveWeatherAndLocationService extends IntentService {
         mMainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
+                LogUtil.appendLog("SaveWeatherAndLocationService -> onHandleIntent -> run");
                 registLocationListener();
             }
         });
@@ -67,6 +68,7 @@ public class SaveWeatherAndLocationService extends IntentService {
             network_enabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         } catch (Exception ex) {
+            LogUtil.appendLog("SaveWeatherAndLocationService -> network_enabled = false");
         }
 
         // don't start listeners if no provider is enabled
@@ -78,6 +80,7 @@ public class SaveWeatherAndLocationService extends IntentService {
 
             @Override
             public void onLocationChanged(Location location) {
+                LogUtil.appendLog("SaveWeatherAndLocationService -> onLocationChanged");
                 updateLocation(location);
             }
 
@@ -100,15 +103,12 @@ public class SaveWeatherAndLocationService extends IntentService {
 
     private void updateLocation(Location location) {
         if (location != null) {
+            LogUtil.appendLog("SaveWeatherAndLocationService -> updateLocation");
+
             String qLocation = Double.toString(location.getLatitude()) + "," + Double.toString(location.getLongitude());
             new RetrieveWeatherTask().execute(qLocation);
             locationManager.removeUpdates(locationListener);
         }
-    }
-
-    private String getSystemDate() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        return df.format(new Date());
     }
 
     class RetrieveWeatherTask extends AsyncTask<String, Void, WeatherAndLocation> {
@@ -116,41 +116,49 @@ public class SaveWeatherAndLocationService extends IntentService {
         public static final boolean LOGD = true;
 
         protected WeatherAndLocation doInBackground(String... locations) {
+            LogUtil.appendLog("SaveWeatherAndLocationService -> doInBackground -> start");
+
             WeatherAndLocation wal = new WeatherAndLocation();
 
             // get weather
             LocalWeather lw = new LocalWeather(true);
-            String query = (lw.new Params("2c6cd1603148c8db1d40a83880a94")).setQ(locations[0]).setDate(getSystemDate()).getQueryString(LocalWeather.Params.class);
+            String query = (lw.new Params(Constant.FREE_API_KEY)).setQ(locations[0]).setDate(DateUtil.getSystemDate()).getQueryString(LocalWeather.Params.class);
             Weather weatherData = lw.callAPI(query);
 
             // get location
             LocationSearch ls = new LocationSearch(true);
-            query = (ls.new Params("2c6cd1603148c8db1d40a83880a94")).setQuery(locations[0]).getQueryString(LocationSearch.Params.class);
+            query = (ls.new Params(Constant.FREE_API_KEY)).setQuery(locations[0]).getQueryString(LocationSearch.Params.class);
             LocationData locationData = ls.callAPI(query);
 
             wal.setWeatherData(weatherData);
             wal.setLocationData(locationData);
 
+            LogUtil.appendLog("SaveWeatherAndLocationService -> doInBackground -> end");
+
             return wal;
         }
 
         protected void onPostExecute(WeatherAndLocation wal) {
+            LogUtil.appendLog("SaveWeatherAndLocationService -> onPostExecute -> start");
+            
             WeatherDataSource dataSource = new WeatherDataSource(getApplicationContext());
             dataSource.open();
             dataSource.addWeatherData(wal);
-
-//            notificate(dataSource.getWeathers());
             dataSource.close();
+            
+            notificate();
+            
+            LogUtil.appendLog("SaveWeatherAndLocationService -> onPostExecute -> end");
         }
 
     }
 
-    public void notificate(String msg) {
+    public void notificate() {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.abc_ab_bottom_solid_dark_holo)
-                        .setContentTitle("读取天气成功！")
-                        .setContentText(msg);
+                        .setContentTitle("读取" + DateUtil.getSystemDate() + "天气成功！")
+                        .setContentText(DateUtil.getSystemDate());
         // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, WeatherNoticeActivity.class);
 

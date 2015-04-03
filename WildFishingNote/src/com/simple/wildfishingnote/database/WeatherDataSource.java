@@ -16,6 +16,7 @@ import com.simple.wildfishingnote.bean.LocationData;
 import com.simple.wildfishingnote.bean.Weather;
 import com.simple.wildfishingnote.bean.WeatherAndLocation;
 import com.simple.wildfishingnote.utils.BusinessUtil;
+import com.simple.wildfishingnote.utils.LogUtil;
 
 public class WeatherDataSource {
 
@@ -53,18 +54,24 @@ public class WeatherDataSource {
     }
 
     public void addWeatherData(WeatherAndLocation wal) {
+        LogUtil.appendLog("WeatherDataSource -> addWeatherData -> start");
+        
         database.beginTransaction();
         try {
             if (isNotExist(wal.getWeatherData().getDate())) {
+                LogUtil.appendLog("WeatherDataSource -> addWeatherData -> insert");
+                
                 long weatherId = addWeather(wal);
                 addWeatherHourly(wal.getWeatherData(), weatherId);
             }
             database.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.i("", "");
+            LogUtil.appendLog("WeatherDataSource -> addWeatherData -> exception" + e.getMessage());
         } finally {
             database.endTransaction();
         }
+        
+        LogUtil.appendLog("WeatherDataSource -> addWeatherData -> end");
     }
 
     public long addWeather(WeatherAndLocation wal) {

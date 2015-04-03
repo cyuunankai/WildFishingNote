@@ -29,6 +29,8 @@ public class Constant {
     public final static int ADD_PLACE_ID = 10000;
     public final static int ADD_POINT_ID = 10001;
     
+    public final static boolean ENABLE_LOG = true;
+    
     
     //These keys are only for Demo purpose.
     //You should replace the key with your own key.

@@ -82,7 +82,7 @@ public class MainTab2Fragment extends Fragment implements OnClickListener {
         switch (v.getId()) {
             case R.id.startSchduleBtn:
                 alarm = new AlarmManagerBroadcastReceiver();
-                alarm.SetAlarm(getActivity());
+                alarm.setAlarm(getActivity());
                 break;
             case R.id.showWeatherBtn:
                 showWeather();

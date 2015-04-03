@@ -12,6 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.PowerManager;
 
+import com.simple.wildfishingnote.utils.LogUtil;
 import com.simple.wildfishingnote.weather.service.SaveWeatherAndLocationService;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
@@ -25,6 +26,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        LogUtil.appendLog("AlarmManagerBroadcastReceiver -> onReceive");
+        
         PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
         // Acquire the lock
@@ -40,29 +43,30 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
     }
 
-    public void SetAlarm(Context context) {
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.set(Calendar.HOUR_OF_DAY, 22); // For 20 AM
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-
-        AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-        // per day 1 AM
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pi);
+    public void setAlarm(Context context) {
+        // Calendar calendar = Calendar.getInstance();
+        //
+        // calendar.set(Calendar.HOUR_OF_DAY, 22); // For 20 AM
+        // calendar.set(Calendar.MINUTE, 0);
+        // calendar.set(Calendar.SECOND, 0);
+        //
+        // AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        // Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
+        // PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
+        // // per day 1 AM
+        // am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        // AlarmManager.INTERVAL_DAY, pi);
 
         // for debug
-        // AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        // Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        // PendingIntent pi = PendingIntent.getBroadcast(context, 1, intent, 0);
-        // //After after 30 seconds
-        // am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 15 , pi);
+        LogUtil.appendLog("AlarmManagerBroadcastReceiver -> setAlarm");
+        AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 1, intent, 0);
+        // After after 30 seconds
+        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 15, pi);
     }
 
-    public void CancelAlarm(Context context) {
+    public void cancelAlarm(Context context) {
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
         PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
